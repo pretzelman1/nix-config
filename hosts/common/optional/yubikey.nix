@@ -1,0 +1,8 @@
+{ ... }:
+{
+  yubikey = {
+    enable = true;
+    identifiers = {
+    };
+  };
+}

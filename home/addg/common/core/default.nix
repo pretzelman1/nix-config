@@ -116,7 +116,7 @@
       nix-index # A small utility to index nix store paths
       nix-init # generate nix derivation from url
       nix-melt # A TUI flake.lock viewer
-      nixpkgs-fmt # formatter for nixpkgs TODO Add alias for alejandra
+      nixpkgs-fmt # formatter for nixpkgs
       nix-tree # nix package tree viewer
       alejandra # nix formatter
       nixd # nix language server
@@ -127,6 +127,10 @@
       # ncdu is already included above
 
       ;
+  };
+
+  home.shellAliases = {
+    nixpkgs-fmt = "alejandra";
   };
 
   nixpkgs = {

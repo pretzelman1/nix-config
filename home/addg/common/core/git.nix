@@ -15,12 +15,24 @@ in
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
+    lfs.enable = true;
     userName = handle;
     userEmail = publicGitEmail;
     aliases = { };
+
+    includes = [
+      {
+        # use different email & name for work
+        path = "${config.home.homeDirectory}/home/ShipperHQ/.gitconfig";
+        condition = "gitdir:${config.home.homeDirectory}/home/ShipperHQ/";
+      }
+    ];
+
     extraConfig = {
       log.showSignature = "true";
+      trim.bases = "develop,master,main"; # for git-trim
       init.defaultBranch = "main";
+      push.autoSetupRemote = true;
       pull.rebase = "true";
       url = {
         "ssh://git@github.com" = {
@@ -33,6 +45,7 @@ in
 
       gpg.format = "ssh";
     };
+
     ignores = [
       ".csvignore"
       ".direnv"

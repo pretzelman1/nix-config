@@ -2,6 +2,6 @@
 .direnv
 tmp
 result
-
+.vscode
 .DS_Store
 ._*

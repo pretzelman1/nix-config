@@ -37,10 +37,7 @@
         types = [ "symlink" ];
       };
 
-      nixfmt-rfc-style = {
-        enable = true;
-        #        package = pkgs.nixfmt-rfc-style;
-      };
+      alejandra.enable = true;
       shfmt.enable = true;
 
       end-of-file-fixer.enable = true;

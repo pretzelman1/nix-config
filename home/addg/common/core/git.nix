@@ -46,7 +46,6 @@ in
       gpg.format = "ssh";
     };
 
-
     ignores = [
       ".csvignore"
       ".direnv"

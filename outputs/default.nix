@@ -5,6 +5,8 @@
   home-manager,
   nix-darwin,
   nur-ryan4yin,
+  nix-homebrew,
+  nix-secrets,
   sops-nix,
   ...
 } @ inputs: let
@@ -30,6 +32,7 @@
           configLib
           nixpkgs
           nur-ryan4yin
+          nix-secrets
           ;
       };
 
@@ -72,6 +75,13 @@ in {
             home-manager.darwinModules.home-manager
             { home-manager.extraSpecialArgs = specialArgs; }
             sops-nix.darwinModules.sops
+            nix-homebrew.darwinModules.nix-homebrew {
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = true;
+                user = "${configVars.username}";
+              };
+            }
             ../hosts/fern
           ];
         };

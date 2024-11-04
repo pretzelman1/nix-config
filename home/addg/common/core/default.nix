@@ -9,7 +9,7 @@
   ...
 }:
 {
-  imports = (configLib.scanPaths ./.) ++ (builtins.attrValues outputs.homeManagerModules);
+  imports = configLib.scanPaths ./. ++ builtins.attrValues outputs.homeManagerModules ++ [ inputs.sops-nix.homeManagerModules.sops ];
 
   # services.ssh-agent.enable = true;
 

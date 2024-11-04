@@ -5,7 +5,7 @@ NIX_SECRETS_DIR := "../nix-secrets"
 default:
   @just --list
 
-rebuild-pre:
+rebuild-pre: update-nix-secrets
   git add *.nix
 
 rebuild-post:

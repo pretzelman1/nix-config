@@ -42,6 +42,9 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+
     #################### Utilities ####################
 
     # Declarative partitioning and formatting
@@ -84,9 +87,8 @@
     # Private secrets repo.  See ./docs/secretsmgmt.md
     # Authenticate via ssh and use shallow clone
     nix-secrets = {
-      url = "git+ssh://git@github.com/addg0/nix-secrets.git?shallow=1&ref=main";
+      url = "git+ssh://git@github.com/addg0/nix-secrets.git?&ref=main";
       flake = false;
-      inputs = { };
     };
 
     nur-ryan4yin.url = "github:ryan4yin/nur-packages";

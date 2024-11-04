@@ -1,5 +1,8 @@
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  ...
+}: {
   options.monitors = lib.mkOption {
     type = lib.types.listOf (
       lib.types.submodule {
@@ -55,7 +58,7 @@
         };
       }
     );
-    default = [ ];
+    default = [];
   };
   config = {
     assertions = [

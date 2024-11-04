@@ -4,8 +4,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   wayland.windowManager.hyprland.settings = {
     #
     # ========== Mouse Bindings==========
@@ -25,59 +24,56 @@
     #
     # ========== Key Bindings==========
     #
-    bind =
-      let
-        workspaces = [
-          "0"
-          "1"
-          "2"
-          "3"
-          "4"
-          "5"
-          "6"
-          "7"
-          "8"
-          "9"
-          "F1"
-          "F2"
-          "F3"
-          "F4"
-          "F5"
-          "F6"
-          "F7"
-          "F8"
-          "F9"
-          "F10"
-          "F11"
-          "F12"
-        ];
-        # Map keys (arrows and hjkl) to hyprland directions (l, r, u, d)
-        directions = rec {
-          left = "l";
-          right = "r";
-          up = "u";
-          down = "d";
-          h = left;
-          l = right;
-          k = up;
-          j = down;
-        };
-        pactl = lib.getExe' pkgs.pulseaudio "pactl"; # installed via /hosts/common/optional/audio.nix
-        terminal = config.home.sessionVariables.TERM;
-        editor = config.home.sessionVariables.EDITOR;
-        #playerctl = lib.getExe pkgs.playerctl; # installed via /home/common/optional/desktops/playerctl.nix
-        #swaylock = "lib.getExe pkgs.swaylock;
-        #makoctl = "${config.services.mako.package}/bin/makoctl";
-        #gtk-play = "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play";
-        #notify-send = "${pkgs.libnotify}/bin/notify-send";
-        #gtk-launch = "${pkgs.gtk3}/bin/gtk-launch";
-        #xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
-        #defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
-        #browser = defaultApp "x-scheme-handler/https";
-
-      in
+    bind = let
+      workspaces = [
+        "0"
+        "1"
+        "2"
+        "3"
+        "4"
+        "5"
+        "6"
+        "7"
+        "8"
+        "9"
+        "F1"
+        "F2"
+        "F3"
+        "F4"
+        "F5"
+        "F6"
+        "F7"
+        "F8"
+        "F9"
+        "F10"
+        "F11"
+        "F12"
+      ];
+      # Map keys (arrows and hjkl) to hyprland directions (l, r, u, d)
+      directions = rec {
+        left = "l";
+        right = "r";
+        up = "u";
+        down = "d";
+        h = left;
+        l = right;
+        k = up;
+        j = down;
+      };
+      pactl = lib.getExe' pkgs.pulseaudio "pactl"; # installed via /hosts/common/optional/audio.nix
+      terminal = config.home.sessionVariables.TERM;
+      editor = config.home.sessionVariables.EDITOR;
+      #playerctl = lib.getExe pkgs.playerctl; # installed via /home/common/optional/desktops/playerctl.nix
+      #swaylock = "lib.getExe pkgs.swaylock;
+      #makoctl = "${config.services.mako.package}/bin/makoctl";
+      #gtk-play = "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play";
+      #notify-send = "${pkgs.libnotify}/bin/notify-send";
+      #gtk-launch = "${pkgs.gtk3}/bin/gtk-launch";
+      #xdg-mime = "${pkgs.xdg-utils}/bin/xdg-mime";
+      #defaultApp = type: "${gtk-launch} $(${xdg-mime} query default ${type})";
+      #browser = defaultApp "x-scheme-handler/https";
+    in
       lib.flatten [
-
         #
         # ========== Quick Launch ==========
         #
@@ -169,8 +165,9 @@
 
         # Move workspace to monitor in specified direction
         (lib.mapAttrsToList (
-          key: direction: "CTRLSHIFT,${key},movecurrentworkspacetomonitor,${direction}"
-        ) directions)
+            key: direction: "CTRLSHIFT,${key},movecurrentworkspacetomonitor,${direction}"
+          )
+          directions)
 
         #
         # ========== Misc ==========

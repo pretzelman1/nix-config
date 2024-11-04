@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.lualine.enable = lib.mkEnableOption "enables lualine module";
   };

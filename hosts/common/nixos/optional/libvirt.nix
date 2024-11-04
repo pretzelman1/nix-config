@@ -1,8 +1,12 @@
-{ pkgs, configVars, ... }:
+{
+  pkgs,
+  configVars,
+  ...
+}:
 # FIXME: Should we merge all virtualization stuff, like podman?
 {
   # FIXME: Revisit if required
-  boot.kernelModules = [ "vfio-pci" ];
+  boot.kernelModules = ["vfio-pci"];
 
   # This allows yubikey direction into a QEMU image https://github.com/NixOS/nixpkgs/issues/39618
   virtualisation.spiceUSBRedirection.enable = true;
@@ -50,6 +54,6 @@
   ];
 
   users.users.${configVars.username} = {
-    extraGroups = [ "libvirtd" ];
+    extraGroups = ["libvirtd"];
   };
 }

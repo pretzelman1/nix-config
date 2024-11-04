@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # xfconf is required to persist Thunar settings
   # since we're not running on XFCE
   programs.xfconf.enable = true;
@@ -18,7 +16,8 @@
   programs.thunar = {
     enable = true;
     plugins = builtins.attrValues {
-      inherit (pkgs.xfce)
+      inherit
+        (pkgs.xfce)
         thunar-archive-plugin
         thunar-media-tags-plugin
         thunar-volman

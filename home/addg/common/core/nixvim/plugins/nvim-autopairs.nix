@@ -1,7 +1,10 @@
 # autopairs for neovim written in lua
 # https://github.com/windwp/nvim-autopairs/
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.nvim-autopairs.enable = lib.mkEnableOption "enables nvim-autopairs module";
   };
@@ -11,14 +14,15 @@
       nvim-autopairs = {
         enable = true;
         settings = {
-          fast_wrap = { };
+          fast_wrap = {};
           disable_filetype = [
             "TelescopePrompt"
             "vim"
           ];
         };
       };
-      extraConfigLua = # lua
+      extraConfigLua =
+        # lua
         ''
           local npairs = require("nvim-autopairs")
           local Rule = require("nvim-autopairs.rule")

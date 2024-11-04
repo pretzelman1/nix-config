@@ -1,6 +1,9 @@
 # LSP Progress Indicator
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.fidget.enable = lib.mkEnableOption "enables fidget module";
   };

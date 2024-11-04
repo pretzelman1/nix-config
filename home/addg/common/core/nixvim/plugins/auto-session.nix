@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.auto-session.enable = lib.mkEnableOption "enables auto-session module";
   };

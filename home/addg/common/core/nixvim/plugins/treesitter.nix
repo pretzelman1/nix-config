@@ -1,6 +1,9 @@
 #
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.treesiter.enable = lib.mkEnableOption "enables treesiter module";
   };

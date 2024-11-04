@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.undotree.enable = lib.mkEnableOption "enables undotree module";
   };
@@ -9,12 +12,11 @@
       plugins = {
         undotree = {
           enable = true;
-
         };
       };
       keymaps = [
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>u";
           action = ":UndotreeToggle<cr>";
           options = {
@@ -22,7 +24,6 @@
             noremap = true;
           };
         }
-
       ];
     };
   };

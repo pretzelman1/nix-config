@@ -1,6 +1,9 @@
 # LSP Progress Indicator
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.lspconfig.enable = lib.mkEnableOption "enables lspconfig module";
   };
@@ -40,7 +43,7 @@
                   expr = "import <nixpkgs> {}";
                 };
                 formatting = {
-                  command = [ "nixfmt" ];
+                  command = ["nixfmt"];
                 };
                 options = {
                   nixos = {

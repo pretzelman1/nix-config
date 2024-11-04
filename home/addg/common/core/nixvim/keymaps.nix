@@ -27,7 +27,7 @@
       # ========== Nixvim Config Shortcuts ==========
       #
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<Leader>ve";
         action = "<cmd>e ~/nix-config/home/ta/common/core/nixvim/default.nix<CR>";
         options = {
@@ -49,7 +49,7 @@
       # ======== Movement ========
       #
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "j";
         action = "gj";
         options = {
@@ -58,7 +58,7 @@
         };
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "k";
         action = "gk";
         options = {
@@ -67,7 +67,7 @@
         };
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-j>";
         action = "<C-d>";
         options = {
@@ -76,7 +76,7 @@
         };
       }
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<C-k>";
         action = "<C-u>";
         options = {
@@ -103,7 +103,7 @@
       # =========== Search=========
       #
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<space><space>";
         action = "<cmd>nohlsearch<CR>";
         options = {
@@ -115,7 +115,7 @@
       # =========== Editing =========
       #
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<Leader>sr";
         action = ":%s/<C-r><C-w>//g<Left><Left>";
         options = {
@@ -127,7 +127,7 @@
       # =========== Undo and Redo =========
       #
       {
-        mode = [ "i" ];
+        mode = ["i"];
         key = ",";
         action = ",<C-g>U";
         options = {
@@ -136,7 +136,7 @@
         };
       }
       {
-        mode = [ "i" ];
+        mode = ["i"];
         key = ".";
         action = ".<C-g>U";
         options = {
@@ -145,7 +145,7 @@
         };
       }
       {
-        mode = [ "i" ];
+        mode = ["i"];
         key = "!";
         action = "!<C-g>U";
         options = {
@@ -154,7 +154,7 @@
         };
       }
       {
-        mode = [ "i" ];
+        mode = ["i"];
         key = "?";
         action = "?<C-g>U";
         options = {
@@ -164,7 +164,7 @@
       }
       # ========= Twiggy =============
       {
-        mode = [ "n" ];
+        mode = ["n"];
         key = "<Leader>tw";
         action = ":Twiggy<CR>";
         options = {

@@ -1,4 +1,9 @@
-{ pkgs, config, configVars, ... }:
+{
+  pkgs,
+  config,
+  configVars,
+  ...
+}:
 ###################################################################################
 #
 #  macOS's System configuration
@@ -32,14 +37,13 @@
         /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
 
-      applications.text =
-        let
-          env = pkgs.buildEnv {
-            name = "system-applications";
-            paths = config.environment.systemPackages;
-            pathsToLink = "/Applications";
-          };
-        in
+      applications.text = let
+        env = pkgs.buildEnv {
+          name = "system-applications";
+          paths = config.environment.systemPackages;
+          pathsToLink = "/Applications";
+        };
+      in
         pkgs.lib.mkForce ''
           # Set up applications.
           echo "setting up /Applications..." >&2

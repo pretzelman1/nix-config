@@ -17,7 +17,10 @@ in
       darwin-modules
       ++ [
         ({lib, ...}: {
-          nixpkgs.pkgs = import nixpkgs-darwin {inherit system; config.allowUnfree = true;};
+          nixpkgs.pkgs = import nixpkgs-darwin {
+            inherit system;
+            config.allowUnfree = true;
+          };
         })
       ]
       ++ (
@@ -35,7 +38,8 @@ in
       )
       ++ [
         # Add nix-homebrew module
-        nix-homebrew.darwinModules.nix-homebrew {
+        nix-homebrew.darwinModules.nix-homebrew
+        {
           nix-homebrew = {
             enable = true;
             enableRosetta = true;

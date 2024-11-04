@@ -2,8 +2,11 @@
 # https://github.com/iamcco/markdown-preview.nvim
 # nixvim docs:
 # https://nix-community.github.io/nixvim/stable/plugins/markdown-preview/index.html?highlight=markdown#markdown-preview
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.markdown-preview.enable = lib.mkEnableOption "enables markdown-preview module";
   };

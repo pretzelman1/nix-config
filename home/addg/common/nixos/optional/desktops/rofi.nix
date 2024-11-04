@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-{
+{pkgs, ...}: {
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
@@ -15,7 +11,6 @@
       drun-display-format = "{name}";
       #FIXME not working
       drun-search-paths = "/home/ta/.nix-profile/share/applciations,/home/ta/.nix-profile/share/wayland-sessions";
-
     };
   };
 }

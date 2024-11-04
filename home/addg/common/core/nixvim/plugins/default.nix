@@ -2,9 +2,8 @@
   lib,
   configLib,
   ...
-}:
-{
-  imports = (configLib.scanPaths ./.);
+}: {
+  imports = configLib.scanPaths ./.;
 
   #   config = lib.mkIf config.nixvim-config.enable {  # don't want to gif on options one level out of here yet
   config = {

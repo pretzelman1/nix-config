@@ -1,12 +1,20 @@
-{ config, lib, configLib, inputs, outputs, configVars, pkgs, ... }:
 {
+  config,
+  lib,
+  configLib,
+  inputs,
+  outputs,
+  configVars,
+  pkgs,
+  ...
+}: {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
     # inputs.home-manager.nixosModules.home-manager
     # (builtins.attrValues outputs.nixosModules)
   ];
 
-   environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     git # used by nix flakes
     git-lfs # used by huggingface models
 

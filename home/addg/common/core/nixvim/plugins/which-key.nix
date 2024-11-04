@@ -1,7 +1,10 @@
 # keybind helper
 # https://github.com/folke/which-key.nvim
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.which-key.enable = lib.mkEnableOption "enables which-key module";
   };

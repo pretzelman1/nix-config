@@ -3,11 +3,9 @@
   lib,
   nix-secrets,
   ...
-}:
-{
+}: {
   sops = {
     defaultSopsFile = "${nix-secrets}/secrets/secrets.yaml";
-    
 
     age = {
       sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

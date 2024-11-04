@@ -1,11 +1,14 @@
-{ inputs, lib, ... }:
 {
+  inputs,
+  lib,
+  ...
+}: {
   #inherit (inputs.nix-secrets)
-    #userFullName
-    #domain
-    #email
-    # networking
-    # ;
+  #userFullName
+  #domain
+  #email
+  # networking
+  # ;
   userFullName = "addg0";
   networking = {
     ports = {
@@ -28,7 +31,6 @@
   isWork = false; # Used to indicate a host that uses work resources
   scaling = "1"; # Used to indicate what scaling to use. Floating point number
 }
-
 # README
 #
 # Many of the values here come from my private nix-secrets repository.
@@ -70,3 +72,4 @@
 #
 #    };
 #}
+

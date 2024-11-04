@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.cmp.enable = lib.mkEnableOption "enables cmp and lspkind modules";
   };
@@ -19,7 +22,8 @@
             documentation = {
               border = "rounded";
             };
-            snippet.expand = # lua
+            snippet.expand =
+              # lua
               ''
                 function(args)
                   require("luasnip").lsp_expand(args.body)
@@ -27,9 +31,9 @@
               '';
           };
           sources = [
-            { name = "cmp-nvim-lsp"; }
-            { name = "async_path"; }
-            { name = "nvim_lsp_signature_help"; }
+            {name = "cmp-nvim-lsp";}
+            {name = "async_path";}
+            {name = "nvim_lsp_signature_help";}
             {
               name = "nvim_lsp";
               keyword_length = 3;
@@ -38,14 +42,15 @@
               name = "nvim_lua";
               keyword_length = 2;
             }
-            { name = "luasnip"; }
+            {name = "luasnip";}
             {
               name = "buffer";
               keyword_length = 2;
             }
           ];
           mapping = {
-            __raw = # lua
+            __raw =
+              # lua
               ''
                 cmp.mapping.preset.insert({
                   ["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -133,7 +138,8 @@
       luasnip = {
         enable = true;
       };
-      extraConfigLua = # lua
+      extraConfigLua =
+        # lua
         ''
           local ok, lspkind = pcall(require, "lspkind")
           if ok then

@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.fugitive.enable = lib.mkEnableOption "enables fugitive module";
   };
@@ -11,7 +14,7 @@
       };
       keymaps = [
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>gs";
           action = "<cmd>G<CR>";
           options = {
@@ -20,7 +23,7 @@
           };
         }
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>gj";
           action = "<cmd>diffget //3<CR>";
           options = {
@@ -29,7 +32,7 @@
           };
         }
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>gf";
           action = "<cmd>diffget //2<CR>";
           options = {

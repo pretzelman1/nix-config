@@ -7,8 +7,7 @@
   swapSize,
   configVars,
   ...
-}:
-{
+}: {
   disko.devices = {
     disk = {
       disk0 = {
@@ -26,7 +25,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "defaults" ];
+                mountOptions = ["defaults"];
               };
             };
             luks = {
@@ -47,7 +46,7 @@
                 # unless their parent is mounted
                 content = {
                   type = "btrfs";
-                  extraArgs = [ "-f" ]; # force overwrite
+                  extraArgs = ["-f"]; # force overwrite
                   subvolumes = {
                     "@root" = {
                       mountpoint = "/";

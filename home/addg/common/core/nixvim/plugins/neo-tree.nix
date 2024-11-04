@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.neo-tree.enable = lib.mkEnableOption "enables neo-tree module";
   };

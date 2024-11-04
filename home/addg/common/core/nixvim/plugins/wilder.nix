@@ -1,6 +1,9 @@
 # Fuzzy finder for Ex commands (:), search history (/), and command history (?)
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.wilder.enable = lib.mkEnableOption "enables wilder module";
   };

@@ -4,7 +4,6 @@
 #  MacOS running on M3 Max, 64GB RAM
 #
 ###############################################################
-
 {
   inputs,
   lib,
@@ -13,8 +12,7 @@
   configLib,
   pkgs,
   ...
-}:
-{
+}: {
   imports = lib.flatten [
     (map configLib.relativeToHosts [
       #################### Required Configs ####################
@@ -25,9 +23,9 @@
 
       #################### Desktop ####################
 
-
       "common/users/addg"
-    ])];
+    ])
+  ];
 
   networking.hostName = "fern";
   networking.computerName = config.networking.hostName;

@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.colorschemes.enable = lib.mkEnableOption "enables colorschemes module";
   };

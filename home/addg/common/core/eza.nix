@@ -9,8 +9,8 @@
     git = true;
     icons = "auto";
     extraOptions = [
-    "--color=always"
-    "--long"
+      "--color=always"
+      "--long"
     ];
   };
 }

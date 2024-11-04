@@ -1,5 +1,8 @@
-{ config, configVars, ... }:
 {
+  config,
+  configVars,
+  ...
+}: {
   sops.secrets = {
     "msmtp-password" = {
       owner = config.users.users.${configVars.username}.name;

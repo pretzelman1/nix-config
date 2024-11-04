@@ -1,7 +1,10 @@
 # git interface for nvim
 # https://github.com/NeogitOrg/neogit
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.neogit.enable = lib.mkEnableOption "enables neogit module";
   };

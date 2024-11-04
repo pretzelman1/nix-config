@@ -1,6 +1,9 @@
 # https://github.com/nvim-telescope/telescope.nvim
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.telescope.enable = lib.mkEnableOption "enables telescope module";
   };
@@ -13,7 +16,7 @@
       };
       keymaps = [
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>ff";
           action = "<cmd>Telescope find_files<CR>";
           options = {
@@ -22,7 +25,7 @@
           };
         }
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>fg";
           action = "<cmd>Telescope live_grep<CR>";
           options = {
@@ -31,7 +34,7 @@
           };
         }
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>fb";
           action = "<cmd>Telescope buffers<CR>";
           options = {
@@ -40,7 +43,7 @@
           };
         }
         {
-          mode = [ "n" ];
+          mode = ["n"];
           key = "<Leader>fh";
           action = "<cmd>Telescope help_tags<CR>";
           options = {

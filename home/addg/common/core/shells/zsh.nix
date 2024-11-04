@@ -1,9 +1,9 @@
-{ config
-, pkgs
-, pkgs-unstable
-, ...
-}:
-let
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}: let
   shellAliases = {
     k = "kubectl";
 
@@ -14,8 +14,7 @@ let
   localBin = "${config.home.homeDirectory}/.local/bin";
   goBin = "${config.home.homeDirectory}/go/bin";
   rustBin = "${config.home.homeDirectory}/.cargo/bin";
-in
-{
+in {
   programs.zsh = {
     enable = true;
 

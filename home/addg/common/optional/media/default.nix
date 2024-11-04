@@ -1,12 +1,13 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = builtins.attrValues {
-    inherit (pkgs)
+    inherit
+      (pkgs)
       ffmpeg
       spotify
       vlc
       ;
-    inherit (pkgs.stable)
+    inherit
+      (pkgs.stable)
       calibre
       ;
   };

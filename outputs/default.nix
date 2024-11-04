@@ -12,33 +12,35 @@
 } @ inputs: let
   inherit (inputs.nixpkgs) lib;
   inherit (self) outputs;
-  configVars = import ../vars { inherit inputs lib; };
+  configVars = import ../vars {inherit inputs lib;};
   pkgs = inputs.nixpkgs;
-  configLib = import ../lib { inherit lib configVars pkgs; };
+  configLib = import ../lib {inherit lib configVars pkgs;};
 
   # Add  custom lib, vars, nixpkgs instance, and all the inputs to specialArgs,
   # so that I can use them in all my nixos/home-manager/darwin modules.
-  genSpecialArgs = system: inputs // {
+  genSpecialArgs = system:
+    inputs
+    // {
       inherit configLib configVars;
     };
 
   # This is the args for all the haumea modules in this folder.
   args = {inherit inputs outputs lib configLib configVars genSpecialArgs;};
   specialArgs = {
-        inherit
-          inputs
-          outputs
-          configVars
-          configLib
-          nixpkgs
-          nur-ryan4yin
-          nix-secrets
-          ;
-      };
+    inherit
+      inputs
+      outputs
+      configVars
+      configLib
+      nixpkgs
+      nur-ryan4yin
+      nix-secrets
+      ;
+  };
 
   # modules for each supported system
   nixosSystems = {
-   # x86_64-linux = import ./x86_64-linux (args // {system = "x86_64-linux";});
+    # x86_64-linux = import ./x86_64-linux (args // {system = "x86_64-linux";});
     # aarch64-linux = import ./aarch64-linux (args // {system = "aarch64-linux";});
     # riscv64-linux = import ./riscv64-linux (args // {system = "riscv64-linux";});
   };
@@ -54,7 +56,6 @@
 
   # Helper function to generate a set of attributes for each system
   forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
-
 in {
   # Add attribute sets into outputs, for debugging
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
@@ -67,28 +68,30 @@ in {
 
   # macOS Hosts
   darwinConfigurations =
-    lib.attrsets.mergeAttrsList (map (it: it.darwinConfigurations or {}) darwinSystemValues) // {
+    lib.attrsets.mergeAttrsList (map (it: it.darwinConfigurations or {}) darwinSystemValues)
+    // {
       fern = nix-darwin.lib.darwinSystem {
-          inherit specialArgs;
-          system = "aarch64-darwin";
-          modules = [
-            home-manager.darwinModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            sops-nix.darwinModules.sops
-            nix-homebrew.darwinModules.nix-homebrew {
-              nix-homebrew = {
-                enable = true;
-                enableRosetta = true;
-                user = "${configVars.username}";
-              };
-            }
-            ../hosts/fern
-          ];
-        };
+        inherit specialArgs;
+        system = "aarch64-darwin";
+        modules = [
+          home-manager.darwinModules.home-manager
+          {home-manager.extraSpecialArgs = specialArgs;}
+          sops-nix.darwinModules.sops
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "${configVars.username}";
+            };
+          }
+          ../hosts/fern
+        ];
+      };
     };
 
   # Custom modifications/overrides to upstream packages.
-  overlays = import ../overlays { inherit inputs outputs; };
+  overlays = import ../overlays {inherit inputs outputs;};
 
   # Colmena - remote deployment via SSH
   colmena =
@@ -120,11 +123,10 @@ in {
   evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
 
   checks = forAllSystems (
-    system:
-    let
+    system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in
-    import ./checks { inherit inputs system pkgs; }
+      import ./checks {inherit inputs system pkgs;}
   );
 
   # Development Shells
@@ -153,5 +155,4 @@ in {
   formatter = forAllSystems (
     system: nixpkgs.legacyPackages.${system}.alejandra
   );
-
 }

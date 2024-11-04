@@ -1,6 +1,8 @@
-{ config, nix-secrets, ... }:
 {
-
+  config,
+  nix-secrets,
+  ...
+}: {
   sops = {
     defaultSopsFile = "${nix-secrets}/secrets/secrets.yaml";
 

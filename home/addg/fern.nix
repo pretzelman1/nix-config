@@ -1,5 +1,8 @@
-{ configVars, ... }:
 {
+  configVars,
+  configLib,
+  ...
+}: {
   imports = [
     #################### Required Configs ####################
     common/core # required
@@ -7,9 +10,8 @@
 
     #################### Host-specific Optional Configs ####################
     # common/optional/browsers
-    # common/optional/desktops # default is hyprland
     # common/optional/comms
-    # common/optional/helper-scripts
+    common/optional/helper-scripts
     # common/optional/gaming
     # common/optional/media
     # common/optional/tools

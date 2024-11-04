@@ -5,20 +5,18 @@
   configLib,
   configVars,
   ...
-}:
-let
+}: let
   handle = configVars.handle;
   publicGitEmail = configVars.gitHubEmail;
   username = configVars.username;
-in
-{
+in {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
     lfs.enable = true;
     userName = handle;
     userEmail = publicGitEmail;
-    aliases = { };
+    aliases = {};
 
     includes = [
       {

@@ -1,20 +1,17 @@
 #
 # FIXME check for dependency somehow? Requires the msmtp.nix option for email notifications
 #
-
 {
   pkgs,
   lib,
   config,
   ...
-}:
-let
+}: let
   # FIXME
   # isEnabled = name: predicate: {
   # assertion = predicate;
   # message = "${name} should be enabled for the clamav.nix config to work correctly.";
   # };
-
   # Function to notify users and admin when a suspicious file is detected
   notify-all-users = pkgs.writeScript "notify-all-users-of-sus-file" ''
     #!/usr/bin/env bash
@@ -27,8 +24,7 @@ let
 
     echo -e "To:$(hostname).alerts.net@hexagon.cx\n\nSubject: Suspicious file on $(hostname)\n\n$ALERT" | msmtp -a default alerts.net@hexagon.cx
   '';
-in
-{
+in {
   # FIXME
   # assertions = lib.mapAttrsToList isEnabled {
   # "hosts/common/optional/msmtp" = config.msmtp.enable;

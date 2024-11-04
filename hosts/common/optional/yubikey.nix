@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   yubikey = {
     enable = true;
     identifiers = {

@@ -1,7 +1,10 @@
 # Fancy and searchable comments for todo, fixmen etc
 # https://github.com/folke/todo-comments.nvim
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.todo-comments.enable = lib.mkEnableOption "enables todo-comments module";
   };

@@ -1,6 +1,9 @@
 # UI improvements
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.dressing.enable = lib.mkEnableOption "enables dressing module";
   };

@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     nixvim-config.plugins.bufferline.enable = lib.mkEnableOption "enables bufferline module";
   };
@@ -132,7 +135,6 @@
         #      }
         #    ];
         #  };
-
       };
     };
   };

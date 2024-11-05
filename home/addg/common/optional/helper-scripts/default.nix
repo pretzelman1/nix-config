@@ -7,7 +7,7 @@
     };
     close-port = pkgs.writeShellApplication {
       name = "close-port";
-      runtimeInputs = with pkgs; [ lsof ];
+      runtimeInputs = with pkgs; [lsof];
       text = builtins.readFile ./close-port.sh;
     };
     toggle-internet = pkgs.writeShellApplication {

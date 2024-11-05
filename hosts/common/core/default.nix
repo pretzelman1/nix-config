@@ -30,6 +30,9 @@ in {
       inherit inputs outputs;
     };
     backupFileExtension = "backup";
+    sharedModules = [
+      inputs.sops-nix.homeManagerModules.sops
+    ];
   };
 
   nixpkgs = {

@@ -15,6 +15,7 @@
 
     secrets = {
       openai_api_key = {
+        sopsFile = "${nix-secrets}/secrets/secrets.yaml";
       };
     };
   };

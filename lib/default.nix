@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   configVars,
   ...
 }: {
@@ -13,9 +12,9 @@
   relativeToHosts = lib.path.append ../hosts;
 
   getHomeDirectory = username:
-    if pkgs.stdenv.isLinux
-    then "/home/${username}"
-    else "/Users/${username}";
+    if (builtins.match ".*darwin" builtins.currentSystem != null)
+    then "/Users/${username}"
+    else "/home/${username}";
 
   scanPaths = path:
     builtins.map (f: (path + "/${f}")) (

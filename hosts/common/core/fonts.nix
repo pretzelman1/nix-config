@@ -9,12 +9,11 @@
       # icon fonts
       material-design-icons
       font-awesome
-
-      # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-      source-serif # 衬线字体，不含汉字。字族名叫 Source Code Pro，以及带字重的变体
-      source-han-sans # 思源黑体
-      source-han-serif # 思源宋体
+      # The Source Han font series is led by Adobe. The Chinese characters are called "Source Han Sans" and "Source Han Serif", developed jointly by Adobe and Google.
+      source-sans # Sans-serif font, does not contain Chinese characters. The font family is called Source Sans 3 and Source Sans Pro, with weight variants, including Source Sans 3 VF.
+      source-serif # Serif font, does not contain Chinese characters. The font family is called Source Code Pro, with weight variants.
+      source-han-sans # Source Han Sans
+      source-han-serif # Source Han Serif
 
       # nerdfonts
       # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/pkgs/data/fonts/nerdfonts/shas.nix

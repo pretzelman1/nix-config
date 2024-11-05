@@ -33,7 +33,7 @@ in {
     {
       # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       users.users.${configVars.username} = {
-        home = "/Users/${configVars.username}";
+        home = configLib.getHomeDirectory configVars.username;
         # isNormalUser = true;
         # password = "nixos"; # Overridden if sops is working
 

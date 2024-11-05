@@ -1,5 +1,5 @@
-SOPS_FILE := "../nix-secrets/secrets.yaml"
 NIX_SECRETS_DIR := "../nix-secrets"
+SOPS_FILE := "{{NIX_SECRETS_DIR}}/secrets.yaml"
 
 # default recipe to display help information
 default:

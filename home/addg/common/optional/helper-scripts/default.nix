@@ -7,8 +7,13 @@
     };
     close-port = pkgs.writeShellApplication {
       name = "close-port";
-      runtimeInputs = [];
+      runtimeInputs = with pkgs; [ lsof ];
       text = builtins.readFile ./close-port.sh;
+    };
+    toggle-internet = pkgs.writeShellApplication {
+      name = "toggle-internet";
+      runtimeInputs = with pkgs; [];
+      text = builtins.readFile ./toggle-internet.sh;
     };
   };
 in {

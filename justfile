@@ -19,6 +19,7 @@ check-trace:
   nix flake check --impure --show-trace
   cd nixos-installer && nix flake check --impure --show trace
 
+alias r := rebuild
 # Add --option eval-cache false if you end up caching a failure you can't get around
 rebuild: rebuild-pre
   scripts/system-flake-rebuild.sh
@@ -31,10 +32,14 @@ rebuild-full: rebuild-pre && rebuild-post
 rebuild-trace: rebuild-pre && rebuild-post
   scripts/system-flake-rebuild-trace.sh
 
+alias u := update
+
 update:
   nix flake update
 
 rebuild-update: update && rebuild
+
+alias d := diff
 
 diff:
   git diff ':!flake.lock'

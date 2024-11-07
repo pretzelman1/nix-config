@@ -1,4 +1,4 @@
 {lib, ...}: {
-  # i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-  # time.timeZone = lib.mkDefault "America/Chicago";
+  # time.timeZone = "America/Chicago";
+  time.timeZone = "Australia/Perth";
 }

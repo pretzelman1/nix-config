@@ -2,7 +2,12 @@
   lib,
   configVars,
   ...
-}: {
+}:
+let
+  # Function to determine if the current system is Linux
+  isLinux = builtins.elemAt (builtins.split "-" builtins.currentSystem) 1 == "linux";
+in
+{
   macosSystem = import ./macosSystem.nix;
   nixosSystem = import ./nixosSystem.nix;
 
@@ -11,10 +16,13 @@
   relativeToHome = lib.path.append ../home;
   relativeToHosts = lib.path.append ../hosts;
 
+  inherit isLinux;
+
+  # Function to get the home directory based on the OS
   getHomeDirectory = username:
-    if (builtins.match ".*darwin" builtins.currentSystem != null)
-    then "/Users/${username}"
-    else "/home/${username}";
+    if isLinux
+    then "/home/${username}"
+    else "/Users/${username}";
 
   scanPaths = path:
     builtins.map (f: (path + "/${f}")) (

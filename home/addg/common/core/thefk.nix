@@ -9,4 +9,8 @@
     enableBashIntegration = true;
     enableInstantMode = true;
   };
+
+  home.shellAliases = {
+    fk = "fuck";
+  };
 }

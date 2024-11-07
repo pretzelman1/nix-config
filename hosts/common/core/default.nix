@@ -12,8 +12,6 @@
 in {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
-    # inputs.home-manager.nixosModules.home-manager
-    # (builtins.attrValues outputs.nixosModules)
   ];
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
@@ -31,7 +29,7 @@ in {
     };
     backupFileExtension = "backup";
     sharedModules = [
-      inputs.sops-nix.homeManagerModules.sops
+      # inputs.sops-nix.homeManagerModules.sops
     ];
   };
 

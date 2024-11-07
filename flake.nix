@@ -54,7 +54,7 @@
 
     # Secrets management. See ./docs/secretsmgmt.md
     sops-nix = {
-      url = "github:mic92/sops-nix/nix-darwin";
+      url = "github:ianmurphy1/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

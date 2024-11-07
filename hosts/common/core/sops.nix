@@ -1,3 +1,4 @@
+
 {
   config,
   nix-secrets,
@@ -13,6 +14,14 @@
     };
 
     secrets = {
+      openai_api_key = {
+        owner = "addg";
+
+      };
     };
   };
+
+  programs.zsh.shellInit = ''
+    export OPENAI_API_KEY=$(cat ${config.sops.secrets.openai_api_key.path})
+  '';
 }

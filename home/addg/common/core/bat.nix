@@ -28,8 +28,4 @@
       };
     };
   };
-
-  home.shellAliases = {
-    cat = "bat";
-  };
 }

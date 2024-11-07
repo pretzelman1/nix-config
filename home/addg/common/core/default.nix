@@ -51,6 +51,9 @@
     # steam-run # for running non-NixOS-packaged binaries on Nix
 
     # usbutils
+    stable.bettercap
+    libpcap
+    libusb1
 
     tree # cli dir tree viewer
     unzip # zip extraction

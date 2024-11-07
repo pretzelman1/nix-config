@@ -73,9 +73,7 @@ in {
         inherit specialArgs;
         system = "aarch64-darwin";
         modules = [
-          home-manager.darwinModules.home-manager
           {home-manager.extraSpecialArgs = specialArgs;}
-          sops-nix.darwinModules.sops
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {

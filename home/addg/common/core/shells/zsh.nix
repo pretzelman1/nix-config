@@ -19,32 +19,23 @@ in {
     enable = true;
 
     plugins = [
-      {
-        name = "vi-mode";
-        src = pkgs.zsh-vi-mode;
-        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-      }
+      # {
+      #   name = "vi-mode";
+      #   src = pkgs.zsh-vi-mode;
+      #   file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+      # }
     ];
 
     oh-my-zsh = {
       enable = true;
       theme = "agnoster";
       plugins = [
-        "encode64"
-        "extract"
-        "history"
-        "jira"
         "last-working-dir"
-        "lpass"
-        "screen"
         "sdk"
         "ssh-agent"
         "ssh"
         "sudo"
-        "vscode"
-        "web-search"
         "aws"
-        "brew"
         "mongocli"
         "redis-cli"
         "git"
@@ -69,7 +60,6 @@ in {
         "composer"
         "helm"
         "kubectl"
-        "kube-ps1"
         "microk8s"
         "minikube"
         "terraform"
@@ -88,7 +78,6 @@ in {
     };
     autosuggestion = {
       enable = true;
-      # highlight = "fg=#ff00ff,bg=cyan,bold,underline";
     };
 
     shellAliases = {
@@ -119,10 +108,6 @@ in {
           fd --type d --hidden --exclude ".git" . "$1"
       }
 
-      if command -v ngrok &>/dev/null; then
-          eval "$(ngrok completion)"
-      fi
-
       function default_tmux_session() {
           if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
               if timeout 1s tmux has-session -t default 2>/dev/null; then
@@ -151,6 +136,12 @@ in {
               echo "Internet checks are now enabled."
           fi
       }
+
+      # Check if Amazon Q is installed and disable autosuggestions if it is
+      if [[ -f "''${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]]; then
+        ZSH_AUTOSUGGEST_DISABLE="true"
+        source "''${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+      fi
     '';
   };
 

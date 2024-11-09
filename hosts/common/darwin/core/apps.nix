@@ -157,10 +157,14 @@ in {
       "hovrly" # show different time zones in menu bar
       "imageoptim" # strip metadata from images
 
+      "amazon-q"
+
       "discord"
       "notion-calendar"
 
       "cursor"
+
+      "langgraph-studio"
 
       # Misc
       # "shadowsocksx-ng" # proxy tool

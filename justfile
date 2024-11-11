@@ -34,8 +34,8 @@ rebuild-trace: rebuild-pre && rebuild-post
 
 alias u := update
 
-update:
-  nix flake update
+update *ARGS:
+  nix flake update {{ARGS}}
 
 rebuild-update: update && rebuild
 

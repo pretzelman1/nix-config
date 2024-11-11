@@ -8,7 +8,10 @@
   nur-ryan4yin,
   ...
 }: {
-  imports = configLib.scanPaths ./. ++ builtins.attrValues outputs.homeManagerModules;
+  imports = configLib.scanPaths ./. ++ builtins.attrValues outputs.homeManagerModules ++ [
+    ./shells
+    ../optional/jupyter-notebook
+  ];
 
   # services.ssh-agent.enable = true;
 
@@ -33,7 +36,7 @@
   };
 
   home.packages = with pkgs; [
-    stable.llm
+    # stable.llm
 
     # Packages that don't have custom configs go here
     coreutils # basic gnu utils
@@ -51,9 +54,9 @@
     # steam-run # for running non-NixOS-packaged binaries on Nix
 
     # usbutils
-    stable.bettercap
-    libpcap
-    libusb1
+    # stable.bettercap
+    # libpcap
+    # libusb1
 
     tree # cli dir tree viewer
     unzip # zip extraction

@@ -1,4 +1,3 @@
-
 {}
 
 # {
@@ -15,11 +14,16 @@
 #     generateKey = true;
 #   };
 
-#   sops.secrets.openai_api_key = {
-#     path = "${configLib.getHomeDirectory config.home.username}/.config/openai_api_key";
+#   sops.secrets = {
+#     openai_api_key = {};
+#     langchain_api_key = {};
+#     tavily_api_key = {};
 #   };
 
 #   programs.zsh.initExtra = ''
-#     export OPENAI_API_KEY=$(cat ${config.sops.secrets.openai_api_key.path})
+#     export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+#     # export OPENAI_API_KEY=$(cat ${config.sops.secrets.openai_api_key.path})
+#     # export LANGCHAIN_API_KEY=$(cat ${config.sops.secrets.langchain_api_key.path})
+#     # export TAVILY_API_KEY=$(cat ${config.sops.secrets.tavily_api_key.path})
 #   '';
 # }

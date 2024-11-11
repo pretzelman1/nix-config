@@ -20,15 +20,14 @@
       min-free = 128000000; # 128MB
       max-free = 1000000000; # 1GB
 
-      # Deduplicate and optimize nix store
-      auto-optimise-store = true;
-
       experimental-features = [
         "nix-command"
         "flakes"
       ];
       warn-dirty = false;
     };
+
+    optimise.automatic = true;
 
     gc.automatic = false;
 

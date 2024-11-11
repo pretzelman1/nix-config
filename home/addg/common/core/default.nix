@@ -11,6 +11,7 @@
   imports = configLib.scanPaths ./. ++ builtins.attrValues outputs.homeManagerModules ++ [
     ./shells
     ../optional/jupyter-notebook
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
   # services.ssh-agent.enable = true;

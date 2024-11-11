@@ -37,8 +37,7 @@ alias u := update
 update *ARGS:
   nix flake update {{ARGS}}
 
-alias ur := rebuild-update
-rebuild-update *ARGS: update ARGS && rebuild
+rebuild-update: update && rebuild
 
 alias d := diff
 

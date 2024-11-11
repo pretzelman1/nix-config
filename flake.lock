@@ -1586,11 +1586,11 @@
         "nixpkgs-stable": "nixpkgs-stable_4"
       },
       "locked": {
-        "lastModified": 1730887903,
-        "narHash": "sha256-01VSEeeTMJFthVvA768eXM9MdFS351cPQymIJ+iXmJU=",
+        "lastModified": 1731141593,
+        "narHash": "sha256-DPTj7snT874hoGjE47Ft7nCkkfQ4RfNtcd0uAkbEHjE=",
         "owner": "ianmurphy1",
         "repo": "sops-nix",
-        "rev": "384cee04b872f5fd648f8502d2ff9b5829af2729",
+        "rev": "d9b5143b98e8769f06db3abfe7a9956730cfce84",
         "type": "github"
       },
       "original": {

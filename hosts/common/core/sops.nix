@@ -15,8 +15,7 @@
     };
   };
 
-  environment.variables = {
-    SOPS_CONFIG = "${nix-secrets}/.sops.yaml";
-  };
-
+  # environment.sessionVariables = {
+  #   SOPS_CONFIG = "${nix-secrets}/.sops.yaml";
+  # };
 }

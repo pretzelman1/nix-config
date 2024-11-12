@@ -14,4 +14,9 @@
       generateKey = true;
     };
   };
+
+  environment.variables = {
+    SOPS_CONFIG = "${nix-secrets}/.sops.yaml";
+  };
+
 }

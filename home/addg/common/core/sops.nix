@@ -23,6 +23,11 @@
       sopsFile = "${nix-secrets}/secrets/kube.yaml.enc";
       path = "${config.home.homeDirectory}/.kube/config-home";
     };
+    aws_credentials = {
+      format = "binary";
+      sopsFile = "${nix-secrets}/secrets/shipperhq/aws-credentials.enc";
+      path = "${config.home.homeDirectory}/.aws/credentials";
+    };
   };
 
   programs.zsh.initExtra = ''

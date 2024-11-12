@@ -6,6 +6,7 @@ default:
   @just --list
 
 rebuild-pre: update-nix-secrets
+  git pull || true
   git add '**/*.nix'
 
 rebuild-post:

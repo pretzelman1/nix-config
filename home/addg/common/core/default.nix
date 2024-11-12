@@ -14,8 +14,6 @@
     inputs.sops-nix.homeManagerModules.sops
   ];
 
-  # services.ssh-agent.enable = true;
-
   home = {
     username = lib.mkDefault "addg";
     homeDirectory = lib.mkDefault (configLib.getHomeDirectory config.home.username);

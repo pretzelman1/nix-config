@@ -37,4 +37,9 @@
     export TAVILY_API_KEY=$(cat ${config.sops.secrets.tavily_api_key.path})
     export KUBECONFIG=${config.home.homeDirectory}/.kube/config:${config.sops.secrets.kube_config.path}
   '';
+
+  # This is so I can use sops in the shell anywhere
+  home.file.".sops.yaml" = {
+    source = "${nix-secrets}/.sops.yaml";
+  };
 }

@@ -6,6 +6,7 @@
 let
   # Function to determine if the current system is Linux
   isLinux = builtins.elemAt (builtins.split "-" builtins.currentSystem) 1 == "linux";
+  isDarwin = builtins.elemAt (builtins.split "-" builtins.currentSystem) 1 == "darwin";
 in
 {
   macosSystem = import ./macosSystem.nix;
@@ -16,7 +17,7 @@ in
   relativeToHome = lib.path.append ../home;
   relativeToHosts = lib.path.append ../hosts;
 
-  inherit isLinux;
+  inherit isLinux isDarwin;
 
   # Function to get the home directory based on the OS
   getHomeDirectory = username:

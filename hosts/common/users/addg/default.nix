@@ -34,10 +34,10 @@ in {
       # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       users.users.${configVars.username} = {
         home = configLib.getHomeDirectory configVars.username;
-        # isNormalUser = true;
-        # password = "nixos"; # Overridden if sops is working
+        # isNormalUser = lib.mkIf (configLib.isLinux) (true);
+        # password = lib.mkIf (configLib.isLinux) ("nixos"); # Overridden if sops is working
 
-        # extraGroups =
+        # extraGroups = lib.mkIf (configLib.isLinux) (
         #   [ "wheel" ]
         #   ++ ifTheyExist [
         #     "audio"
@@ -45,7 +45,8 @@ in {
         #     "docker"
         #     "git"
         #     "networkmanager"
-        #   ];
+        #   ]
+        # );
 
         # These get placed into /etc/ssh/authorized_keys.d/<name> on nixos
         openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
@@ -53,14 +54,14 @@ in {
         shell = pkgs.zsh; # default shell
       };
 
-      # # Proper root user required for borg and some other specific operations
-      # users.users.root = {
-      #   shell = pkgs.zsh;
-      #   # hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
-      #   # password = lib.mkForce config.users.users.${configVars.username}.password;
-      #   # root's ssh keys are mainly used for remote deployment.
-      #   openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
-      # };
+      # Proper root user required for borg and some other specific operations
+      users.users.root = lib.mkIf (configLib.isLinux) {
+        shell = pkgs.zsh;
+        # hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
+        # password = lib.mkForce config.users.users.${configVars.username}.password;
+        # root's ssh keys are mainly used for remote deployment.
+        openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
+      };
       # # Setup p10k.zsh for root
       # home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
       #   home.stateVersion = "23.05"; # Avoid error

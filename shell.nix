@@ -10,14 +10,14 @@
     };
   in
     import nixpkgs {overlays = [];},
-  checks,
+  checks ? {},
   ...
 }: {
   default = pkgs.mkShell {
     NIX_CONFIG = "extra-experimental-features = nix-command flakes";
 
-    inherit (checks.pre-commit-check) shellHook;
-    buildInputs = checks.pre-commit-check.enabledPackages;
+    shellHook = checks.pre-commit-check.shellHook or "";
+    buildInputs = checks.pre-commit-check.enabledPackages or [];
 
     nativeBuildInputs = builtins.attrValues {
       inherit

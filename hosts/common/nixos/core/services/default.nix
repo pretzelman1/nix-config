@@ -2,15 +2,10 @@
 # from default.nix in the parent directory. Could be trouble when debugging
 # down the road. Noted in long term roadmap.
 {
-  input,
-  outputs,
-  configLib,
   lib,
   ...
 }: {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
-    inputs.sops-nix.nixosModules.sops
-    inputs.home-manager.nixosModules.home-manager
   ];
 }

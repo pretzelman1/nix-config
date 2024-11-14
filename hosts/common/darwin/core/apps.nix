@@ -144,6 +144,8 @@ in {
       "sharemouse"
       "caffeine"
 
+      "balenaetcher"
+
       "bartender" # tool to manage the menu bar
       "cleanshot" # screenshot tool
       # "menubarx" # browser in the menu bar

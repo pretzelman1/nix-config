@@ -63,7 +63,17 @@ in {
 
   # NixOS Hosts
   nixosConfigurations =
-    lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues);
+    lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues)
+    // {
+      ghost = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = "x86_64-linux";
+        modules = [
+          {home-manager.extraSpecialArgs = specialArgs;}
+          ../hosts/ghost
+        ];
+      };
+    };
 
   # macOS Hosts
   darwinConfigurations =

@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  configLib,
   lib,
   ...
 }: {
@@ -41,7 +42,4 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Auto upgrade the nix-daemon service.
-  services.nix-daemon.enable = true;
 }

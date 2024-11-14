@@ -22,8 +22,8 @@ check-trace:
 
 alias r := rebuild
 # Add --option eval-cache false if you end up caching a failure you can't get around
-rebuild: rebuild-pre
-  scripts/system-flake-rebuild.sh
+rebuild hostname="": rebuild-pre
+  scripts/system-flake-rebuild.sh {{hostname}}
 
 # Requires sops to be running and you must have reboot after initial rebuild
 rebuild-full: rebuild-pre && rebuild-post

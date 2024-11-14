@@ -28,7 +28,7 @@
     (configLib.relativeToHosts "common/disks/standard-disk-config.nix")
     {
       _module.args = {
-        disk = "/dev/nvme0n1p1";
+        disk = "/dev/nvme0n1";
         withSwap = false;
       };
     }

@@ -1,0 +1,32 @@
+name: Verify SOPS Decryption
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  verify-sops:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+
+      - name: Install SOPS
+        run: nix-env -iA nixpkgs.sops
+
+      - name: Setup Age Key
+        run: |
+          mkdir -p ~/.config/sops/age
+          echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
+          chmod 600 ~/.config/sops/age/keys.txt
+
+      - name: Verify SOPS Secrets
+        run: |
+          find . -name "*.sops.yaml" -o -name "*.sops.yml" |
+          while read file; do
+            sops -d "$file" > /dev/null
+          done

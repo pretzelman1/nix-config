@@ -1,0 +1,22 @@
+name: Update Nixpkgs
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs at 00:00 on Sunday
+  workflow_dispatch:      # Allows manual triggering
+
+jobs:
+  update-nixpkgs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update Nixpkgs
+        uses: DeterminateSystems/update-flake-lock@v24
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          inputs: nixpkgs
+          pr-title: "chore: update nixpkgs"
+          pr-labels: |
+            dependencies
+            automated

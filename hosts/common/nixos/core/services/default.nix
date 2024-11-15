@@ -3,6 +3,7 @@
 # down the road. Noted in long term roadmap.
 {
   lib,
+  configLib,
   ...
 }: {
   imports = lib.flatten [

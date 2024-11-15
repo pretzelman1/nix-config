@@ -15,16 +15,6 @@
   configVars = import ../vars {inherit inputs lib;};
   configLib = import ../lib {inherit lib configVars;};
 
-  # Add  custom lib, vars, nixpkgs instance, and all the inputs to specialArgs,
-  # so that I can use them in all my nixos/home-manager/darwin modules.
-  genSpecialArgs = system:
-    inputs
-    // {
-      inherit configLib configVars;
-    };
-
-  # This is the args for all the haumea modules in this folder.
-  args = {inherit inputs outputs lib configLib configVars genSpecialArgs;};
   specialArgs = {
     inherit
       inputs
@@ -37,14 +27,17 @@
       ;
   };
 
+  # This is the args for all the haumea modules in this folder.
+  args = {inherit inputs outputs lib configLib configVars specialArgs;};
+
   # modules for each supported system
   nixosSystems = {
-    # x86_64-linux = import ./x86_64-linux (args // {system = "x86_64-linux";});
+    x86_64-linux = import ./x86_64-linux (args // {system = "x86_64-linux";});
     # aarch64-linux = import ./aarch64-linux (args // {system = "aarch64-linux";});
     # riscv64-linux = import ./riscv64-linux (args // {system = "riscv64-linux";});
   };
   darwinSystems = {
-    #aarch64-darwin = import ./aarch64-darwin (args // {system = "aarch64-darwin";});
+    aarch64-darwin = import ./aarch64-darwin (args // {system = "aarch64-darwin";});
     # x86_64-darwin = import ./x86_64-darwin (args // {system = "x86_64-darwin";});
   };
   allSystems = nixosSystems // darwinSystems;
@@ -63,39 +56,11 @@ in {
 
   # NixOS Hosts
   nixosConfigurations =
-    lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues)
-    // {
-      ghost = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = "x86_64-linux";
-        modules = [
-          {home-manager.extraSpecialArgs = specialArgs;}
-          ../hosts/ghost
-        ];
-      };
-    };
+    lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues);
 
   # macOS Hosts
   darwinConfigurations =
-    lib.attrsets.mergeAttrsList (map (it: it.darwinConfigurations or {}) darwinSystemValues)
-    // {
-      fern = nix-darwin.lib.darwinSystem {
-        inherit specialArgs;
-        system = "aarch64-darwin";
-        modules = [
-          {home-manager.extraSpecialArgs = specialArgs;}
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = "${configVars.username}";
-            };
-          }
-          ../hosts/fern
-        ];
-      };
-    };
+    lib.attrsets.mergeAttrsList (map (it: it.darwinConfigurations or {}) darwinSystemValues);
 
   # Custom modifications/overrides to upstream packages.
   overlays = import ../overlays {inherit inputs outputs;};
@@ -110,7 +75,7 @@ in {
           in {
             # colmena's default nixpkgs & specialArgs
             nixpkgs = import nixpkgs {inherit system;};
-            specialArgs = genSpecialArgs system;
+            specialArgs = specialArgs;
           }
         )
         // {

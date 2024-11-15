@@ -25,7 +25,7 @@
 
     #################### Disk Layout ####################
     inputs.disko.nixosModules.disko
-    (configLib.relativeToHosts "common/disks/standard-disk-config.nix")
+    (configLib.relativeToHosts "common/nixos/disks/standard-disk-config.nix")
     {
       _module.args = {
         disk = "/dev/nvme0n1";
@@ -59,19 +59,6 @@
     hostName = "ghost";
     networkmanager.enable = true;
     enableIPv6 = false;
-  };
-
-  semi-active-av.enable = true;
-
-  services.backup = {
-    enable = true;
-    borgBackupStartTime = "02:00:00";
-    borgServer = "${configVars.networking.subnets.oops.ip}";
-    borgUser = "${configVars.username}";
-    borgPort = "${builtins.toString configVars.networking.subnets.oops.port}";
-    borgBackupPath = "/var/services/homes/${configVars.username}/backups";
-    borgNotifyFrom = "${configVars.email.notifier}";
-    borgNotifyTo = "${configVars.email.backup}";
   };
 
   boot.loader = {

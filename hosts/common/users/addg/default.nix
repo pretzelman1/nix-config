@@ -34,31 +34,32 @@ in {
       # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       users.users.${configVars.username} = {
         home = configLib.getHomeDirectory configVars.username;
-        # isNormalUser = lib.mkIf (configLib.isLinux) (true);
-        # password = lib.mkIf (configLib.isLinux) ("nixos"); # Overridden if sops is working
-
-        # extraGroups = lib.mkIf (configLib.isLinux) (
-        #   [ "wheel" ]
-        #   ++ ifTheyExist [
-        #     "audio"
-        #     "video"
-        #     "docker"
-        #     "git"
-        #     "networkmanager"
-        #   ]
-        # );
 
         # These get placed into /etc/ssh/authorized_keys.d/<name> on nixos
         openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
 
         shell = pkgs.zsh; # default shell
+      } // lib.mkIf (configLib.isLinux) {
+        isNormalUser = lib.mkIf (configLib.isLinux) (true);
+        password = lib.mkIf (configLib.isLinux) ("nixos"); # Overridden if sops is working
+
+        extraGroups = lib.mkIf (configLib.isLinux) (
+          [ "wheel" ]
+          ++ ifTheyExist [
+            "audio"
+            "video"
+            "docker"
+            "git"
+            "networkmanager"
+          ]
+        );
       };
 
       # Proper root user required for borg and some other specific operations
       users.users.root = lib.mkIf (configLib.isLinux) {
         shell = pkgs.zsh;
-        # hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
-        # password = lib.mkForce config.users.users.${configVars.username}.password;
+        hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
+        password = lib.mkForce config.users.users.${configVars.username}.password;
         # root's ssh keys are mainly used for remote deployment.
         openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
       };
@@ -67,13 +68,6 @@ in {
       #   home.stateVersion = "23.05"; # Avoid error
       # };
 
-      # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
-      # systemd.tmpfiles.rules =
-      #   let
-      #     user = config.users.users.${configVars.username}.name;
-      #     group = config.users.users.${configVars.username}.group;
-      #   in
-      #   [ "d /home/${configVars.username}/.ssh/sockets 0750 ${user} ${group} -" ];
 
       # No matter what environment we are in we want these tools for root, and the user(s)
       programs.zsh.enable = true;
@@ -82,5 +76,13 @@ in {
         rsync
         git
       ];
+    } // lib.mkIf (configLib.isLinux) {
+      # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
+      # systemd.tmpfiles.rules =
+      #   let
+      #     user = config.users.users.${configVars.username}.name;
+      #     group = config.users.users.${configVars.username}.group;
+      #   in
+      #   [ "d /home/${configVars.username}/.ssh/sockets 0750 ${user} ${group} -" ];
     };
 }

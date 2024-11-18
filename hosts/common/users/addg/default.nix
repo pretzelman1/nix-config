@@ -29,7 +29,7 @@
 in {
   config =
     lib.recursiveUpdate fullUserConfig
-    #this is the second argument to recursiveUpdate
+    # this is the second argument to recursiveUpdate
     {
       # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       users.users.${configVars.username} = {

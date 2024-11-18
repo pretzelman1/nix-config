@@ -12,8 +12,6 @@ in
   macosSystem = import ./macosSystem.nix;
   nixosSystem = import ./nixosSystem.nix;
 
-  colmenaSystem = import ./colmenaSystem.nix;
-
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
   relativeToHome = lib.path.append ../home;

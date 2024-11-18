@@ -38,7 +38,7 @@
       "${host}" = lib.hm.dag.entryAfter ["ssh-hosts"] {
         host = host;
         hostname = "${host}.${configVars.domain}";
-        port = configVars.networking.ports.tcp.ssh;
+        port = 22;
       };
     })
     vanillaHosts
@@ -56,6 +56,7 @@ in {
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ${config.home.homeDirectory}/.ssh/id_ed25519
+      ${configVars.networking.ssh.extraConfig}
     '';
 
     matchBlocks =

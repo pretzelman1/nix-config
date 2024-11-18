@@ -25,6 +25,7 @@ in {
       targetHost = "somehost.tld";
       targetPort = 1234;
       targetUser = "luser";
+      buildOnTarget = true;
     };
 
     imports = modules;

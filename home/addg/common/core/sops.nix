@@ -18,11 +18,6 @@
     openai_api_key = {};
     langchain_api_key = {};
     tavily_api_key = {};
-    kube_config = {
-      format = "binary";
-      sopsFile = "${nix-secrets}/secrets/kube.yaml.enc";
-      path = "${config.home.homeDirectory}/.kube/config-home";
-    };
     aws_credentials = {
       format = "binary";
       sopsFile = "${nix-secrets}/secrets/shipperhq/aws-credentials.enc";
@@ -35,7 +30,6 @@
     export OPENAI_API_KEY=$(cat ${config.sops.secrets.openai_api_key.path})
     export LANGCHAIN_API_KEY=$(cat ${config.sops.secrets.langchain_api_key.path})
     export TAVILY_API_KEY=$(cat ${config.sops.secrets.tavily_api_key.path})
-    export KUBECONFIG=${config.home.homeDirectory}/.kube/config:${config.sops.secrets.kube_config.path}
   '';
 
   # This is so I can use sops in the shell anywhere

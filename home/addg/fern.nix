@@ -13,6 +13,7 @@
     common/darwin/optional/aerospace
     common/optional/jupyter-notebook
     common/optional/media/spotify.nix
+    common/optional/secrets/kubeconfig.nix
     # common/optional/comms
   ];
 

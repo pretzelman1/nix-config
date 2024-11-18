@@ -10,13 +10,8 @@
   # networking
   # ;
   userFullName = "addg0";
-  networking = {
-    ports = {
-      tcp = {
-        ssh = 22;
-      };
-    };
-  };
+
+  networking = import ./networking.nix {inherit lib;};
 
   domain = "addg0.com";
 

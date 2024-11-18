@@ -114,6 +114,7 @@ in {
           deadnix
           statix
           typos
+          colmena
         ];
         name = "dots";
         shellHook = ''

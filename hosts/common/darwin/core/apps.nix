@@ -160,6 +160,7 @@ in {
       "cursor"
 
       "langgraph-studio"
+      "chatgpt"
 
       # Misc
       # "shadowsocksx-ng" # proxy tool

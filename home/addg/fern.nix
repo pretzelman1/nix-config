@@ -14,6 +14,7 @@
     common/optional/jupyter-notebook
     common/optional/media/spotify.nix
     common/optional/secrets/kubeconfig.nix
+    common/optional/development/java.nix
     # common/optional/comms
   ];
 

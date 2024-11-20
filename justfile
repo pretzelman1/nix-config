@@ -1,5 +1,6 @@
 NIX_SECRETS_DIR := "../nix-secrets"
 SOPS_FILE := "{{NIX_SECRETS_DIR}}/secrets.yaml"
+IS_DARWIN := if os() == "macos" { "true" } else { "false" }
 
 # default recipe to display help information
 default:
@@ -32,6 +33,14 @@ rebuild-full: rebuild-pre && rebuild-post
 # Requires sops to be running and you must have reboot after initial rebuild
 rebuild-trace: rebuild-pre && rebuild-post
   scripts/system-flake-rebuild-trace.sh
+
+# Debug host configuration in nix repl
+debug hostname="$(hostname)":
+  if {{IS_DARWIN}}; then \
+    nix repl .#darwinConfigurations.{{hostname}}.system; \
+  else \
+    nix repl .#nixosConfigurations.{{hostname}}.system; \
+  fi
 
 alias u := update
 

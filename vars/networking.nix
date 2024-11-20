@@ -1,9 +1,7 @@
-{
-  lib,
-  ...
-}: rec {
-
+{lib, ...}: rec {
   prefixLength = 24;
+
+  ports.tcp.ssh = 22;
 
   hostsAddr = {
     # ============================================

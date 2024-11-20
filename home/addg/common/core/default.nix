@@ -8,10 +8,12 @@
   nur-ryan4yin,
   ...
 }: {
-  imports = configLib.scanPaths ./. ++ builtins.attrValues outputs.homeManagerModules ++ [
-    ./shells
-    inputs.sops-nix.homeManagerModules.sops
-  ];
+  imports =
+    configLib.scanPaths ./.
+    ++ builtins.attrValues outputs.homeManagerModules
+    ++ [
+      inputs.sops-nix.homeManagerModules.sops
+    ];
 
   home = {
     username = lib.mkDefault "addg";

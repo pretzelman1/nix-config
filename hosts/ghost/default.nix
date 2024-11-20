@@ -4,7 +4,6 @@
 #  NixOS running on Ryzen 5 3600X, Radeon RX 5700 XT, 64GB RAM
 #
 ###############################################################
-
 {
   inputs,
   lib,
@@ -12,8 +11,7 @@
   configLib,
   pkgs,
   ...
-}:
-{
+}: {
   imports = lib.flatten [
     #################### Every Host Needs This ####################
     ./hardware-configuration.nix
@@ -36,7 +34,7 @@
     #################### Misc Inputs ####################
     inputs.stylix.nixosModules.stylix
 
-    (map configLib.relativeToHosts[
+    (map configLib.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
       "common/nixos/core"
@@ -51,8 +49,9 @@
       "common/nixos/optional/hyprland.nix" # window manager
       "common/nixos/optional/thunar.nix" # file manager
       "common/nixos/optional/wayland.nix" # wayland components and pkgs not available in home-manager
-    ])
 
+      "common/users/addg"
+    ])
   ];
 
   networking = {

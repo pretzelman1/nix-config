@@ -5,10 +5,7 @@
 }: let
   username = configVars.username;
   hosts = [
-    "ai-hyprland"
-    "shoukei-hyprland"
-    "ruby"
-    "k3s-prod-1-master-1"
+    "ghost"
   ];
 in
   lib.genAttrs

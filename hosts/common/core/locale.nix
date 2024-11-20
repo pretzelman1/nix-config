@@ -1,4 +1,4 @@
 {lib, ...}: {
   # time.timeZone = "America/Chicago";
-  time.timeZone = "Australia/Perth";
+  time.timeZone = "America/Chicago";
 }

@@ -12,6 +12,7 @@
     go-containerregistry # provides `crane` & `gcrane`, it's similar to skopeo
 
     kubectl
+    kustomize_4
     kubectx
     kubebuilder
     helmfile

@@ -156,6 +156,7 @@ in {
 
       "notion-calendar"
       "discord"
+      "motion"
 
       "cursor"
 

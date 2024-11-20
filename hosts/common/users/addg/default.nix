@@ -32,28 +32,30 @@ in {
     # this is the second argument to recursiveUpdate
     {
       # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
-      users.users.${configVars.username} = {
-        home = configLib.getHomeDirectory configVars.username;
+      users.users.${configVars.username} =
+        {
+          home = configLib.getHomeDirectory configVars.username;
 
-        # These get placed into /etc/ssh/authorized_keys.d/<name> on nixos
-        openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
+          # These get placed into /etc/ssh/authorized_keys.d/<name> on nixos
+          openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
 
-        shell = pkgs.zsh; # default shell
-      } // lib.mkIf (configLib.isLinux) {
-        isNormalUser = lib.mkIf (configLib.isLinux) (true);
-        password = lib.mkIf (configLib.isLinux) ("nixos"); # Overridden if sops is working
+          shell = pkgs.zsh; # default shell
+        }
+        // lib.mkIf (configLib.isLinux) {
+          isNormalUser = lib.mkIf (configLib.isLinux) true;
+          password = lib.mkIf (configLib.isLinux) "nixos"; # Overridden if sops is working
 
-        extraGroups = lib.mkIf (configLib.isLinux) (
-          [ "wheel" ]
-          ++ ifTheyExist [
-            "audio"
-            "video"
-            "docker"
-            "git"
-            "networkmanager"
-          ]
-        );
-      };
+          extraGroups = lib.mkIf (configLib.isLinux) (
+            ["wheel"]
+            ++ ifTheyExist [
+              "audio"
+              "video"
+              "docker"
+              "git"
+              "networkmanager"
+            ]
+          );
+        };
 
       # Proper root user required for borg and some other specific operations
       users.users.root = lib.mkIf (configLib.isLinux) {
@@ -64,11 +66,12 @@ in {
         openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
       };
 
-      # Setup p10k.zsh for root
+      # Setup oh-my-posh for root
       home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) (lib.mkIf (configLib.isLinux) {
         home.stateVersion = "23.05"; # Avoid error
         imports = lib.flatten [
-          (map configLib.relativeToHome
+          (
+            map configLib.relativeToHome
             "${configVars.username}/common/core/oh-my-posh"
           )
         ];
@@ -81,7 +84,8 @@ in {
         rsync
         git
       ];
-    } // lib.mkIf (configLib.isLinux) {
+    }
+    // lib.mkIf (configLib.isLinux) {
       # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
       # systemd.tmpfiles.rules =
       #   let

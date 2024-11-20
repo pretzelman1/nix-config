@@ -4,4 +4,8 @@
     maven
     gradle
   ];
+
+  home.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk}";
+  };
 }

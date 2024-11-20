@@ -10,11 +10,11 @@
 
     #################### Host-specific Optional Configs ####################
     common/optional/helper-scripts
+    common/optional/development/java.nix
     common/darwin/optional/aerospace
     common/optional/jupyter-notebook
     common/optional/media/spotify.nix
     common/optional/secrets/kubeconfig.nix
-    common/optional/development/java.nix
     # common/optional/comms
   ];
 

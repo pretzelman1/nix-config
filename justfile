@@ -87,3 +87,8 @@ sync USER HOST:
 
 sync-secrets USER HOST:
   rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:{{NIX_SECRETS_DIR}}/
+
+nixos-anywhere HOSTNAME IP:
+  nix run github:nix-community/nixos-anywhere -- \
+    --generate-hardware-config nixos-generate-config ./hosts/{{HOSTNAME}}/hardware-configuration.nix \
+    --flake .#{{HOSTNAME}} root@{{IP}}

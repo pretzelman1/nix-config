@@ -16,7 +16,7 @@
     inherit (self) outputs;
     inherit (nixpkgs) lib;
     configVars = import ../vars {inherit inputs lib;};
-    configLib = import ../lib {inherit lib;};
+    configLib = import ../lib {inherit lib configVars;};
     minimalConfigVars = lib.recursiveUpdate configVars {isMinimal = true;};
     minimalSpecialArgs = {
       inherit inputs outputs configLib;
@@ -45,9 +45,9 @@
     nixosConfigurations = {
       # host = newConfig "name" disk" "withSwap" "swapSize"
       # Swap size is in GiB
-      grief = newConfig "grief" "/dev/vda" false "0";
-      guppy = newConfig "guppy" "/dev/vda" false "0";
-      gusto = newConfig "gusto" "/dev/sda" true "8";
+      # grief = newConfig "grief" "/dev/vda" false "0";
+      # guppy = newConfig "guppy" "/dev/vda" false "0";
+      # gusto = newConfig "gusto" "/dev/sda" true "8";
 
       ghost = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

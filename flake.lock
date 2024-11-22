@@ -717,7 +717,7 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -959,11 +959,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1732072412,
-        "narHash": "sha256-+Uc1tTCMfdyl89DHAsYd8KbefcomXnXydrt+yX8uz44=",
+        "lastModified": 1732306597,
+        "narHash": "sha256-k7WUjwPKyK2ZIdU7oWiYS0BwVdur5b5DoKts3xoLqus=",
         "ref": "main",
-        "rev": "386597717f3b8fc9bf82055e16421e780f664515",
-        "revCount": 17,
+        "rev": "4e5b970f63d8d5bbc302ebf755bc9be1ecdb0fbc",
+        "revCount": 18,
         "type": "git",
         "url": "ssh://git@github.com/addg0/nix-secrets.git"
       },

@@ -4,7 +4,7 @@
 }: let
   username = configVars.username;
   hosts = [
-    "fern"
+    "ghost"
   ];
 in
   lib.genAttrs hosts (_: "/Users/${username}")

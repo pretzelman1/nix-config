@@ -9,7 +9,7 @@
     defaultSopsFile = "${nix-secrets}/secrets/secrets.yaml";
     age = {
       sshKeyPaths = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
-      keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+      keyFile = "${config.home.homeDirectory}/.config/sops-nix/age/keys.txt";
       generateKey = true;
     };
   };
@@ -26,7 +26,7 @@
   };
 
   programs.zsh.initExtra = ''
-    export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+    export SOPS_AGE_KEY_FILE=~/.config/sops-nix/age/keys.txt
     export OPENAI_API_KEY=$(cat ${config.sops.secrets.openai_api_key.path})
     export LANGCHAIN_API_KEY=$(cat ${config.sops.secrets.langchain_api_key.path})
     export TAVILY_API_KEY=$(cat ${config.sops.secrets.tavily_api_key.path})

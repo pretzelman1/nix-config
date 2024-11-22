@@ -72,7 +72,7 @@ check-sops:
 
 update-nix-secrets:
   (cd {{NIX_SECRETS_DIR}} && git fetch && git rebase) || true
-  nix flake update nix-secrets
+  nix flake update nix-secrets || true
 
 iso:
   # If we dont remove this folder, libvirtd VM doesnt run with the new iso...

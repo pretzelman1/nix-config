@@ -39,7 +39,7 @@
       #url = "github:nix-community/home-manager/release-24.05";
       #inputs.nixpkgs.follows = "nixpkgs-stable";
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";

@@ -10,7 +10,7 @@
   specialArgs,
   ...
 } @ args: let
-  name = "fern";
+  name = "ghost";
 in {
   # macOS's configuration
   darwinConfigurations.${name} = configLib.macosSystem (args // {

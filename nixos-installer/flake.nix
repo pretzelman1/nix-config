@@ -49,15 +49,15 @@
       # guppy = newConfig "guppy" "/dev/vda" false "0";
       # gusto = newConfig "gusto" "/dev/sda" true "8";
 
-      ghost = nixpkgs.lib.nixosSystem {
+      zephy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = minimalSpecialArgs;
         modules = [
           inputs.disko.nixosModules.disko
-          (configLib.relativeToRoot "hosts/common/disks/ghost.nix")
+          (configLib.relativeToRoot "hosts/common/disks/zephy.nix")
           ./minimal-configuration.nix
-          {networking.hostName = "ghost";}
-          (configLib.relativeToRoot "hosts/ghost/hardware-configuration.nix")
+          {networking.hostName = "zephy";}
+          (configLib.relativeToRoot "hosts/zephy/hardware-configuration.nix")
         ];
       };
 

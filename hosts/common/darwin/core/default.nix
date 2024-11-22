@@ -10,8 +10,8 @@
 }: {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
-    inputs.sops-nix.darwinModules.sops
     inputs.home-manager.darwinModules.home-manager
+    inputs.sops-nix.darwinModules.sops
   ];
 
   environment.systemPackages = with pkgs; [

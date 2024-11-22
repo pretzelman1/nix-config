@@ -10,7 +10,7 @@
   specialArgs,
   ...
 } @ args: let
-  name = "ghost";
+  name = "zephy";
 
   nixosSystemAttrs = configLib.nixosSystem (args // {
     inherit name;

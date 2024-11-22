@@ -31,7 +31,6 @@ in {
     lib.recursiveUpdate fullUserConfig
     # this is the second argument to recursiveUpdate
     {
-      # users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       users.users.${configVars.username} =
         {
           home = configLib.getHomeDirectory configVars.username;
@@ -40,22 +39,20 @@ in {
           openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
 
           shell = pkgs.zsh; # default shell
-        }
-        // lib.mkIf (configLib.isLinux) {
-          isNormalUser = lib.mkIf (configLib.isLinux) true;
-          password = lib.mkIf (configLib.isLinux) "nixos"; # Overridden if sops is working
+        } // (lib.optionalAttrs (configLib.isLinux) {
+          isNormalUser = true;
+          password = "nixos"; # Overridden if sops is working
 
-          extraGroups = lib.mkIf (configLib.isLinux) (
+          extraGroups =
             ["wheel"]
             ++ ifTheyExist [
               "audio"
-              "video"
+              "video" 
               "docker"
               "git"
               "networkmanager"
-            ]
-          );
-        };
+            ];
+        });
 
       # Proper root user required for borg and some other specific operations
       users.users.root = lib.mkIf (configLib.isLinux) {
@@ -78,14 +75,17 @@ in {
       });
 
       # No matter what environment we are in we want these tools for root, and the user(s)
-      programs.zsh.enable = true;
+      programs = {
+        zsh.enable = true;
+      };
       environment.systemPackages = with pkgs; [
         just
         rsync
         git
       ];
     }
-    // lib.mkIf (configLib.isLinux) {
+    // (lib.optionalAttrs (configLib.isLinux) {
+      users.mutableUsers = false; # Only allow declarative credentials; Required for sops
       # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
       # systemd.tmpfiles.rules =
       #   let
@@ -93,5 +93,5 @@ in {
       #     group = config.users.users.${configVars.username}.group;
       #   in
       #   [ "d /home/${configVars.username}/.ssh/sockets 0750 ${user} ${group} -" ];
-    };
+    });
 }

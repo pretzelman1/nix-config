@@ -20,6 +20,7 @@ in
           enable = true;
           enableRosetta = true;
           user = "${configVars.username}";
+          autoMigrate = true;
         };
       }
       ../hosts/${name}

@@ -6,7 +6,7 @@
   ...
 }: let
   hosts = [
-    "fern"
+    "ghost"
   ];
   # add my domain to each host
   hostDomains = map (h: "${h}.${configVars.domain}") hosts;
@@ -31,7 +31,7 @@
 
   # Lots of hosts have the same default config, so don't duplicate
   vanillaHosts = [
-    "fern"
+    "ghost"
   ];
   vanillaHostsConfig = lib.attrsets.mergeAttrsList (
     lib.lists.map (host: {

@@ -3,7 +3,7 @@
   outputs,
 }: let
   specialExpected = {
-    ghost = "ghost";
+    zephy = "zephy";
   };
   specialHostNames = builtins.attrNames specialExpected;
 

@@ -3,4 +3,5 @@
 {
   copyq = import ./copyq.nix;
   monitors = import ./monitors.nix;
+  fzf-git = import ./fzf-git.nix;
 }

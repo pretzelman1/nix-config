@@ -1,3 +1,4 @@
+{ config, ... }:
 let
   shellAliases = {
     "t" = "tmux";
@@ -8,9 +9,10 @@ in {
     tmuxinator.enable = true;
     tmuxp.enable = true;
     mouse = true;
-    extraConfig = ''
-      ${builtins.readFile ./tmux.conf}
-    '';
+    terminal = config.home.sessionVariables.TERM;
+    shell = config.home.sessionVariables.SHELL;
+    sensibleOnTop = true;
+    # extraConfig = builtins.readFile ./tmux.conf;
   };
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;

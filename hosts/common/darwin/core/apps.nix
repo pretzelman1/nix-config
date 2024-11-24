@@ -155,7 +155,6 @@ in {
       "amazon-q"
 
       "notion-calendar"
-      "discord"
       "motion"
 
       "cursor"

@@ -74,15 +74,13 @@
         wvous-br-corner = 13; # bottom-right - Lock Screen
 
         persistent-apps = [
-          "/Applications/OpenVPN Connect/OpenVPN Connect.app"
           "/Applications/Arc.app"
-          "${pkgs.kitty}/Applications/Kitty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.jetbrains.idea-ultimate}/Applications/IntelliJ IDEA.app"
+          "${pkgs.jetbrains.pycharm-professional}/Applications/PyCharm.app"
           "${pkgs.postman}/Applications/Postman.app"
           "${pkgs.slack}/Applications/Slack.app"
-          # "${pkgs.discord}/Applications/Discord.app"
-          # "${pkgs.slack}/Applications/Slack.app"
+          "${pkgs.discord}/Applications/Discord.app"
           "${pkgs.lens}/Applications/Lens.app"
         ];
       };

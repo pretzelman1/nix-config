@@ -6,7 +6,7 @@
   imports = [
     #################### Required Configs ####################
     common/core # required
-    common/darwin
+    # common/darwin
 
     #################### Host-specific Optional Configs ####################
     common/optional/helper-scripts
@@ -15,7 +15,8 @@
     common/optional/jupyter-notebook
     common/optional/media/spotify.nix
     common/optional/secrets/kubeconfig.nix
-    # common/optional/comms
+    common/optional/comms
+    common/optional/development/ide.nix
   ];
 
   home = {

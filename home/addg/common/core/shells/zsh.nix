@@ -82,8 +82,6 @@ in {
 
     shellAliases = {
       "k" = "kubectl";
-      "t" = "tmux";
-      "td" = "default_tmux_session";
       "tf" = "terraform";
     };
 
@@ -106,22 +104,6 @@ in {
 
       _fzf_compgen_dir() {
           fd --type d --hidden --exclude ".git" . "$1"
-      }
-
-      function default_tmux_session() {
-          if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-              if timeout 1s tmux has-session -t default 2>/dev/null; then
-                  tmux attach-session -t default
-              else
-                  exit_status=$?
-                  if [ $exit_status -eq 124 ]; then
-                      echo "Operation timed out"
-                      exit 1
-                  else
-                      tmux new-session -s default -c "$PWD"
-                  fi
-              fi
-          fi
       }
 
       function toggle_internet_checker() {

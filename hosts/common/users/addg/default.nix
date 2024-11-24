@@ -54,26 +54,6 @@ in {
             ];
         });
 
-      # Proper root user required for borg and some other specific operations
-      users.users.root = lib.mkIf (configLib.isLinux) {
-        shell = pkgs.zsh;
-        hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
-        password = lib.mkForce config.users.users.${configVars.username}.password;
-        # root's ssh keys are mainly used for remote deployment.
-        openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
-      };
-
-      # Setup oh-my-posh for root
-      home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) (lib.mkIf (configLib.isLinux) {
-        home.stateVersion = "23.05"; # Avoid error
-        imports = lib.flatten [
-          (
-            map configLib.relativeToHome
-            "${configVars.username}/common/core/oh-my-posh"
-          )
-        ];
-      });
-
       # No matter what environment we are in we want these tools for root, and the user(s)
       programs = {
         zsh.enable = true;

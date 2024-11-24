@@ -12,6 +12,7 @@
 in {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
+    ../users/root
   ];
 
   # This should be handled by config.security.pam.sshAgentAuth.enable

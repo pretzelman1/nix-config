@@ -66,6 +66,7 @@
         # do not automatically rearrange spaces based on most recent use.
         mru-spaces = true;
         expose-group-by-app = true; # Group windows by application
+        enable-spring-load-actions-on-all-items = true;
 
         # customize Hot Corners(触发角, 鼠标移动到屏幕角落时触发的动作)
         wvous-tl-corner = 2; # top-left - Mission Control

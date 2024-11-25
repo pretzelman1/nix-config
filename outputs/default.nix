@@ -86,26 +86,20 @@ in {
     }
     // lib.attrsets.mergeAttrsList (map (it: it.colmena or {}) nixosSystemValues);
 
-  # Packages
-  packages = forAllSystems (
-    system: allSystems.${system}.packages or {}
-  );
-
   # Eval Tests for all NixOS & darwin systems.
   evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
 
-  checks = forAllSystems (
-    system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      import ../checks {inherit inputs system pkgs;}
-  );
+  # Packages, checks, devShells and formatter for all systems
+  packages = forAllSystems (system: let
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    packages = allSystems.${system}.packages or {};
+    checks = import ../checks {inherit inputs system pkgs;};
+    devShells = import ./devshell.nix {inherit self nixpkgs;} system;
+    formatter = pkgs.alejandra;
+  });
 
-  # Development Shells
-  devShells = forAllSystems (import ./devshell.nix { inherit self nixpkgs; });
-
-  # Format the nix code in this flake
-  formatter = forAllSystems (
-    system: nixpkgs.legacyPackages.${system}.alejandra
-  );
+  checks = forAllSystems (system: packages.${system}.checks);
+  devShells = forAllSystems (system: packages.${system}.devShells); 
+  formatter = forAllSystems (system: packages.${system}.formatter);
 }

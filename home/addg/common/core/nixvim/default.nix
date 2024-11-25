@@ -214,4 +214,9 @@
     # vim.cmd("highlight iCursor guifg=black guibg=orange");
     # '';
   };
+
+  home.shellAliases = {
+    v = "nvim";
+    vi = "nvim";
+  };
 }

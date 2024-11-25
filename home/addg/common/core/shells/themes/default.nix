@@ -1,0 +1,6 @@
+{
+  configLib,
+  ...
+}: {
+  imports = configLib.scanPaths ./.;
+}

@@ -20,7 +20,7 @@
       imports = lib.flatten [
         (
           map configLib.relativeToHome
-          "${configVars.username}/common/core/oh-my-posh"
+          "${configVars.username}/common/core/shells/themes/oh-my-posh"
         )
       ];
     };

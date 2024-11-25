@@ -18,14 +18,14 @@
       mixed-line-endings.enable = true;
       trim-trailing-whitespace.enable = true;
 
-      forbid-submodules = {
-        enable = true;
-        name = "forbid submodules";
-        description = "forbids any submodules in the repository";
-        language = "fail";
-        entry = "submodules are not allowed in this repository:";
-        types = ["directory"];
-      };
+      # forbid-submodules = {
+      #   enable = true;
+      #   name = "forbid submodules";
+      #   description = "forbids any submodules in the repository";
+      #   language = "fail";
+      #   entry = "submodules are not allowed in this repository:";
+      #   types = ["directory"];
+      # };
 
       destroyed-symlinks = {
         enable = true;

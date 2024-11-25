@@ -100,6 +100,6 @@ in {
   });
 
   checks = forAllSystems (system: packages.${system}.checks);
-  devShells = forAllSystems (system: packages.${system}.devShells); 
+  devShells = forAllSystems (system: packages.${system}.devShells);
   formatter = forAllSystems (system: packages.${system}.formatter);
 }

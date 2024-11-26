@@ -48,6 +48,16 @@
 
   # Helper function to generate a set of attributes for each system
   forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
+
+  # Packages, checks, devShells and formatter for all systems
+  packages = forAllSystems (system: let
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    packages = allSystems.${system}.packages or {};
+    checks = import ../checks {inherit inputs system pkgs;};
+    devShells = import ./devshell.nix {inherit self nixpkgs;} system;
+    formatter = pkgs.alejandra;
+  });
 in {
   # Add attribute sets into outputs, for debugging
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
@@ -88,16 +98,6 @@ in {
 
   # Eval Tests for all NixOS & darwin systems.
   evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
-
-  # Packages, checks, devShells and formatter for all systems
-  packages = forAllSystems (system: let
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    packages = allSystems.${system}.packages or {};
-    checks = import ../checks {inherit inputs system pkgs;};
-    devShells = import ./devshell.nix {inherit self nixpkgs;} system;
-    formatter = pkgs.alejandra;
-  });
 
   checks = forAllSystems (system: packages.${system}.checks);
   devShells = forAllSystems (system: packages.${system}.devShells);

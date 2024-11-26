@@ -17,6 +17,7 @@
     common/optional/secrets/kubeconfig.nix
     common/optional/comms
     common/optional/development/ide.nix
+    common/optional/development/tilt.nix
   ];
 
   home = {

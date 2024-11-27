@@ -18,6 +18,7 @@
     common/optional/comms
     common/optional/development/ide.nix
     common/optional/development/tilt.nix
+    common/optional/development/aws.nix
   ];
 
   home = {

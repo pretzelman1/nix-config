@@ -959,11 +959,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1732667555,
-        "narHash": "sha256-c5BN73kOk9/H2UHcBhiuqghCeZ/zARpoKO2UNZVaOog=",
+        "lastModified": 1732670080,
+        "narHash": "sha256-Eh79kea5De5RUktkQglqILUys+swmImGc2PL/Ev+yM4=",
         "ref": "main",
-        "rev": "4d246dbf85affc252877b3a0d9163045752ec524",
-        "revCount": 22,
+        "rev": "6b1dd316b1ea7a37d6808fd61cd14d2feedee2e1",
+        "revCount": 23,
         "type": "git",
         "url": "ssh://git@github.com/addg0/nix-secrets.git"
       },

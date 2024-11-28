@@ -82,7 +82,7 @@
           "${pkgs.postman}/Applications/Postman.app"
           "${pkgs.slack}/Applications/Slack.app"
           "${pkgs.discord}/Applications/Discord.app"
-          "${pkgs.lens}/Applications/Lens.app"
+          # "${pkgs.lens}/Applications/Lens.app"
         ];
       };
 

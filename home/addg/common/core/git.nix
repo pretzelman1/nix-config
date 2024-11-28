@@ -32,6 +32,7 @@ in {
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
       pull.rebase = "true";
+      core.pager = "bat --paging=always --plain";
       url = {
         "ssh://git@github.com" = {
           insteadOf = "https://github.com";

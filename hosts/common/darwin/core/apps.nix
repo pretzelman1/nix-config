@@ -156,7 +156,7 @@ in {
 
       "notion-calendar"
       "motion"
-
+      # "lens"
       "cursor"
 
       "langgraph-studio"

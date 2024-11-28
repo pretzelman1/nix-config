@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     awscli2
     ssm-session-manager-plugin
+    kubelogin # AWS Kubernetes was complaining about not being able to find the plugin
   ];
 
   sops.secrets.aws_credentials = {

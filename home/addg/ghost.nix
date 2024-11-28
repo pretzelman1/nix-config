@@ -5,8 +5,8 @@
 }: {
   imports = [
     #################### Required Configs ####################
-    common/core # required
-    # common/darwin
+    common/core
+    common/darwin/core
 
     #################### Host-specific Optional Configs ####################
     common/optional/helper-scripts

@@ -11,6 +11,7 @@
   ...
 } @ args: let
   name = "worker-1";
+  ssh-user = "add";
   tags = [name];
 
   nixosSystemAttrs = configLib.nixosSystem (args
@@ -27,7 +28,7 @@ in {
       {
         targetHost = configVars.networking.hostsAddr.${name}.ipv4;
         targetPort = 22;
-        targetUser = configVars.username;
+        targetUser = ssh-user;
         buildOnTarget = true;
       }
       // {inherit tags;};

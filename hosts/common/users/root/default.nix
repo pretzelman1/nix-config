@@ -20,8 +20,9 @@
       home.stateVersion = "23.05"; # Avoid error
       imports = lib.flatten [
         (
-          map configLib.relativeToHome
-          "${configVars.username}/common/core/shells/themes/oh-my-posh"
+          map configLib.relativeToHome [
+            "${configVars.username}/common/core/cli/themes/oh-my-posh"
+          ]
         )
       ];
     };

@@ -30,7 +30,7 @@
       TERMINAL = "xterm-256color";
       VISUAL = "nvim";
       EDITOR = "nvim";
-      MANPAGER = "batman"; # see ./cli/bat.nix
+      MANPAGER = "bat --paging=always --plain"; # see ./cli/bat.nix
     };
     preferXdgDirectories = true; # whether to make programs use XDG directories whenever supported
   };

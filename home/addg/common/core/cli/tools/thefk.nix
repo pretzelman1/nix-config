@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.thefuck = {
     # TODO: make this work
     enable = true;

@@ -1,5 +1,7 @@
-# You can build these directly using 'nix build .#example'
-{pkgs ? import <nixpkgs> {}}: rec {
+{
+  pkgs ? import <nixpkgs> {},
+  configLib,
+}: rec {
   #################### Packages with external source ####################
-  fzf-git = pkgs.callPackage ./programs/fzf-git.nix {};
+  imports = configLib.scanPaths ./top-level;
 }

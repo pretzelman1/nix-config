@@ -12,9 +12,10 @@
 } @ args: let
   name = "zephy";
 
-  nixosSystemAttrs = configLib.nixosSystem (args // {
-    inherit name;
-  });
+  nixosSystemAttrs = configLib.nixosSystem (args
+    // {
+      inherit name;
+    });
   inherit (nixosSystemAttrs) nixosSystem modules system;
 in {
   # NixOS's configuration

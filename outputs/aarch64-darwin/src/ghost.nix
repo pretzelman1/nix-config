@@ -13,7 +13,8 @@
   name = "ghost";
 in {
   # macOS's configuration
-  darwinConfigurations.${name} = configLib.macosSystem (args // {
-    inherit name;
-  });
+  darwinConfigurations.${name} = configLib.macosSystem (args
+    // {
+      inherit name;
+    });
 }

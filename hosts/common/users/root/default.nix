@@ -1,11 +1,12 @@
-{ pkgs
-, config
-, lib
-, configVars
-, configLib
-, ...
+{
+  pkgs,
+  config,
+  lib,
+  configVars,
+  configLib,
+  ...
 }: {
-  config = lib.mkIf (configLib.isLinux) {
+  config = lib.mkIf (pkgs.stdenv.isLinux) {
     users.users.root = {
       shell = pkgs.zsh;
       hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
@@ -25,4 +26,4 @@
       ];
     };
   };
-} 
+}

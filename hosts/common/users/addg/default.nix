@@ -29,7 +29,7 @@
   # Linux-specific user configuration
   linuxUserConfig = {
     users = {
-      mutableUsers = false;
+      # mutableUsers = false;
       users.${configVars.username} = {
         isNormalUser = true;
         password = "nixos";
@@ -54,9 +54,9 @@
     );
   };
 in {
-  config = lib.mkMerge [
+  imports = [
     baseUserConfig
-    # (lib.optionalAttrs pkgs.stdenv.isLinux linuxUserConfig)
+    (lib.mkIf pkgs.stdenv.isLinux linuxUserConfig)
     fullEnvConfig
   ];
 }

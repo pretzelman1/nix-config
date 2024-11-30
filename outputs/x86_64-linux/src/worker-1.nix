@@ -11,6 +11,7 @@
   ...
 } @ args: let
   name = "worker-1";
+  tags = [name];
 
   nixosSystemAttrs = configLib.nixosSystem (args
     // {
@@ -22,12 +23,14 @@ in {
   nixosConfigurations.${name} = nixosSystem;
 
   colmena.${name} = {
-    deployment = {
-      targetHost = "somehost.tld";
-      targetPort = 1234;
-      targetUser = "luser";
-      buildOnTarget = true;
-    };
+    deployment =
+      {
+        targetHost = configVars.networking.hostsAddr.${name}.ipv4;
+        targetPort = 22;
+        targetUser = configVars.username;
+        buildOnTarget = true;
+      }
+      // {inherit tags;};
 
     imports = modules;
   };

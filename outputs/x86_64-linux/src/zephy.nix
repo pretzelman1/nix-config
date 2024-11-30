@@ -21,14 +21,14 @@ in {
   # NixOS's configuration
   nixosConfigurations.${name} = nixosSystem;
 
-  colmena.${name} = {
-    deployment = {
-      targetHost = "somehost.tld";
-      targetPort = 1234;
-      targetUser = "luser";
-      buildOnTarget = true;
-    };
+  # colmena.${name} = {
+  #   deployment = {
+  #     targetHost = "somehost.tld";
+  #     targetPort = 1234;
+  #     targetUser = "luser";
+  #     buildOnTarget = true;
+  #   };
 
-    imports = modules;
-  };
+  #   imports = modules;
+  # };
 }

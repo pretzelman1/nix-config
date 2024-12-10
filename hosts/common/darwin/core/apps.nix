@@ -141,6 +141,7 @@ in {
       "openvpn-connect"
       "1password"
       "orbstack"
+      "docker" # Docker Desktop needed for vscode devcontainers
       "sharemouse"
       "caffeine"
 

@@ -64,7 +64,6 @@ in {
       # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
       TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ ["/usr/share/terminfo"];
 
-      EDITOR = "nvim";
       HOMEBREW_NO_ENV_HINTS = "1";
     }
     # Set variables for you to manually install homebrew packages.
@@ -137,7 +136,7 @@ in {
     # `brew install --cask`
     casks = [
       "arc"
-      "firefox"
+      "firefox@developer-edition"
       "synology-drive"
       "openvpn-connect"
       "1password"

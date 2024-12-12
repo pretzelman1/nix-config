@@ -12,6 +12,7 @@
     (configLib.scanPaths ./.)
     inputs.home-manager.darwinModules.home-manager
     inputs.sops-nix.darwinModules.sops
+    inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
   environment.systemPackages = with pkgs; [

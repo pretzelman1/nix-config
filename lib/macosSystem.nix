@@ -14,15 +14,6 @@ in
     inherit system specialArgs;
     modules = [
       {home-manager.extraSpecialArgs = specialArgs;}
-      nix-homebrew.darwinModules.nix-homebrew
-      {
-        nix-homebrew = {
-          enable = true;
-          enableRosetta = true;
-          user = "${configVars.username}";
-          autoMigrate = true;
-        };
-      }
       ../hosts/${name}
     ];
   }

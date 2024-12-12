@@ -137,6 +137,7 @@ in {
     # `brew install --cask`
     casks = [
       "arc"
+      "firefox"
       "synology-drive"
       "openvpn-connect"
       "1password"

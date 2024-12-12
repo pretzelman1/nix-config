@@ -1,6 +1,6 @@
 {
-  # programs.fzf-git = {
-  #   enable = true;
-  #   enableZshIntegration = true;
-  # };
+  programs.fzf-git = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }

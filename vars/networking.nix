@@ -14,8 +14,9 @@
     # ============================================
     # Workstations
     # ============================================
-    worker-1 = {
-      ipv4 = "10.10.14.54";
+    stark = {
+      ipv4 = "10.10.15.228";
+      identityFile = "/Users/addg/.ssh/id_ed25519_server";
     };
 
     # ============================================
@@ -70,12 +71,18 @@
     # '';
     extraConfig =
       lib.attrsets.foldlAttrs
-      (acc: host: val:
+      (acc: host: val: let
+        identityFileConfig =
+          if val ? identityFile
+          then "  IdentityFile ${val.identityFile}"
+          else "";
+      in
         acc
         + ''
           Host ${host}
             HostName ${val.ipv4}
             Port 22
+          ${identityFileConfig}
         '')
       ""
       hostsAddr;

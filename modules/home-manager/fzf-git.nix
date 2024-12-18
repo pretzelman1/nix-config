@@ -1,11 +1,13 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.programs.fzf-git;
 in {
-  meta.maintainers = [ ];
+  meta.maintainers = [];
 
   options.programs.fzf-git = {
     enable = mkEnableOption "fzf-git, git utilities for fzf";
@@ -18,7 +20,7 @@ in {
 
         src = pkgs.fetchFromGitHub {
           owner = "junegunn";
-          repo = "fzf-git.sh"; 
+          repo = "fzf-git.sh";
           rev = "main";
           hash = null;
         };
@@ -47,7 +49,16 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ cfg.package pkgs.bat ];
+    home.packages = with pkgs;
+      [
+        cfg.package
+        bat
+      ]
+      ++ lib.optionals pkgs.stdenv.isLinux [
+        fzf
+        git
+        perl
+      ];
 
     programs.zsh.initExtra = mkIf cfg.enableZshIntegration ''
       source ${cfg.package}/share/fzf-git/fzf-git.sh

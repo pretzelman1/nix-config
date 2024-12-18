@@ -10,8 +10,8 @@
   specialArgs,
   ...
 } @ args: let
-  name = "worker-1";
-  ssh-user = "add";
+  name = "stark";
+  ssh-user = "addg";
   tags = [name];
 
   nixosSystemAttrs = configLib.nixosSystem (args

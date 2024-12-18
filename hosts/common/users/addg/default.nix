@@ -52,12 +52,6 @@
     home-manager.users.${configVars.username} = import (
       configLib.relativeToHome "${configVars.username}/${config.networking.hostName}.nix"
     );
-    nix-homebrew = {
-      enable = true;
-      enableRosetta = true;
-      user = "${configVars.username}";
-      autoMigrate = true;
-    };
   };
 in {
   imports = [

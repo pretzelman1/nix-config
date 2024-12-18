@@ -4,7 +4,7 @@ set -eo pipefail
 # User variables
 target_hostname=""
 target_destination=""
-target_user="addg"
+target_user="root"
 ssh_key=""
 ssh_port="22"
 persist_dir=""

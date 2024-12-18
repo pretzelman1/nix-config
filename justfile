@@ -1,6 +1,7 @@
 NIX_SECRETS_DIR := "../nix-secrets"
 SOPS_FILE := "{{NIX_SECRETS_DIR}}/secrets.yaml"
 IS_DARWIN := if os() == "macos" { "true" } else { "false" }
+DEFAULT_USER := "addg"
 
 # default recipe to display help information
 default:
@@ -91,11 +92,14 @@ disko DRIVE PASSWORD:
     --arg password '"{{PASSWORD}}"'
   rm /tmp/disko-password
 
-sync USER HOST:
+sync HOST USER=DEFAULT_USER:
   rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:nix-config/
 
-sync-secrets USER HOST:
-  rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:{{NIX_SECRETS_DIR}}/
+sync-secrets HOST USER=DEFAULT_USER:
+  rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:nix-secrets/
+
+sync-ssh HOST USER=DEFAULT_USER:
+  rsync -av -e "ssh -l {{USER}}" ~/.ssh/id_ed25519* {{USER}}@{{HOST}}:~/.ssh/
 
 nixos-anywhere HOSTNAME IP USER="root" SSH_OPTS="":
   nix run github:nix-community/nixos-anywhere -- \

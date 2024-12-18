@@ -49,6 +49,8 @@
       # guppy = newConfig "guppy" "/dev/vda" false "0";
       # gusto = newConfig "gusto" "/dev/sda" true "8";
 
+      stark = newConfig "stark" "/dev/sda" false "0";
+
       zephy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = minimalSpecialArgs;

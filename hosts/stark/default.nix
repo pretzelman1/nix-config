@@ -17,19 +17,9 @@
     ./hardware-configuration.nix
 
     #################### Hardware Modules ####################
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-amd
-    inputs.hardware.nixosModules.common-pc-ssd
-
-    #################### Disk Layout ####################
-    inputs.disko.nixosModules.disko
-    (configLib.relativeToHosts "common/nixos/disks/standard-disk-config.nix")
-    {
-      _module.args = {
-        disk = "/dev/sda";
-        withSwap = false;
-      };
-    }
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-gpu-amd
+    # inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Misc Inputs ####################
     (map configLib.relativeToHosts [
@@ -46,13 +36,18 @@
   ];
 
   networking = {
-    hostName = "worker-1";
+    hostName = "stark";
     networkmanager.enable = true;
     enableIPv6 = false;
   };
 
   boot.loader = {
-    systemd-boot.enable = true;
+    grub = {
+      enable = true;
+      device = "/dev/sda";
+      useOSProber = true;
+    };
+    # systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };

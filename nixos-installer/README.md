@@ -73,7 +73,7 @@ Change the boot order so DVD-ROM is second and the installation disk is first. T
 This is an example of running it from `nix-config` base folder installing on a VM (`okra`):
 
 ```bash
-scripts/bootstrap-nixos.sh -n=okra -d=192.168.122.29 -k=~/.ssh/id_dade -u=root --impermanence
+scripts/bootstrap-nixos.sh -n okra -d 192.168.122.29 -k ~/.ssh/id_dade -u root --impermanence
 ```
 
 This will give you of few yes/no questions, but if everything works you should end up with a fully functional system

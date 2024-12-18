@@ -5,7 +5,7 @@
     show-recents = true; # do not show recent apps in dock
     # do not automatically rearrange spaces based on most recent use.
     mru-spaces = true;
-    expose-group-by-app = true; # Group windows by application
+    expose-group-apps = true; # Group windows by application
     enable-spring-load-actions-on-all-items = true;
 
     # customize Hot Corners(触发角, 鼠标移动到屏幕角落时触发的动作)

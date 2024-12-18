@@ -15,6 +15,7 @@
     kustomize_4
     kubectx
     kubebuilder
+    telepresence2
     helmfile
     istioctl
     clusterctl # for kubernetes cluster-api

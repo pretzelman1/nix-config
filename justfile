@@ -9,7 +9,7 @@ default:
 
 rebuild-pre: update-nix-secrets
   git pull || true
-  git add '**/*.nix'
+  git add '**/*'
 
 rebuild-post:
   just check-sops

@@ -15,6 +15,11 @@
       runtimeInputs = with pkgs; [];
       text = builtins.readFile ./toggle-internet.sh;
     };
+    kill-cursor-rag = pkgs.writeShellApplication {
+      name = "kill-cursor-rag";
+      runtimeInputs = with pkgs; [];
+      text = builtins.readFile ./kill-cursor-rag.sh;
+    };
   };
 in {
   home.packages = builtins.attrValues scripts;

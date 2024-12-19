@@ -9,5 +9,6 @@
     (configLib.scanPaths ./.)
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
+    ../../users/root
   ];
 }

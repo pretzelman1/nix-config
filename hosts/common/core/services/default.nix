@@ -4,8 +4,8 @@
 {
   input,
   outputs,
-  configLib,
+  lib,
   ...
 }: {
-  imports = configLib.scanPaths ./.;
+  imports = lib.custom.scanPaths ./.;
 }

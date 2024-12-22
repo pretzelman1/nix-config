@@ -2,13 +2,11 @@
   pkgs,
   lib,
   config,
-  configLib,
-  configVars,
   ...
 }: let
-  handle = configVars.handle;
-  publicGitEmail = configVars.gitHubEmail;
-  username = configVars.username;
+  handle = config.hostSpec.handle;
+  publicGitEmail = config.hostSpec.gitHubEmail;
+  username = config.hostSpec.username;
 in {
   programs.git = {
     enable = true;

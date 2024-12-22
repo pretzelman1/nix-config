@@ -1,12 +1,8 @@
-{
-  config,
-  configVars,
-  ...
-}: {
+{config, ...}: {
   sops.secrets = {
     "msmtp-password" = {
-      owner = config.users.users.${configVars.username}.name;
-      inherit (config.users.users.${configVars.username}) group;
+      owner = config.users.users.${config.hostSpec.username}.name;
+      inherit (config.users.users.${config.hostSpec.username}) group;
     };
   };
 
@@ -16,13 +12,13 @@
 
     accounts = {
       "default" = {
-        host = "${configVars.email.msmtp-host}";
+        host = "${config.hostSpec.email.msmtp-host}";
         port = 587;
         auth = true;
         tls = true;
         tls_starttls = true;
-        from = "${configVars.email.notifier}";
-        user = "${configVars.email.notifier}";
+        from = "${config.hostSpec.email.notifier}";
+        user = "${config.hostSpec.email.notifier}";
         passwordeval = "cat ${config.sops.secrets."msmtp-password".path}";
         logfile = "~/.msmtp.log";
       };

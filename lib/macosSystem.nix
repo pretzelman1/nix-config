@@ -2,8 +2,7 @@
   lib,
   name,
   inputs,
-  configLib,
-  configVars,
+  config,
   system,
   specialArgs,
   ...
@@ -19,7 +18,7 @@ in
         nix-homebrew = {
           enable = true;
           enableRosetta = true;
-          user = "${configVars.username}";
+          user = "${config.hostSpec.username}";
           autoMigrate = true;
         };
       }

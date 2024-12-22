@@ -7,8 +7,7 @@
 {
   inputs,
   lib,
-  configVars,
-  configLib,
+  config,
   pkgs,
   ...
 }: {
@@ -22,7 +21,7 @@
     # inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Misc Inputs ####################
-    (map configLib.relativeToHosts [
+    (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
       "common/nixos/core"
@@ -36,7 +35,7 @@
   ];
 
   networking = {
-    hostName = "stark";
+    hostName = "k3s-prod-1-master-1";
     networkmanager.enable = true;
     enableIPv6 = false;
   };
@@ -56,5 +55,5 @@
     systemd.enable = true;
   };
 
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = config.hostSpec.system.stateVersion;
 }

@@ -4,7 +4,6 @@
   # and these arguments are used in the functions like `configLib.nixosSystem`, `configLib.colmenaSystem`, etc.
   inputs,
   lib,
-  configLib,
   configVars,
   system,
   specialArgs,
@@ -13,7 +12,7 @@
   name = "ghost";
 in {
   # macOS's configuration
-  darwinConfigurations.${name} = configLib.macosSystem (args
+  darwinConfigurations.${name} = lib.custom.macosSystem (args
     // {
       inherit name;
     });

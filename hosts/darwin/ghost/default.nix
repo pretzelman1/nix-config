@@ -1,20 +1,18 @@
 #############################################################
 #
 #  ghost - Main Desktop
-#  MacOS running on M3 Max, 64GB RAM
+#  MacOS running on M4 Max, 128GB RAM
 #
 ###############################################################
 {
   inputs,
   lib,
-  configVars,
   config,
-  configLib,
   pkgs,
   ...
 }: {
   imports = lib.flatten [
-    (map configLib.relativeToHosts [
+    (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
       "common/darwin/core"
@@ -27,10 +25,14 @@
     ])
   ];
 
-  networking.hostName = "ghost";
+  hostSpec = {
+    hostName = "ghost";
+  };
+
   networking.computerName = config.networking.hostName;
   system.defaults.smb.NetBIOSName = config.networking.hostName;
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = 4;
+  nixpkgs.hostPlatform = "aarch64-darwin";
 }

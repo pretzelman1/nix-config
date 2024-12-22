@@ -4,15 +4,48 @@
   config,
   inputs,
   outputs,
-  configLib,
-  configVars,
-  nix-secrets,
+  isDarwin,
   ...
 }: let
+  platform =
+    if isDarwin
+    then "darwin"
+    else "nixos";
+  platformModules = "${platform}Modules";
 in {
   imports = lib.flatten [
-    (configLib.scanPaths ./.)
+    inputs.home-manager.${platformModules}.home-manager
+    inputs.sops-nix.${platformModules}.sops
+
+    (lib.custom.scanPaths ./.)
+    (map lib.custom.relativeToRoot [
+      "modules/common"
+      "modules/${platform}"
+    ])
+    (map lib.custom.relativeToHosts [
+      "common/${platform}/core"
+    ])
   ];
+
+  #
+  # ========== Core Host Specifications ==========
+  #
+  hostSpec = {
+    username = "addg";
+    handle = "addg";
+    userFullName = "addgamer09";
+    domain = "addg0.com";
+    system.stateVersion = "24.11";
+
+    # inherit (inputs.nix-secrets) # TODO: Move to secrets.nix
+    #   domain
+    #   email
+    #   userFullName
+    #   networking
+    #   ;
+  };
+
+  networking.hostName = config.hostSpec.hostName;
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
   security.sudo.extraConfig = ''
@@ -28,13 +61,5 @@ in {
       inherit inputs outputs;
     };
     backupFileExtension = "backup";
-  };
-
-  nixpkgs = {
-    # you can add global overlays here
-    overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
   };
 }

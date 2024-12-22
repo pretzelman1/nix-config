@@ -1,7 +1,7 @@
 {
   inputs,
   config,
-  configLib,
+  outputs,
   lib,
   ...
 }: {
@@ -40,6 +40,14 @@
     #    };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    # you can add global overlays here
+    overlays = [
+      outputs.overlays.default
+    ];
+    # Allow unfree packages
+    config = {
+      allowUnfree = true;
+    };
+  };
 }

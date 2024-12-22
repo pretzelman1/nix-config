@@ -4,7 +4,7 @@
   name,
   system,
   specialArgs,
-  configVars,
+  config,
   ...
 }: let
   inherit (inputs) nixpkgs home-manager nixos-generators;

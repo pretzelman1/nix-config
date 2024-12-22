@@ -1,11 +1,10 @@
 {
-  configLib,
   config,
   lib,
   pkgs,
   ...
 }: {
-  imports = configLib.scanPaths ./.;
+  imports = lib.custom.scanPaths ./.;
 
   # Install MacOS applications to the user environment if the targetPlatform is Darwin
   home.file."Applications/home-manager".source = let

@@ -1,6 +1,5 @@
 {
   config,
-  configLib,
   lib,
   nix-secrets,
   ...

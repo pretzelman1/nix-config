@@ -1,8 +1,4 @@
-{
-  configVars,
-  configLib,
-  ...
-}: {
+{config, ...}: {
   imports = [
     #################### Required Configs ####################
     common/core # required
@@ -15,7 +11,7 @@
   ];
 
   home = {
-    username = configVars.username;
-    homeDirectory = configLib.getHomeDirectory configVars.username;
+    username = config.hostSpec.username;
+    homeDirectory = lib.custom.getHomeDirectory config.hostSpec.username;
   };
 }

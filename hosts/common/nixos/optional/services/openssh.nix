@@ -1,10 +1,10 @@
 {
   pkgs,
   lib,
-  configVars,
+  config,
   ...
 }: let
-  sshPort = configVars.networking.ports.tcp.ssh;
+  sshPort = config.hostSpec.networking.ports.tcp.ssh;
 
   # Sops needs access to the keys before the persist dirs are even mounted; so
   # just persisting the keys won't work, we must point at /persist

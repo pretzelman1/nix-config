@@ -1,3 +1,3 @@
-{configVars, ...}: {
-  # programs.ssh.extraConfig = configVars.networking.ssh.extraConfig;
+{config, ...}: {
+  # programs.ssh.extraConfig = config.hostSpec.networking.ssh.extraConfig;
 }

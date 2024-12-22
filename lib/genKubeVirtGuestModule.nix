@@ -2,7 +2,7 @@
   pkgs,
   hostName,
   networking,
-  configVars,
+  config,
   ...
 }: let
   inherit (networking) defaultGateway nameservers;
@@ -35,5 +35,5 @@ in {
     linkConfig.RequiredForOnline = "routable";
   };
 
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = config.hostSpec.system.stateVersion;
 }

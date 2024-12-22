@@ -3,12 +3,10 @@
   inputs,
   config,
   lib,
-  configVars,
-  configLib,
   ...
 }: let
-  userConfig = configLib.genUser {
-    user = configVars.username;
+  userConfig = lib.custom.genUser {
+    user = config.hostSpec.username;
     commonConfig = {
       environment.systemPackages = with pkgs; [
         just
@@ -17,7 +15,7 @@
       ];
     };
     linuxConfig = {
-      users.users.${configVars.username} = {
+      users.users.${config.hostSpec.username} = {
         password = "nixos";
       };
     };

@@ -1,17 +1,13 @@
 {
   config,
   lib,
-  configLib,
   inputs,
   outputs,
-  configVars,
   pkgs,
   ...
 }: {
   imports = lib.flatten [
-    (configLib.scanPaths ./.)
-    inputs.home-manager.darwinModules.home-manager
-    inputs.sops-nix.darwinModules.sops
+    (lib.custom.scanPaths ./.)
     # inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
@@ -54,8 +50,8 @@
     rsync
   ];
 
-  users.users.${configVars.username} = {
-    description = configVars.userfullname;
+  users.users.${config.hostSpec.username} = {
+    description = config.hostSpec.userFullName;
     # Public Keys that can be used to login to all my PCs, Macbooks, and servers.
     #
     # Since its authority is so large, we must strengthen its security:
@@ -68,6 +64,6 @@
     #      ```
     #    2. Never leave the device and never sent over the network.
     # 2. Or just use hardware security keys like Yubikey/CanoKey.
-    # openssh.authorizedKeys.keys = configVars.sshAuthorizedKeys;
+    # openssh.authorizedKeys.keys = config.hostSpec.sshAuthorizedKeys;
   };
 }

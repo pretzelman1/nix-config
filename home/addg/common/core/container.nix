@@ -23,6 +23,7 @@
     kubernetes-helm
     fluxcd
     argocd
+    telepresence2 # Local development against remote Kubernetes cluster
 
     ko # build go project to container image
 

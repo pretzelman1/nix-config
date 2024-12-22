@@ -1,7 +1,5 @@
 {
   config,
-  configVars,
-  configLib,
   lib,
   ...
 }: let
@@ -9,11 +7,11 @@
     "ghost"
   ];
   # add my domain to each host
-  hostDomains = map (h: "${h}.${configVars.domain}") hosts;
+  hostDomains = map (h: "${h}.${config.hostSpec.domain}") hosts;
   hostAll = hosts ++ hostDomains;
   hostString = lib.concatStringsSep " " hostAll;
 
-  pathtokeys = configLib.relativeToRoot "hosts/common/users/${configVars.username}/keys";
+  pathtokeys = lib.custom.relativeToRoot "hosts/common/users/${config.hostSpec.username}/keys";
   sshKeys =
     lib.lists.forEach (builtins.attrNames (builtins.readDir pathtokeys))
     # Remove the .pub suffix
@@ -37,7 +35,7 @@
     lib.lists.map (host: {
       "${host}" = lib.hm.dag.entryAfter ["ssh-hosts"] {
         host = host;
-        hostname = "${host}.${configVars.domain}";
+        hostname = "${host}.${config.hostSpec.domain}";
         port = 22;
       };
     })
@@ -56,7 +54,7 @@ in {
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ${config.home.homeDirectory}/.ssh/id_ed25519
-      ${configVars.networking.ssh.extraConfig}
+      ${config.hostSpec.networking.ssh.extraConfig}
     '';
 
     matchBlocks =

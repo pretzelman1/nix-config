@@ -2,7 +2,7 @@
   pkgs,
   hostName,
   networking,
-  configVars,
+  config,
   ...
 }: let
   inherit (networking.hostsAddr.${hostName}) iface;
@@ -94,5 +94,5 @@ in {
     enableIPv6 = true;
   };
 
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = config.hostSpec.system.stateVersion;
 }

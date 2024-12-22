@@ -1,8 +1,7 @@
 {
   pkgs,
   config,
-  configVars,
-  configLib,
+  lib,
   ...
 }:
 ###################################################################################
@@ -22,7 +21,7 @@
 #     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch ] -> [Disable]
 ###################################################################################
 {
-  imports = configLib.scanPaths ./.;
+  imports = lib.custom.scanPaths ./.;
 
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;

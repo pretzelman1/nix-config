@@ -7,8 +7,7 @@
 {
   inputs,
   lib,
-  configVars,
-  configLib,
+  config,
   pkgs,
   ...
 }: {
@@ -22,7 +21,7 @@
     # inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Misc Inputs ####################
-    (map configLib.relativeToHosts [
+    (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
       "common/nixos/core"
@@ -56,5 +55,5 @@
     systemd.enable = true;
   };
 
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = config.hostSpec.system.stateVersion;
 }

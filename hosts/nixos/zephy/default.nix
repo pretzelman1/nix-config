@@ -7,8 +7,7 @@
 {
   inputs,
   lib,
-  configVars,
-  configLib,
+  config,
   pkgs,
   ...
 }: {
@@ -22,19 +21,19 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Disk Layout ####################
-    inputs.disko.nixosModules.disko
-    (configLib.relativeToHosts "common/nixos/disks/standard-disk-config.nix")
-    {
-      _module.args = {
-        disk = "/dev/nvme0n1";
-        withSwap = false;
-      };
-    }
+    # inputs.disko.nixosModules.disko
+    # (lib.custom.relativeToHosts "common/nixos/disks/standard-disk-config.nix")
+    # {
+    #   _module.args = {
+    #     disk = "/dev/nvme0n1";
+    #     withSwap = false;
+    #   };
+    # }
 
     #################### Misc Inputs ####################
     inputs.stylix.nixosModules.stylix
 
-    (map configLib.relativeToHosts [
+    (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
       "common/nixos/core"
@@ -70,10 +69,29 @@
     systemd.enable = true;
   };
 
+  #   # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # # Enable sound with pipewire.
+  # hardware.pulseaudio.enable = false;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   # If you want to use JACK applications, uncomment this
+  #   #jack.enable = true;
+
+  #   # use the example session manager (no others are packaged yet so this is enabled by default,
+  #   # no need to redefine it in your config for now)
+  #   #media-session.enable = true;
+  # };
+
   # needed unlock LUKS on secondary drives
   # use partition UUID
   # https://wiki.nixos.org/wiki/Full_Disk_Encryption#Unlocking_secondary_drives
-  environment.etc.crypttab.text = lib.optionalString (!configVars.isMinimal) ''
+  environment.etc.crypttab.text = lib.optionalString (!config.hostSpec.isMinimal) ''
     cryptextra UUID=d90345b2-6673-4f8e-a5ef-dc764958ea14 /luks-secondary-unlock.key
     cryptvms UUID=ce5f47f8-d5df-4c96-b2a8-766384780a91 /luks-secondary-unlock.key
   '';
@@ -82,9 +100,9 @@
   # host-wide styling
   stylix = {
     enable = true;
-    image = "${configLib.getHomeDirectory}/Downloads/Mountain Lake Painting.jpg";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    image = "${lib.custom.getHomeDirectory}/Downloads/Mountain Lake Painting.jpg";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     #      cursor = {
     #        package = pkgs.foo;
     #        name = "";
@@ -122,5 +140,5 @@
   #hyprland border override example
   #  wayland.windowManager.hyprland.settings.general."col.active_border" = lib.mkForce "rgb(${config.stylix.base16Scheme.base0E});
 
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = config.hostSpec.system.stateVersion;
 }

@@ -10,16 +10,15 @@
   inputs,
   config,
   lib,
-  configVars,
-  configLib,
   ...
 }: let
+  hostSpec = config.hostSpec;
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 
   # Base user configuration common across all systems
   baseUserConfig = lib.recursiveUpdate commonConfig {
     users.users.${user} = {
-      home = lib.mkIf (user != "root") (configLib.getHomeDirectory user);
+      home = lib.mkIf (user != "root") (lib.custom.getHomeDirectory user);
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = pubKeys;
     };
@@ -49,18 +48,28 @@
   darwinUserConfig = lib.recursiveUpdate darwinConfig {
     users.users.${user} = {
       name = user;
-      home = configLib.getHomeDirectory user;
+      home = lib.custom.getHomeDirectory user;
     };
   };
 
   # Home Manager configuration
   homeManagerUserConfig = lib.recursiveUpdate homeManagerConfig {
-    home-manager.users.${user} = let
-      hmFile = configLib.relativeToHome "${user}/${config.networking.hostName}.nix";
-    in
-      lib.optionalAttrs (builtins.pathExists hmFile) {
-        imports = [hmFile];
+    home-manager = {
+      extraSpecialArgs = {
+        inherit pkgs inputs;
+        hostSpec = config.hostSpec;
       };
+      users.${user} = {
+        imports =
+          if (!hostSpec.isMinimal)
+          then [
+            (import (lib.custom.relativeToRoot "home/${hostSpec.username}/${hostSpec.hostName}.nix") {
+              inherit pkgs inputs config lib hostSpec;
+            })
+          ]
+          else [];
+      };
+    };
   };
 in {
   imports = [

@@ -3,23 +3,29 @@
   lib,
   pkgs,
   outputs,
-  configVars,
-  configLib,
   inputs,
+  hostSpec,
   nur-ryan4yin,
   ...
-}: {
-  imports =
-    configLib.scanPaths ./.
-    ++ builtins.attrValues outputs.homeManagerModules
-    ++ [
-      inputs.sops-nix.homeManagerModules.sops
-    ];
+}: let
+  platform =
+    if hostSpec.isDarwin
+    then "darwin"
+    else "nixos";
+in {
+  imports = lib.flatten [
+    inputs.sops-nix.homeManagerModules.sops
+    (lib.custom.scanPaths ./.)
+    (map lib.custom.relativeToRoot [
+      "modules/common/host-spec.nix"
+      "modules/home-manager"
+    ])
+  ];
 
   home = {
     username = lib.mkDefault "addg";
-    homeDirectory = lib.mkDefault (configLib.getHomeDirectory config.home.username);
-    stateVersion = lib.mkDefault configVars.system.stateVersion;
+    homeDirectory = lib.mkDefault (lib.custom.getHomeDirectory config.home.username);
+    stateVersion = lib.mkDefault hostSpec.system.stateVersion;
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/scripts/talon_scripts"

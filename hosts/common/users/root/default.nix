@@ -3,26 +3,24 @@
   inputs,
   config,
   lib,
-  configVars,
-  configLib,
   ...
 }: let
-  userConfig = configLib.genUser {
+  userConfig = lib.custom.genUser {
     user = "root";
     linuxConfig = {
       users.users.root = {
-        hashedPasswordFile = config.users.users.${configVars.username}.hashedPasswordFile;
-        password = lib.mkForce config.users.users.${configVars.username}.password;
+        hashedPasswordFile = config.users.users.${config.hostSpec.username}.hashedPasswordFile;
+        password = lib.mkForce config.users.users.${config.hostSpec.username}.password;
       };
     };
-    pubKeys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
+    pubKeys = config.users.users.${config.hostSpec.username}.openssh.authorizedKeys.keys;
     homeManagerConfig = {
       home-manager.users.root = {
-        home.stateVersion = configVars.system.stateVersion; # Avoid error
+        home.stateVersion = config.hostSpec.system.stateVersion; # Avoid error
         imports = lib.flatten [
           (
-            map configLib.relativeToHome [
-              "${configVars.username}/common/core/cli/themes/oh-my-posh"
+            map lib.custom.relativeToHome [
+              "${config.hostSpec.username}/common/core/cli/themes/oh-my-posh"
             ]
           )
         ];

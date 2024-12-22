@@ -4,7 +4,7 @@
     stdenv.isLinux = false;
     stdenv.isDarwin = false;
   }, # TODO: clean this up
-  configVars,
+  config,
   ...
 }: {
   macosSystem = import ./macosSystem.nix;

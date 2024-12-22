@@ -27,6 +27,7 @@
 
   hostSpec = {
     hostName = "ghost";
+    isDarwin = true;
   };
 
   networking.computerName = config.networking.hostName;

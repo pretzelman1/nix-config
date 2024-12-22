@@ -8,6 +8,7 @@
 }: {
   pkgs,
   inputs,
+  nix-secrets,
   config,
   lib,
   ...
@@ -64,7 +65,7 @@
           if (!hostSpec.isMinimal)
           then [
             (import (lib.custom.relativeToRoot "home/${hostSpec.username}/${hostSpec.hostName}.nix") {
-              inherit pkgs inputs config lib hostSpec;
+              inherit pkgs inputs config lib nix-secrets hostSpec;
             })
           ]
           else [];

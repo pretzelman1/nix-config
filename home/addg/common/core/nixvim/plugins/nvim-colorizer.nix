@@ -9,9 +9,9 @@
 
   config = lib.mkIf config.nixvim-config.plugins.nvim-colorizer.enable {
     programs.nixvim.plugins = {
-      colorizer = {
+      nvim-colorizer = {
         enable = true;
-        settings.filetypes = ["*"];
+        fileTypes = ["*"];
       };
     };
   };

@@ -5,7 +5,6 @@
   outputs,
   inputs,
   hostSpec,
-  nur-ryan4yin,
   ...
 }: let
   platform =
@@ -20,6 +19,7 @@ in {
       "modules/common/host-spec.nix"
       "modules/home-manager"
     ])
+    ../${platform}/core
   ];
 
   home = {

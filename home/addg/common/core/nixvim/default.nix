@@ -4,6 +4,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -14,6 +15,8 @@
   ];
 
   programs.nixvim = {
+    nixpkgs.pkgs = import <nixpkgs> {};
+
     enable = true;
     enableMan = true; # install man pages for nixvim options
 
@@ -102,20 +105,15 @@
     };
 
     # Load Plugins that aren't provided as modules by nixvim
-    # TODO need to confirm thesee aren't nn xivim
+    # TODO:(nixvim) need to confirm these aren't in nixvim
     extraPlugins = builtins.attrValues {
       inherit
         (pkgs.vimPlugins)
         # linting and fixing (config in extraConfigVim below)
-        
         #   https://github.com/dense-analysis/ale
-        
-        #   TODO: nixvim: revamp setup to lua
-        
+        #   TODO:(nixvim) revamp setup to lua
         #   there is also a lightline-ale  plugin/extension for lightline when you get around to it
-        
         #   by default ALE completion is disabled. need to determine if it's worth enabling and ditching youcompleteme ... it likely is for simplicity!
-        
         ale
         vim-illuminate # Highlight similar words as are under the cursor
         vim-numbertoggle # Use relative number on focused buffer only
@@ -124,13 +122,10 @@
         vim-twiggy # Fugitive plugin to add branch control
         vimwiki # Vim Wiki
         YouCompleteMe # Code completion engine
-        
-        # TODO: nixvim: make sure this is working and not conflicting with YCM
-        
+
+        # TODO:(nixvim) make sure this is working and not conflicting with YCM
         # supertab # Use <tab> for insert completion needs - https://github.com/ervandew/supertab/
-        
         # Keep vim-devicons as last entry
-        
         vim-devicons
         ;
     };
@@ -155,7 +150,7 @@
            " fill spaces in page names with _ in pathing
        let wiki_0.links_space_char = '_'
 
-           " TODO: nixvim: CONFIRM THESE PATHS FOR NIXOS
+           " TODO:(nixvim) CONFIRM THESE PATHS FOR NIXOS
            let wiki_1 = {}
            let wiki_1.path = '~/doc/foundry/thefoundry.wiki/'
            let wiki_1.index = 'home'
@@ -213,10 +208,5 @@
     # -- Override cursor color for insert mode
     # vim.cmd("highlight iCursor guifg=black guibg=orange");
     # '';
-  };
-
-  home.shellAliases = {
-    v = "nvim";
-    vi = "nvim";
   };
 }

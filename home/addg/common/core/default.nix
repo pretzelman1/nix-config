@@ -3,6 +3,7 @@
   lib,
   pkgs,
   outputs,
+  configVars,
   configLib,
   inputs,
   nur-ryan4yin,
@@ -18,7 +19,7 @@
   home = {
     username = lib.mkDefault "addg";
     homeDirectory = lib.mkDefault (configLib.getHomeDirectory config.home.username);
-    stateVersion = lib.mkDefault "23.05";
+    stateVersion = lib.mkDefault configVars.system.stateVersion;
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/scripts/talon_scripts"

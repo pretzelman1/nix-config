@@ -18,7 +18,7 @@
     pubKeys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
     homeManagerConfig = {
       home-manager.users.root = {
-        home.stateVersion = "23.05"; # Avoid error
+        home.stateVersion = configVars.system.stateVersion; # Avoid error
         imports = lib.flatten [
           (
             map configLib.relativeToHome [

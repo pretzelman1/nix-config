@@ -52,5 +52,5 @@ in {
     ];
     warn-dirty = false;
   };
-  system.stateVersion = "23.11";
+  system.stateVersion = configVars.system.stateVersion;
 }

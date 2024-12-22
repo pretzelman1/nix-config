@@ -33,16 +33,17 @@ in {
   hostSpec = {
     username = "addg";
     handle = "addg";
-    userFullName = "addgamer09";
-    domain = "addg0.com";
+
     system.stateVersion = "24.11";
 
-    # inherit (inputs.nix-secrets) # TODO: Move to secrets.nix
-    #   domain
-    #   email
-    #   userFullName
-    #   networking
-    #   ;
+    inherit
+      (inputs.nix-secrets) # TODO: Move to secrets.nix
+      domain
+      email
+      userFullName
+      githubEmail
+      networking
+      ;
   };
 
   networking.hostName = config.hostSpec.hostName;

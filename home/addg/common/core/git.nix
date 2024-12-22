@@ -2,11 +2,12 @@
   pkgs,
   lib,
   config,
+  hostSpec,
   ...
 }: let
-  handle = config.hostSpec.handle;
-  publicGitEmail = config.hostSpec.gitHubEmail;
-  username = config.hostSpec.username;
+  handle = hostSpec.handle;
+  publicGitEmail = hostSpec.githubEmail;
+  username = hostSpec.username;
 in {
   programs.git = {
     enable = true;

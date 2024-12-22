@@ -8,8 +8,11 @@
 }: {
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
-    # inputs.nix-homebrew.darwinModules.nix-homebrew
+    inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
+
+  networking.computerName = config.hostSpec.hostName;
+  system.defaults.smb.NetBIOSName = config.hostSpec.hostName;
 
   environment.systemPackages = with pkgs; [
     git # used by nix flakes

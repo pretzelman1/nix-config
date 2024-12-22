@@ -8,7 +8,6 @@
 }: {
   pkgs,
   inputs,
-  nix-secrets,
   config,
   lib,
   ...
@@ -57,15 +56,16 @@
   homeManagerUserConfig = lib.recursiveUpdate homeManagerConfig {
     home-manager = {
       extraSpecialArgs = {
-        inherit pkgs inputs;
-        hostSpec = config.hostSpec;
+        inherit pkgs inputs hostSpec;
+        nix-secrets = inputs.nix-secrets;
+        nur-ryan4yin = inputs.nur-ryan4yin;
       };
       users.${user} = {
         imports =
           if (!hostSpec.isMinimal)
           then [
             (import (lib.custom.relativeToRoot "home/${hostSpec.username}/${hostSpec.hostName}.nix") {
-              inherit pkgs inputs config lib nix-secrets hostSpec;
+              inherit pkgs inputs config lib;
             })
           ]
           else [];

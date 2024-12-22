@@ -4,6 +4,7 @@
   pkgs,
   outputs,
   inputs,
+  nix-secrets,
   hostSpec,
   ...
 }: let
@@ -21,6 +22,8 @@ in {
     ])
     ../${platform}/core
   ];
+
+  inherit hostSpec;
 
   home = {
     username = lib.mkDefault "addg";

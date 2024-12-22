@@ -18,6 +18,10 @@
       type = lib.types.attrsOf lib.types.str;
       description = "The email of the user";
     };
+    githubEmail = lib.mkOption {
+      type = lib.types.str;
+      description = "The github email of the user";
+    };
     # FIXME: Set an assert to make sure this is set if isWork is true
     work = lib.mkOption {
       default = {};

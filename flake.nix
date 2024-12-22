@@ -87,7 +87,6 @@
     # Authenticate via ssh and use shallow clone
     nix-secrets = {
       url = "git+ssh://git@github.com/addg0/nix-secrets.git?&ref=main";
-      flake = false;
     };
 
     nur-ryan4yin.url = "github:ryan4yin/nur-packages";

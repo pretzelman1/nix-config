@@ -5,10 +5,20 @@
   outputs,
   pkgs,
   ...
-}: {
+}: let
+  inherit (inputs) nix-homebrew;
+in {
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
-    inputs.nix-homebrew.darwinModules.nix-homebrew
+    nix-homebrew.darwinModules.nix-homebrew
+    {
+      nix-homebrew = {
+        enable = true;
+        enableRosetta = true;
+        user = "${config.hostSpec.username}";
+        autoMigrate = true;
+      };
+    }
   ];
 
   networking.computerName = config.hostSpec.hostName;

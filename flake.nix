@@ -63,6 +63,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
+
     # vim4LMFQR!
     nixvim = {
       #url = "github:nix-community/nixvim/nixos-24.05";

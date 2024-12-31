@@ -66,30 +66,27 @@ if [ "$os" == "Darwin" ]; then
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 	fi
+
 	green "====== REBUILD ======"
 	# Test if there's no darwin-rebuild, then use nixos-rebuild
 	if ! which darwin-rebuild &>/dev/null; then
-		nix run nix-darwin -- switch --show-trace --flake .#"$HOST" 2>&1 | tee /tmp/build.log
-		BUILD_OUTPUT=$(tail -n 10 /tmp/build.log)
+		nix run nix-darwin -- switch --show-trace --flake .#"$HOST"
 	else
-		darwin-rebuild $switch_args 2>&1 | tee /tmp/build.log
-		BUILD_OUTPUT=$(tail -n 10 /tmp/build.log)
+		darwin-rebuild $switch_args
 	fi
 else
 	green "====== REBUILD ======"
 	if command -v nh &>/dev/null; then
-		nh os switch . -- --impure --show-trace 2>&1 | tee /tmp/build.log
-		BUILD_OUTPUT=$(tail -n 10 /tmp/build.log)
+		nh os switch . -- --impure --show-trace
 	else
-		sudo nixos-rebuild $switch_args 2>&1 | tee /tmp/build.log
-		BUILD_OUTPUT=$(tail -n 10 /tmp/build.log)
+		sudo nixos-rebuild $switch_args
 	fi
 fi
 
 green "====== POST-REBUILD ======"
 
-# Check if there were any errors in the last 10 lines
-if ! echo "$BUILD_OUTPUT" | grep -q "error:"; then
+# shellcheck disable=SC2181
+if [ $? -eq 0 ]; then
 	green "Rebuilt successfully"
 	# Check if there are any pending changes that would affect the build succeeding.
 	if git diff --exit-code >/dev/null && git diff --staged --exit-code >/dev/null; then
@@ -103,7 +100,4 @@ if ! echo "$BUILD_OUTPUT" | grep -q "error:"; then
 	else
 		yellow "WARN: There are pending changes that would affect the build succeeding. Commit them before tagging"
 	fi
-else
-	red "Build failed with errors"
-	exit 1
 fi

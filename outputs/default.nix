@@ -8,6 +8,7 @@
   nix-homebrew,
   nix-secrets,
   sops-nix,
+  ghostty,
   ...
 } @ inputs: let
   inherit (inputs.nixpkgs) lib;
@@ -85,7 +86,7 @@ in {
   # ========= Overlays =========
   #
   # Custom modifications/overrides to upstream packages.
-  overlays = import ../overlays {inherit inputs;};
+  overlays = import ../overlays {inherit inputs ghostty;};
 
   #
   # ========= Packages =========

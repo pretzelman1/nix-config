@@ -1,7 +1,11 @@
 #
 # This file defines overlays/custom modifications to upstream packages
 #
-{inputs, ...}: let
+{
+  inputs,
+  ghostty,
+  ...
+}: let
   # Adds my custom packages
   # FIXME: Add per-system packages
   additions = final: prev: (prev.lib.packagesFromDirectoryRecursive {
@@ -21,6 +25,7 @@
     #        (prev.lib.cmakeBool "USE_WAYLAND_CLIPBOARD" true)
     #      ];
     #    };
+    ghostty = ghostty.packages.${prev.system}.default;
   };
 
   stable-packages = final: _prev: {

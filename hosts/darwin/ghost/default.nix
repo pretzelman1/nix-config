@@ -18,6 +18,7 @@
       "common/core"
 
       #################### Host-specific Optional Configs ####################
+      "common/optional/darwin/ghostty"
 
       #################### Desktop ####################
 

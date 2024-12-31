@@ -21,6 +21,7 @@
     common/optional/development/aws.nix
     common/optional/development/misc-language-servers.nix
     common/optional/secrets/ssh/server.nix
+    common/optional/ghostty
   ];
 
   home = {

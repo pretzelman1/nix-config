@@ -9,13 +9,13 @@
   lib,
   config,
   pkgs,
+  isDarwin,
   ...
 }: {
   imports = lib.flatten [
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
-      "common/darwin/core"
 
       #################### Host-specific Optional Configs ####################
 

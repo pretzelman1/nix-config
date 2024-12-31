@@ -20,7 +20,6 @@
       (pkgs)
       playerctl # cli utility and lib for controlling media players
       # pamixer # cli pulseaudio sound mixer
-      
       ;
   };
 }

@@ -1,10 +1,7 @@
 {
   lib,
-  pkgs ? {
-    stdenv.isLinux = false;
-    stdenv.isDarwin = false;
-  }, # TODO: clean this up
-  config,
+  pkgs ? {},
+  isDarwin,
   ...
 }: {
   macosSystem = import ./macosSystem.nix;
@@ -21,18 +18,19 @@
   relativeToHosts = lib.path.append ../hosts;
   # Function to get the home directory based on the OS
   getHomeDirectory = username:
-    if pkgs.stdenv.isLinux
-    then "/home/${username}"
-    else "/Users/${username}";
+    if isDarwin
+    then "/Users/${username}"
+    else "/home/${username}";
 
   scanPaths = path:
     builtins.map (f: (path + "/${f}")) (
       builtins.attrNames (
         lib.attrsets.filterAttrs (
           path: _type:
-            (_type == "directory") # include directories
+            (_type == "directory" && path != "darwin" && path != "nixos") # include directories except darwin/nixos
             || (
-              (path != "default.nix") # ignore default.nix
+              path
+              != "default.nix" # ignore default.nix
               && (lib.strings.hasSuffix ".nix" path) # include .nix files
             )
         ) (builtins.readDir path)

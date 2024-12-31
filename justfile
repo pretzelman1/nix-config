@@ -35,6 +35,10 @@ rebuild-full: rebuild-pre && rebuild-post
 rebuild-trace: rebuild-pre && rebuild-post
   scripts/system-flake-rebuild-trace.sh
 
+clean:
+  nix-collect-garbage
+  nix-store --gc
+
 # Debug host configuration in nix repl
 debug hostname="$(hostname)":
   if {{IS_DARWIN}}; then \

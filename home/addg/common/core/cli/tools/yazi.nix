@@ -6,7 +6,7 @@
   # terminal file manager
   programs.yazi = {
     enable = true;
-    package = pkgs.unstable.yazi;
+    package = pkgs.yazi;
     # Changing working directory when exiting Yazi
     enableBashIntegration = true;
     enableZshIntegration = true;

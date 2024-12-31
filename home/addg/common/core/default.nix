@@ -20,7 +20,7 @@ in {
       "modules/common/host-spec.nix"
       "modules/home-manager"
     ])
-    ../${platform}/core
+    ./${platform}
   ];
 
   inherit hostSpec;

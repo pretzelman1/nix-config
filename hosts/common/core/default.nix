@@ -22,9 +22,7 @@ in {
       "modules/common"
       "modules/${platform}"
     ])
-    (map lib.custom.relativeToHosts [
-      "common/${platform}/core"
-    ])
+    ./${platform}
   ];
 
   #

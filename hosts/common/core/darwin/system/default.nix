@@ -24,7 +24,10 @@
   imports = lib.custom.scanPaths ./.;
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam = {
+    enableSudoTouchIdAuth = true;
+    # enableSudoWatchIDAuth = true; # Doesnt work
+  };
 
   system = {
     # activationScripts are executed every time you boot the system or run `nixos-rebuild` / `darwin-rebuild`.

@@ -35,23 +35,9 @@ with lib; let
           echo "Installing pam-watchid..."
           ${bash} -c "$(${curl} -fsSL https://raw.githubusercontent.com/logicer16/pam-watchid/HEAD/install.sh)" -- enable
         fi
-
-        # Enable sudo Watch ID authentication, if not already enabled
-        if ! grep 'pam_watchid.so' ${file} > /dev/null; then
-          if [ ! -f ${file} ]; then
-            # Create sudo_local if it doesn't exist (macOS 14+)
-            touch ${file}
-          fi
-          ${sed} -i '1i\
-        auth       sufficient     pam_watchid.so # nix-darwin: ${option}
-          ' ${file}
-        fi
       ''
       else ''
         # Disable sudo Watch ID authentication, if added by nix-darwin
-        if grep '${option}' ${file} > /dev/null; then
-          ${sed} -i '/${option}/d' ${file}
-        fi
       ''
     }
   '';

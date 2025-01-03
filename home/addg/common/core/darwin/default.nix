@@ -16,6 +16,10 @@
   in
     lib.mkIf pkgs.stdenv.targetPlatform.isDarwin "${apps}/Applications";
 
+  home.packages = with pkgs; [
+    pam-reattach
+  ];
+
   # home.activation = {
   #   aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
   #     app_folder=$(echo ~/Applications);

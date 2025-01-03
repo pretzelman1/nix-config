@@ -144,6 +144,7 @@ in {
       "docker" # Docker Desktop needed for vscode devcontainers
       "sharemouse"
       "caffeine"
+      "notchnook" # Dynamic island for macos
 
       "balenaetcher"
 

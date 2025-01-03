@@ -15,6 +15,7 @@
     kustomize_4
     kubectx
     kubebuilder
+    kubevpn
     telepresence2
     helmfile
     istioctl

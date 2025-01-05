@@ -63,6 +63,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tt-schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
+
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
@@ -81,9 +86,9 @@
     };
 
     # Theming
-    stylix = {
-      url = "github:danth/stylix/release-24.05";
-    };
+    # stylix = {
+    #   url = "github:danth/stylix/release-24.05";
+    # };
 
     #################### Personal Repositories ####################
 

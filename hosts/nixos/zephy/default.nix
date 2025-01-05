@@ -31,23 +31,22 @@
     # }
 
     #################### Misc Inputs ####################
-    inputs.stylix.nixosModules.stylix
+    # inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
-      "common/nixos/core"
 
       #################### Host-specific Optional Configs ####################
-      "common/nixos/optional/services/openssh.nix" # allow remote SSH access
-      "common/nixos/optional/nvtop.nix" # GPU monitor (not available in home-manager)
-      "common/nixos/optional/plymouth.nix" # fancy boot screen
+      "common/optional/nixos/services/openssh.nix" # allow remote SSH access
+      "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
+      "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################
-      "common/nixos/optional/services/greetd.nix" # display manager
-      "common/nixos/optional/hyprland.nix" # window manager
-      "common/nixos/optional/thunar.nix" # file manager
-      "common/nixos/optional/wayland.nix" # wayland components and pkgs not available in home-manager
+      "common/optional/nixos/services/greetd.nix" # display manager
+      "common/optional/nixos/hyprland.nix" # window manager
+      "common/optional/nixos/thunar.nix" # file manager
+      "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
 
       "common/users/addg"
     ])
@@ -68,6 +67,11 @@
   boot.initrd = {
     systemd.enable = true;
   };
+
+  hostSpec = {
+    hostName = "zephy";
+  };
+
 
   #   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -98,11 +102,11 @@
 
   #TODO:(stylix) move this stuff to separate file but define theme itself per host
   # host-wide styling
-  stylix = {
-    enable = true;
-    image = "${lib.custom.getHomeDirectory}/Downloads/Mountain Lake Painting.jpg";
+  # stylix = {
+   #  enable = false;
+    # image = "${lib.custom.getHomeDirectory}/Downloads/Mountain Lake Painting.jpg";
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     #      cursor = {
     #        package = pkgs.foo;
     #        name = "";
@@ -127,16 +131,16 @@
     #        popups = 10;
     #    };
     #};
-    opacity = {
-      applications = 1.0;
-      terminal = 1.0;
-      desktop = 1.0;
-      popups = 0.8;
-    };
-    polarity = "dark";
+   #  opacity = {
+  #     applications = 1.0;
+  #  terminal = 1.0;
+    #   desktop = 1.0;
+    #   popups = 0.8;
+    # };
+    # polarity = "dark";
     # program specific exclusions
     #targets.foo.enable = false;
-  };
+  # };
   #hyprland border override example
   #  wayland.windowManager.hyprland.settings.general."col.active_border" = lib.mkForce "rgb(${config.stylix.base16Scheme.base0E});
 

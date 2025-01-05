@@ -98,13 +98,13 @@ disko DRIVE PASSWORD:
   rm /tmp/disko-password
 
 sync HOST USER=DEFAULT_USER:
-  rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:nix-config/
+  rsync -av --filter=':- .gitignore' --exclude='.git/hooks' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:nix-config/
 
 sync-secrets HOST USER=DEFAULT_USER:
   rsync -av --filter=':- .gitignore' -e "ssh -l {{USER}}" . {{USER}}@{{HOST}}:nix-secrets/
 
 sync-ssh HOST USER=DEFAULT_USER:
-  rsync -av -e "ssh -l {{USER}}" ~/.ssh/id_ed25519* {{USER}}@{{HOST}}:~/.ssh/
+  rsync -av -L -e "ssh -l {{USER}}" ~/.ssh/id_ed25519* {{USER}}@{{HOST}}:~/.ssh/
 
 nixos-anywhere HOSTNAME IP USER="root" SSH_OPTS="":
   nix run github:nix-community/nixos-anywhere -- \

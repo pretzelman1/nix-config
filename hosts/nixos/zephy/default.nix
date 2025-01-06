@@ -39,8 +39,8 @@
 
       #################### Host-specific Optional Configs ####################
       "common/optional/nixos/services/openssh.nix" # allow remote SSH access
-      "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
-      "common/optional/nixos/plymouth.nix" # fancy boot screen
+      # "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
+      # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################
       "common/optional/nixos/services/greetd.nix" # display manager

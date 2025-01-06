@@ -47,25 +47,10 @@
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/thunar.nix" # file manager
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
-      "common/optional/nixos/xfce.nix" # xfce components and pkgs not available in home-manager
 
       "common/users/addg"
     ])
   ];
-
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-    };
-    nvidia = {
-      modesetting.enable = true; # Enable modesetting for NVIDIA
-      package = config.boot.kernelPackages.nvidiaPackages.latest; # Use latest NVIDIA driver
-    };
-  };
-
-  services.xserver.videoDrivers = ["nvidia"]; # Enable NVIDIA driver in X server
 
   networking = {
     hostName = "zephy";
@@ -78,6 +63,9 @@
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.lightdm.enabl = true;
 
   boot.initrd = {
     systemd.enable = true;

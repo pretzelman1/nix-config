@@ -809,11 +809,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1736115219,
-        "narHash": "sha256-Q+5hnCxcSoovrWU7+DF/QbM1pDsjKdvFvFEw6arkaaU=",
+        "lastModified": 1736125070,
+        "narHash": "sha256-FLATBbKDk2f+dKYVFMbblRkocCX2AvT4XjUm9mfK7xA=",
         "ref": "main",
-        "rev": "6f623635dcea736281aa92855927205d9120454e",
-        "revCount": 31,
+        "rev": "022fc08e9e65be66834de5d98c268089402e61d6",
+        "revCount": 32,
         "type": "git",
         "url": "ssh://git@github.com/addg0/nix-secrets.git"
       },

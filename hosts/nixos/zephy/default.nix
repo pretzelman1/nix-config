@@ -43,7 +43,7 @@
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################
-      "common/optional/nixos/services/greetd.nix" # display manager
+      # "common/optional/nixos/services/greetd.nix" # display manager
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/thunar.nix" # file manager
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
@@ -66,6 +66,7 @@
 
   services.xserver.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.cinnamon.enable = true;
 
   boot.initrd = {
     systemd.enable = true;

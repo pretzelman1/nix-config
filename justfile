@@ -109,5 +109,5 @@ sync-ssh HOST USER=DEFAULT_USER:
 nixos-anywhere HOSTNAME IP USER="root" SSH_OPTS="":
   nix run github:nix-community/nixos-anywhere -- \
     --build-on-remote \
-    --generate-hardware-config nixos-generate-config ./hosts/{{HOSTNAME}}/hardware-configuration.nix \
+    --generate-hardware-config nixos-generate-config ./hosts/nixos/{{HOSTNAME}}/hardware-configuration.nix \
     --flake .#{{HOSTNAME}} {{USER}}@{{IP}} {{SSH_OPTS}}

@@ -1,13 +1,36 @@
 {
+  config,
   lib,
   pkgs,
-  configLib,
-  configVars,
   ...
-}: let
-  sshPort = configVars.networking.ports.tcp.ssh;
-in {
-  imports = [(configLib.relativeToRoot "hosts/common/users/${configVars.username}")];
+}: {
+  imports = lib.flatten [
+    (map lib.custom.relativeToRoot [
+      "modules/common/host-spec.nix"
+      "hosts/common/users/primary"
+      "hosts/common/users/primary/nixos.nix"
+    ])
+  ];
+
+  hostSpec = {
+    isMinimal = lib.mkForce true;
+    username = "ta";
+  };
+
+  users.users.${config.hostSpec.username}.password = lib.mkForce "nixos";
+  # Adding this whole set explicitly for the iso so it doesn't barf about sops being non-existent
+  #  users.users.${config.hostSpec.username} = {
+  #    isNormalUser = true;
+  #    password = lib.mkForce "nixos";
+  #    extraGroups = [ "wheel" ];
+  #  };
+  #
+  #  # root's ssh key are mainly used for remote deployment
+  #  users.extraUsers.root = {
+  #    inherit (config.users.users.${config.hostSpec.username}) password;
+  #    openssh.authorizedKeys.keys =
+  #      config.users.users.${config.hostSpec.username}.openssh.authorizedKeys.keys;
+  #  };
 
   fileSystems."/boot".options = ["umask=0077"]; # Removes permissions and security warnings.
   boot.loader.efi.canTouchEfiVariables = true;
@@ -29,7 +52,7 @@ in {
     qemuGuest.enable = true;
     openssh = {
       enable = true;
-      ports = [sshPort];
+      ports = [22];
       settings.PermitRootLogin = "yes";
     };
   };
@@ -52,5 +75,5 @@ in {
     ];
     warn-dirty = false;
   };
-  system.stateVersion = configVars.system.stateVersion;
+  system.stateVersion = "23.11";
 }

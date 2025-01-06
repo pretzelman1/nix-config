@@ -65,7 +65,7 @@
   };
 
   services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enabl = true;
+  services.xserver.displayManager.lightdm.enable = true;
 
   boot.initrd = {
     systemd.enable = true;

@@ -53,6 +53,20 @@
     ])
   ];
 
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    nvidia = {
+      modesetting.enable = true; # Enable modesetting for NVIDIA
+      package = config.boot.kernelPackages.nvidiaPackages.latest; # Use latest NVIDIA driver
+    };
+  };
+
+  services.xserver.videoDrivers = ["nvidia"]; # Enable NVIDIA driver in X server
+
   networking = {
     hostName = "zephy";
     networkmanager.enable = true;

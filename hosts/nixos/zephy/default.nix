@@ -39,7 +39,7 @@
 
       #################### Host-specific Optional Configs ####################
       "common/optional/nixos/services/openssh.nix" # allow remote SSH access
-      # "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
+      "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################
@@ -47,6 +47,7 @@
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/thunar.nix" # file manager
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
+      "common/optional/nixos/xfce.nix" # xfce components and pkgs not available in home-manager
 
       "common/users/addg"
     ])

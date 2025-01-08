@@ -11,7 +11,7 @@
   hostAll = hosts ++ hostDomains;
   hostString = lib.concatStringsSep " " hostAll;
 
-  pathtokeys = lib.custom.relativeToRoot "hosts/common/users/${config.hostSpec.username}/keys";
+  pathtokeys = lib.custom.relativeToRoot "hosts/common/users/primary/keys";
   sshKeys =
     lib.lists.forEach (builtins.attrNames (builtins.readDir pathtokeys))
     # Remove the .pub suffix

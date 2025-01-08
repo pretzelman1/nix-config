@@ -3,5 +3,6 @@
     jetbrains.idea-ultimate
     jetbrains.pycharm-professional
     vscode
+    code-cursor
   ];
 }

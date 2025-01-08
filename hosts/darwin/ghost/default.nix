@@ -21,8 +21,6 @@
       "common/optional/darwin/ghostty"
 
       #################### Desktop ####################
-
-      "common/users/addg"
     ])
   ];
 

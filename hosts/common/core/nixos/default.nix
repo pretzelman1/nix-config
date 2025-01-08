@@ -1,6 +1,7 @@
 {
   inputs,
   outputs,
+  config,
   lib,
   ...
 }: {
@@ -8,4 +9,7 @@
     (lib.custom.scanPaths ./.)
     # ../../users/root
   ];
+
+  networking.hostName = config.hostSpec.hostName;
+
 }

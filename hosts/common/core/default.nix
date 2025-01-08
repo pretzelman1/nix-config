@@ -23,6 +23,7 @@ in {
       "modules/${platform}"
     ])
     ./${platform}
+    ../users/primary
   ];
 
   #

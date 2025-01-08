@@ -29,8 +29,6 @@
       #################### Host-specific Optional Configs ####################
       "common/nixos/optional/services/openssh.nix" # allow remote SSH access
       "common/nixos/optional/nvtop.nix" # GPU monitor (not available in home-manager)
-
-      "common/users/addg"
     ])
   ];
 

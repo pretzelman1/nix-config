@@ -12,13 +12,12 @@
   ...
 }: {
   imports = lib.flatten [
-    #################### Every Host Needs This ####################
+    #################### Hardware ####################
     ./hardware-configuration.nix
-
-    #################### Hardware Modules ####################
     inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
+    inputs.hardware.nixosModules.asus-battery
+    ./graphics.nix
 
     #################### Disk Layout ####################
     # inputs.disko.nixosModules.disko
@@ -40,20 +39,22 @@
       #################### Host-specific Optional Configs ####################
       "common/optional/nixos/services/openssh.nix" # allow remote SSH access
       "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
+      "common/optional/audio.nix" # pipewire and cli controls
+      "common/optional/nixos/gaming.nix" # steam, gamescope, gamemode, and related hardware
+      "common/optional/hyprland.nix" # window manager
+
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################
-      # "common/optional/nixos/services/greetd.nix" # display manager
+      "common/optional/nixos/services/greetd.nix" # display manager
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/thunar.nix" # file manager
+      "common/optional/vlc.nix" # media player
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
-
-      "common/users/addg"
     ])
   ];
 
   networking = {
-    hostName = "zephy";
     networkmanager.enable = true;
     enableIPv6 = false;
   };

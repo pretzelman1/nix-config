@@ -8,7 +8,6 @@
     ./binds.nix
     ./scripts.nix
     ./hyprlock.nix
-    ./wlogout.nix
   ];
 
   wayland.windowManager.hyprland = {
@@ -134,13 +133,13 @@
       # To determine path, run `which foo`
       exec-once = [
         ''${pkgs.waypaper}/bin/waypaper --restore''
-        ''[workspace 8 silent]${pkgs.virt-manager}/bin/virt-manager''
-        ''[workspace 8 silent]${pkgs.obsidian}/bin/obsidian''
-        ''[workspace 9 silent]${pkgs.signal-desktop}/bin/signal-desktop''
-        ''[workspace 0 silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
-        ''[workspace 0 silent]${pkgs.copyq}/bin/copyq''
-        ''[workspace 0 silent]${pkgs.spotify}/bin/spotify''
-        ''[workspace special silent]${pkgs.keymapp}/bin/keymapp''
+        # ''[workspace 8 silent]${pkgs.virt-manager}/bin/virt-manager''
+        # ''[workspace 8 silent]${pkgs.obsidian}/bin/obsidian''
+        # ''[workspace 9 silent]${pkgs.signal-desktop}/bin/signal-desktop''
+        # ''[workspace 0 silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
+        # ''[workspace 0 silent]${pkgs.copyq}/bin/copyq''
+        # ''[workspace 0 silent]${pkgs.spotify}/bin/spotify''
+        # ''[workspace special silent]${pkgs.keymapp}/bin/keymapp''
       ];
       #
       # ========== Layer Rules ==========
@@ -153,7 +152,7 @@
       #
       # ========== Window Rules ==========
       #
-      windowrule = [
+      windowrulev2 = [
         # Dialogs
         "float, title:^(Open File)(.*)$"
         "float, title:^(Select a File)(.*)$"
@@ -162,8 +161,7 @@
         "float, title:^(Save As)(.*)$"
         "float, title:^(Library)(.*)$"
         "float, title:^(Accounts)(.*)$"
-      ];
-      windowrulev2 = [
+
         "float, class:^(galculator)$"
         "float, class:^(waypaper)$"
         "float, class:^(keymapp)$"

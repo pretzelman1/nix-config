@@ -1,4 +1,8 @@
-{config, lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   imports = [
     #################### Required Configs ####################
     common/core # required
@@ -20,7 +24,7 @@
     username = config.hostSpec.username;
     homeDirectory = lib.custom.getHomeDirectory config.hostSpec.username;
   };
-  
+
   #
   # ========== Host-specific Monitor Spec ==========
   #
@@ -36,19 +40,22 @@
   #  ------   ------   ------
   monitors = [
     {
-      name = "DP-1";
+      name = "eDP-1";
       width = 2560;
       height = 1600;
       refreshRate = 165;
+      vrr = 1;
       primary = true;
     }
     {
-      name = "DP-2";
+      name = "DP-3";
+      enabled = true;
       width = 3840;
       height = 1100;
       refreshRate = 60;
+      x = 0;
       y = 1600;
-      workspace = "0";
+      # workspace = "0";
     }
   ];
 }

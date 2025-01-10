@@ -63,11 +63,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    tt-schemes = {
-      url = "github:tinted-theming/schemes";
-      flake = false;
-    };
-
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
@@ -86,9 +81,30 @@
     };
 
     # Theming
-    # stylix = {
-    #   url = "github:danth/stylix/release-24.05";
-    # };
+    stylix = {
+      url = "github:danth/stylix";
+    };
+
+    # Add base16.nix, base16 schemes and
+    # zathura and vim templates to the flake inputs.
+    base16.url = "github:SenchoPens/base16.nix";
+
+    tt-schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
+
+    base16-zathura = {
+      url = "github:haozeke/base16-zathura";
+      flake = false;
+    };
+
+    base16-vim = {
+      url = "github:tinted-theming/base16-vim";
+      flake = false;
+    };
+
+    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     #################### Personal Repositories ####################
 

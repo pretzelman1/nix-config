@@ -6,6 +6,9 @@
 }: {
   imports = [
     ./binds.nix
+    ./scripts.nix
+    ./hyprlock.nix
+    ./wlogout.nix
   ];
 
   wayland.windowManager.hyprland = {
@@ -13,7 +16,7 @@
     systemd = {
       enable = true;
       variables = ["--all"]; # fix for https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
-      # TODO: experiment with whether this is required.
+      # TODO:(hyprland) experiment with whether this is required.
       # Same as default, but stop the graphical session too
       extraCommands = lib.mkBefore [
         "systemctl --user stop graphical-session.target"
@@ -37,6 +40,7 @@
         "WLR_NO_HARDWARE_CURSORS,1"
         "WLR_RENDERER_ALLOW_SOFTWARE,1"
         "QT_QPA_PLATFORM,wayland"
+        "HYPRCURSOR_THEME,rose-pine-hyprcursor" # this will be better than default for now
       ];
 
       #
@@ -47,24 +51,15 @@
         map (
           m: "${m.name},${
             if m.enabled
-            then "${toString m.width}x${toString m.height}@${toString m.refreshRate},${toString m.x}x${toString m.y},1,transform, ${toString m.transform}"
+            then "${toString m.width}x${toString m.height}@${toString m.refreshRate},${toString m.x}x${toString m.y},1,transform,${toString m.transform},vrr,${toString m.vrr}"
             else "disable"
           }"
         ) (config.monitors)
       );
 
-      #FIXME adapt this to work with new monitor module
+      #FIXME:(hyprland) adapt this to work with new monitor module
+      #FIXME:(hyprland) ws1 still appears on both DP-1 and DP-3 on reboot
       workspace = [
-        "1, monitor:DP-1, default:true, persistent:true"
-        "2, monitor:DP-1, default:true"
-        "3, monitor:DP-1, default:true"
-        "4, monitor:DP-1, default:true"
-        "5, monitor:DP-1, default:true"
-        "6, monitor:DP-1, default:true"
-        "7, monitor:DP-1, default:true"
-        "8, monitor:DP-2, default:true, persistent:true"
-        "9, monitor:DP-3, default:true, persistent:true"
-        "0, monitor:HDMI-A-1, default:true, persistent:true"
       ];
 
       #
@@ -119,11 +114,13 @@
           new_optimizations = true;
           popups = true;
         };
-        drop_shadow = true;
-        shadow_range = 12;
-        shadow_offset = "3 3";
-        #"col.shadow" = "0x44000000";
-        #        "col.shadow_inactive" = "0x66000000";
+        shadow = {
+          enabled = true;
+          range = 12;
+          offset = "3 3";
+          #color = "0x88ff9400";
+          #color_inactive = "0x8818141d";
+        };
       };
       # group = {
       #groupbar = {
@@ -137,10 +134,13 @@
       # To determine path, run `which foo`
       exec-once = [
         ''${pkgs.waypaper}/bin/waypaper --restore''
-        ''[workspace 0 silent]${pkgs.copyq}/bin/copyq''
+        ''[workspace 8 silent]${pkgs.virt-manager}/bin/virt-manager''
+        ''[workspace 8 silent]${pkgs.obsidian}/bin/obsidian''
         ''[workspace 9 silent]${pkgs.signal-desktop}/bin/signal-desktop''
-        ''[workspace 9 silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
+        ''[workspace 0 silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
+        ''[workspace 0 silent]${pkgs.copyq}/bin/copyq''
         ''[workspace 0 silent]${pkgs.spotify}/bin/spotify''
+        ''[workspace special silent]${pkgs.keymapp}/bin/keymapp''
       ];
       #
       # ========== Layer Rules ==========
@@ -163,17 +163,10 @@
         "float, title:^(Library)(.*)$"
         "float, title:^(Accounts)(.*)$"
       ];
-      windowrulev2 = let
-        #FIXME these aren't working for some reason; higher priority so switched to manual entry for now
-        flameshot = "class:^(flameshot)$, title:^(flameshot)$";
-        scratch = "workspace:^(special:special)$";
-        #steam = "title:^()$ class:^([Ss]team)$";
-        steam = "title:^(*)$ class:^([Ss]team)$";
-        steamFloat = "title:^((?![Ss]team)*)$, class:^([Ss]team)$";
-        steamGame = "class:^([Ss]team_app_*)$";
-      in [
+      windowrulev2 = [
         "float, class:^(galculator)$"
         "float, class:^(waypaper)$"
+        "float, class:^(keymapp)$"
 
         #
         # ========== Always opaque ==========
@@ -183,10 +176,11 @@
         "opaque, class:^([Ii]nkscape)$"
         "opaque, class:^([Bb]lender)$"
         "opaque, class:^([Oo][Bb][Ss])$"
-        "opaque, class:^(([Ss]team))$"
-        "opaque, class:^(([Ss]team_app_*)$"
+        "opaque, class:^([Ss]team)$"
+        "opaque, class:^([Ss]team_app_*)$"
+        "opaque, class:^([Vv]lc)$"
 
-        # Remove transparancy from video
+        # Remove transparency from video
         "opaque, title:^(Netflix)(.*)$"
         "opaque, title:^(.*YouTube.*)$"
         "opaque, title:^(Picture-in-Picture)$"
@@ -199,17 +193,11 @@
         #
         # ========== Steam rules ==========
         #
-        "stayfocused, title:^()$,class:^(([Ss]team))$"
-        "minsize 1 1, title:^()$,class:^(([Ss]team))$"
-        #"workspace 7, class:^(([Ss]team_app_*))$"
-        #"monitor 0, class:^(([Ss]team_app_*))$"
-        "immediate, class:^(([Ss]team_app_*))$"
-        #"float, ${steamFloat}"
-        #"stayfocused, ${steam}"
-        #"minsize 1 1, ${steam}"
-        #"workspace 7, ${steamGame}"
-        #"monitor 0, ${steamGame}"
-        #"immediate, ${steamGame}"
+        "stayfocused, title:^()$,class:^([Ss]team)$"
+        "minsize 1 1, title:^()$,class:^([Ss]team)$"
+        "immediate, class:^([Ss]team_app_*)$"
+        #"workspace 7, class:^([Ss]team_app_*)$"
+        #"monitor 0, class:^([Ss]team_app_*)$"
 
         #
         # ========== Fameshot rules ==========
@@ -231,8 +219,8 @@
         "workspace 9, class:^(signal)$"
         "workspace 9, class:^(org.telegram.desktop)$"
         "workspace 9, class:^(discord)$"
-        "workspace 9, class:^(yubioath-flutter)$"
-        "workspace 0, class:^(spotify)$"
+        "workspace 0, class:^(yubioath-flutter)$"
+        "workspace 0, title:^([Ss]potify*)$"
       ];
 
       # load at the end of the hyperland set

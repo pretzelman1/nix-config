@@ -2,6 +2,7 @@
 # https://github.com/eth-p/bat-extras
 {
   pkgs,
+  lib,
   nur-ryan4yin,
   ...
 }: {
@@ -10,7 +11,7 @@
     config = {
       # Show line numbers, Git modifications and file header (but no grid)
       style = "numbers,changes,header";
-      theme = "catppuccin-mocha";
+      theme = lib.mkDefault "catppuccin-mocha";
     };
     extraPackages = builtins.attrValues {
       inherit

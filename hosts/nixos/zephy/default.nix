@@ -30,7 +30,7 @@
     # }
 
     #################### Misc Inputs ####################
-    # inputs.stylix.nixosModules.stylix
+    inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
@@ -39,9 +39,9 @@
       #################### Host-specific Optional Configs ####################
       "common/optional/nixos/services/openssh.nix" # allow remote SSH access
       "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
-      "common/optional/audio.nix" # pipewire and cli controls
+      "common/optional/nixos/audio.nix" # pipewire and cli controls
       "common/optional/nixos/gaming.nix" # steam, gamescope, gamemode, and related hardware
-      "common/optional/hyprland.nix" # window manager
+      "common/optional/nixos/hyprland.nix" # window manager
 
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
@@ -49,7 +49,7 @@
       "common/optional/nixos/services/greetd.nix" # display manager
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/thunar.nix" # file manager
-      "common/optional/vlc.nix" # media player
+      "common/optional/nixos/vlc.nix" # media player
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
     ])
   ];
@@ -65,9 +65,9 @@
     timeout = 3;
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.cinnamon.enable = true;
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.cinnamon.enable = true;
 
   boot.initrd = {
     systemd.enable = true;
@@ -106,45 +106,48 @@
 
   #TODO:(stylix) move this stuff to separate file but define theme itself per host
   # host-wide styling
-  # stylix = {
-  #  enable = false;
-  # image = "${lib.custom.getHomeDirectory}/Downloads/Mountain Lake Painting.jpg";
-  # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-  # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-  #      cursor = {
-  #        package = pkgs.foo;
-  #        name = "";
-  #      };
-  #     fonts = {
-  #monospace = {
-  #    package = pkgs.foo;
-  #    name = "";
-  #};
-  #sanSerif = {
-  #    package = pkgs.foo;
-  #    name = "";
-  #};
-  #serif = {
-  #    package = pkgs.foo;
-  #    name = "";
-  #};
-  #    sizes = {
-  #        applications = 12;
-  #        terminal = 12;
-  #        desktop = 12;
-  #        popups = 10;
-  #    };
-  #};
-  #  opacity = {
-  #     applications = 1.0;
-  #  terminal = 1.0;
-  #   desktop = 1.0;
-  #   popups = 0.8;
-  # };
-  # polarity = "dark";
-  # program specific exclusions
-  #targets.foo.enable = false;
-  # };
+  stylix = {
+    enable = true;
+    image = pkgs.fetchurl {
+      url = "https://unsplash.com/photos/3l3RwQdHRHg/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM2NTE4NDQ2fA&force=true";
+      sha256 = "LtdnBAxruHKYE/NycsA614lL6qbGBlkrlj3EPNZ/phU=";
+    };
+    #      base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-medium.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    #      cursor = {
+    #        package = pkgs.foo;
+    #        name = "";
+    #      };
+    #     fonts = {
+    #monospace = {
+    #    package = pkgs.foo;
+    #    name = "";
+    #};
+    #sanSerif = {
+    #    package = pkgs.foo;
+    #    name = "";
+    #};
+    #serif = {
+    #    package = pkgs.foo;
+    #    name = "";
+    #};
+    #    sizes = {
+    #        applications = 12;
+    #        terminal = 12;
+    #        desktop = 12;
+    #        popups = 10;
+    #    };
+    #};
+    opacity = {
+      applications = 1.0;
+      terminal = 1.0;
+      desktop = 1.0;
+      popups = 0.8;
+    };
+    polarity = "dark";
+    # program specific exclusions
+    #targets.foo.enable = false;
+  };
   #hyprland border override example
   #  wayland.windowManager.hyprland.settings.general."col.active_border" = lib.mkForce "rgb(${config.stylix.base16Scheme.base0E});
 

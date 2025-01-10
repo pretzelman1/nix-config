@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   # A command-line fuzzy finder
   programs.fzf = {
     enable = true;
@@ -6,7 +6,7 @@
     enableBashIntegration = true;
     # https://github.com/catppuccin/fzf
     # catppuccin-mocha
-    colors = {
+    colors = lib.mkDefault {
       "bg+" = "#313244";
       "bg" = "#1e1e2e";
       "spinner" = "#f5e0dc";

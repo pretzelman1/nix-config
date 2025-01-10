@@ -11,7 +11,7 @@
   hostAll = hosts ++ hostDomains;
   hostString = lib.concatStringsSep " " hostAll;
 
-  pathtokeys = lib.custom.relativeToRoot "hosts/common/users/primary/keys";
+  pathtokeys = lib.custom.relativeToHosts "common/users/primary/keys";
   sshKeys =
     lib.lists.forEach (builtins.attrNames (builtins.readDir pathtokeys))
     # Remove the .pub suffix
@@ -30,6 +30,7 @@
   # Lots of hosts have the same default config, so don't duplicate
   vanillaHosts = [
     "ghost"
+    "zephy"
   ];
   vanillaHostsConfig = lib.attrsets.mergeAttrsList (
     lib.lists.map (host: {

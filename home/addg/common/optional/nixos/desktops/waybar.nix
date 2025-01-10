@@ -10,126 +10,168 @@
       target = "hyprland-session.target"; # NOTE = hyprland/default.nix stops graphical-session.target and starts hyprland-sessionl.target
     };
     settings = {
+      #
+      # ========== Main Bar ==========
+      #
       mainBar = {
-        layer = "top";
-        position = "top";
-        height = 36; # 36 is the minimum height required by the modules
-        output = [
-          "DP-1"
-          "DP-2"
-          "DP-3"
-          "HDMI-A-1"
-        ];
-        modules-left = [
+        "layer" = "bottom";
+        "position" = "bottom";
+        "mod" = "dock";
+        "exclusive" = true;
+        "gtk-layer-shell" = true;
+        "margin-bottom" = -1;
+        "passthrough" = false;
+        "height" = 41;
+        "modules-left" = [
+          "custom/os_button"
           "hyprland/workspaces"
-          "hyprland/mode"
+          "wlr/taskbar"
         ];
-        modules-center = ["hyprland/window"];
-        modules-right = [
-          "gamemode"
-          "pulseaudio"
-          #"mpd"
+        "modules-center" = [];
+        "modules-right" = [
+          "cpu"
+          "temperature"
+          "memory"
+          "disk"
           "tray"
+          "pulseaudio"
           "network"
-          "clock#time"
-          "clock#date"
+          "battery"
+          "hyprland/language"
+          "clock"
         ];
-
-        #
-        # ========= Modules =========
-        #
-
-        #TODO
-        #"hyprland/window" ={};
-
+        "hyprland/language" = {
+          "format" = "{}";
+          "format-en" = "ENG";
+          "format-ru" = "РУС";
+        };
         "hyprland/workspaces" = {
-          all-outputs = false;
-          disable-scroll = true;
-          on-click = "actviate";
-          show-special = true; # display special workspaces along side regular ones (scratch for example)
+          "icon-size" = 32;
+          "spacing" = 16;
+          "on-scroll-up" = "hyprctl dispatch workspace r+1";
+          "on-scroll-down" = "hyprctl dispatch workspace r-1";
         };
-        "clock#time" = {
-          interval = 1;
-          format = "{:%H:%M}";
-          tooltip = false;
+        "custom/os_button" = {
+          "format" = "";
+          "on-click" = "wofi --show drun";
+          "tooltip" = false;
         };
-        "clock#date" = {
-          interval = 10;
-          format = "{:%d.%b.%y.%a}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        "cpu" = {
+          "interval" = 5;
+          "format" = "  {usage}%";
+          "max-length" = 10;
         };
-        "gamemode" = {
-          "format" = "{glyph}";
-          "format-alt" = "{glyph} {count}";
-          "glyph" = "";
-          "hide-not-running" = true;
-          "use-icon" = true;
-          "icon-name" = "input-gaming-symbolic";
-          "icon-spacing" = 4;
-          "icon-size" = 20;
+        "temperature" = {
+          "hwmon-path-abs" = "/sys/devices/platform/coretemp.0/hwmon";
+          "input-filename" = "temp2_input";
+          "critical-threshold" = 75;
+          "tooltip" = false;
+          "format-critical" = "({temperatureC}°C)";
+          "format" = "({temperatureC}°C)";
+        };
+        "disk" = {
+          "interval" = 30;
+          "format" = "󰋊 {percentage_used}%";
+          "path" = "/";
           "tooltip" = true;
-          "tooltip-format" = "Games running: {count}";
+          "unit" = "GB";
+          "tooltip-format" = "Available {free} of {total}";
+        };
+        "memory" = {
+          "interval" = 10;
+          "format" = "  {percentage}%";
+          "max-length" = 10;
+          "tooltip" = true;
+          "tooltip-format" = "RAM - {used:0.1f}GiB used";
+        };
+        "wlr/taskbar" = {
+          "format" = "{icon} {title:.17}";
+          "icon-size" = 28;
+          "spacing" = 3;
+          "on-click-middle" = "close";
+          "tooltip-format" = "{title}";
+          "ignore-list" = [];
+          "on-click" = "activate";
+        };
+        "tray" = {
+          "icon-size" = 18;
+          "spacing" = 3;
+        };
+        "clock" = {
+          "format" = "      {:%R\n %d.%m.%Y}";
+          "tooltip-format" = "<tt><small>{calendar}</small></tt>";
+          "calendar" = {
+            "mode" = "year";
+            "mode-mon-col" = 3;
+            "weeks-pos" = "right";
+            "on-scroll" = 1;
+            "on-click-right" = "mode";
+            "format" = {
+              "months" = "<span color='#ffead3'><b>{}</b></span>";
+              "days" = "<span color='#ecc6d9'><b>{}</b></span>";
+              "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
+              "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
+              "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
+            };
+          };
+          "actions" = {
+            "on-click-right" = "mode";
+            "on-click-forward" = "tz_up";
+            "on-click-backward" = "tz_down";
+            "on-scroll-up" = "shift_up";
+            "on-scroll-down" = "shift_down";
+          };
         };
         "network" = {
-          format-wifi = "{essid} ({signalStrength}%) ";
-          format-ethernet = "{ipaddr} ";
-          tooltip-format = "{ifname} via {gwaddr} ";
-          format-linked = "{ifname} (No IP) ";
-          format-disconnected = "Disconnected ⚠";
-          format-alt = "{ifname}: {ipaddr}/{cidr}";
+          "format-wifi" = " {icon}";
+          "format-ethernet" = "  ";
+          "format-disconnected" = "󰌙";
+          "format-icons" = [
+            "󰤯 "
+            "󰤟 "
+            "󰤢 "
+            "󰤢 "
+            "󰤨 "
+          ];
+        };
+        "battery" = {
+          "states" = {
+            "good" = 95;
+            "warning" = 30;
+            "critical" = 20;
+          };
+          "format" = "{icon} {capacity}%";
+          "format-charging" = " {capacity}%";
+          "format-plugged" = " {capacity}%";
+          "format-alt" = "{time} {icon}";
+          "format-icons" = [
+            "󰂎"
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
         };
         "pulseaudio" = {
-          "format" = "{volume}% {icon}";
-          #              "format-source" = "Mic ON";
-          #              "format-source-muted" = "Mic OFF";
-          "format-bluetooth" = "{volume}% {icon}";
-          "format-muted" = "";
+          "max-volume" = 150;
+          "scroll-step" = 10;
+          "format" = "{icon}";
+          "tooltip-format" = "{volume}%";
+          "format-muted" = " ";
           "format-icons" = {
-            "alsa_output.pci-0000_00_1f.3.analog-stereo" = "";
-            "alsa_output.pci-0000_00_1f.3.analog-stereo-muted" = "";
-            "headphone" = "";
-            "hands-free" = "";
-            "headset" = "";
-            "phone" = "";
-            "phone-muted" = "";
-            "portable" = "";
-            "car" = "";
             "default" = [
-              ""
-              ""
+              " "
+              " "
+              " "
             ];
           };
-          "scroll-step" = 1;
-          "on-click" = "pavucontrol";
-          "ignored-sinks" = ["Easy Effects Sink"];
-        };
-        #        "mpd" = {
-        #    "format" = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ";
-        #    "format-disconnected" = "Disconnected ";
-        #    "format-stopped" = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
-        #    "interval" = 10;
-        #    "consume-icons" = {
-        #        "on" = " "; # Icon shows only when "consume" is on
-        #    };
-        #    "random-icons" = {
-        #        "off" = "<span color=\"#f53c3c\"></span>"; #Icon grayed out when "random" is off
-        #        "on" = " ";
-        #    };
-        #    "repeat-icons" = {
-        #        "on" = " ";
-        #    };
-        #    "single-icons" = {
-        #        "on" = "1 ";
-        #    };
-        #    "state-icons" = {
-        #        "paused" = "";
-        #        "playing" = "";
-        #    };
-        #    "tooltip-format" = "MPD (connected)";
-        #    "tooltip-format-disconnected" = "MPD (disconnected)";
-        #};
-        "tray" = {
-          spacing = 10;
+          "on-click" = "pwvucontrol";
         };
       };
     };

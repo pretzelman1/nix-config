@@ -7,6 +7,10 @@
     type = lib.types.listOf (
       lib.types.submodule {
         options = {
+          use_nwg = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+          };
           name = lib.mkOption {
             type = lib.types.str;
             example = "DP-1";
@@ -19,6 +23,10 @@
             type = lib.types.bool;
             default = false;
           };
+          resolution = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+          };
           width = lib.mkOption {
             type = lib.types.int;
             example = 1920;
@@ -30,6 +38,10 @@
           refreshRate = lib.mkOption {
             type = lib.types.int;
             default = 60;
+          };
+          position = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
           };
           x = lib.mkOption {
             type = lib.types.int;

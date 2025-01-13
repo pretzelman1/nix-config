@@ -48,7 +48,7 @@
       #################### Desktop ####################
       "common/optional/nixos/services/greetd.nix" # display manager
       "common/optional/nixos/hyprland.nix" # window manager
-      "common/optional/nixos/thunar.nix" # file manager
+      "common/optional/nixos/file-managers/dolphin.nix" # file manager
       "common/optional/nixos/vlc.nix" # media player
       "common/optional/nixos/wayland.nix" # wayland components and pkgs not available in home-manager
     ])

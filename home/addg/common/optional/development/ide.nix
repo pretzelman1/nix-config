@@ -1,8 +1,15 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [
-    jetbrains.idea-ultimate
-    jetbrains.pycharm-professional
-    vscode
-    code-cursor
-  ];
+{pkgs, ...}: {
+  home.packages = with pkgs;
+    [
+      jetbrains.idea-ultimate
+      jetbrains.pycharm-professional
+      vscode
+    ]
+    ++ (
+      if pkgs.stdenv.isLinux
+      then [
+        code-cursor
+      ]
+      else []
+    );
 }

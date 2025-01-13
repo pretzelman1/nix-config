@@ -130,6 +130,8 @@ in {
       "git-trim"
       "terraform"
       # "terraformer"
+
+      "tomcat@8" # TODO: Delete this after java 8 is no longer needed
     ];
 
     # `brew install --cask`

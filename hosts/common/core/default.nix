@@ -46,6 +46,7 @@ in {
   };
 
   networking.hostName = config.hostSpec.hostName;
+  nixpkgs.hostPlatform = config.hostSpec.hostPlatform;
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
   security.sudo.extraConfig = ''

@@ -27,9 +27,9 @@
   hostSpec = {
     hostName = "ghost";
     isDarwin = true;
+    hostPlatform = "aarch64-darwin";
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = 4;
-  nixpkgs.hostPlatform = "aarch64-darwin";
 }

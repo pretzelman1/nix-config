@@ -45,6 +45,10 @@
       type = lib.types.str;
       description = "The handle of the user (eg: github user)";
     };
+    hostPlatform = lib.mkOption {
+      type = lib.types.str;
+      description = "The platform of the host";
+    };
     home = lib.mkOption {
       type = lib.types.str;
       description = "The home directory of the user";

@@ -7,6 +7,7 @@
   ...
 }: let
   inherit (inputs) nix-homebrew;
+  isAarch64 = config.hostSpec.hostPlatform == "aarch64-darwin";
 in {
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
@@ -14,7 +15,7 @@ in {
     {
       nix-homebrew = {
         enable = true;
-        enableRosetta = true;
+        enableRosetta = isAarch64;
         user = "${config.hostSpec.username}";
         autoMigrate = true;
       };

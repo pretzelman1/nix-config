@@ -155,6 +155,8 @@ in {
       "hovrly" # show different time zones in menu bar
       "imageoptim" # strip metadata from images
 
+      "parallels"
+
       "amazon-q"
 
       "notion-calendar"

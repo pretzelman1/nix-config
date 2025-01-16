@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   imports = [
     #################### Required Configs ####################
     common/core
@@ -23,9 +19,4 @@
     common/optional/secrets/ssh/server.nix
     common/optional/ghostty
   ];
-
-  home = {
-    username = config.hostSpec.username;
-    homeDirectory = lib.custom.getHomeDirectory config.hostSpec.username;
-  };
 }

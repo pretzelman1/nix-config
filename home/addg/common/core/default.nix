@@ -26,7 +26,7 @@ in {
   inherit hostSpec;
 
   home = {
-    username = lib.mkDefault "addg";
+    username = lib.mkDefault hostSpec.username;
     homeDirectory = lib.mkDefault (lib.custom.getHomeDirectory config.home.username);
     stateVersion = lib.mkDefault hostSpec.system.stateVersion;
     sessionPath = [

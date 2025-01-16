@@ -79,11 +79,6 @@ in {
       enable = true;
     };
 
-    shellAliases = {
-      "k" = "kubectl";
-      "tf" = "terraform";
-    };
-
     initExtra = ''
       _fzf_comprun() {
           local command=$1

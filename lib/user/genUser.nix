@@ -1,5 +1,6 @@
 {
   user,
+  userDir ? user,
   commonConfig ? {},
   linuxConfig ? {},
   darwinConfig ? {},
@@ -64,7 +65,7 @@
         imports =
           if (!hostSpec.isMinimal)
           then [
-            (import (lib.custom.relativeToRoot "home/${hostSpec.username}/${hostSpec.hostName}.nix") {
+            (import (lib.custom.relativeToRoot "home/${userDir}/${hostSpec.hostName}.nix") {
               inherit pkgs inputs config lib;
             })
           ]

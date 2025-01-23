@@ -96,6 +96,8 @@ in {
     fzf # Interactively filter its input using fuzzy searching, not limit to filenames.
     # fd and ripgrep are already included above
 
+    lnav # log file viewer
+
     sad # CLI search and replace, just like sed, but with diff preview.
     yq-go # yaml processor https://github.com/mikefarah/yq
     just # a command runner like make, but simpler

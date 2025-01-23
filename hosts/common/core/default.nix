@@ -30,10 +30,10 @@ in {
   # ========== Core Host Specifications ==========
   #
   hostSpec = {
-    username = "addg";
-    handle = "addg";
+    username = lib.mkDefault "addg";
+    handle = lib.mkDefault "addg";
 
-    system.stateVersion = "24.11";
+    system.stateVersion = lib.mkDefault "24.11";
 
     inherit
       (inputs.nix-secrets) # TODO: Move to secrets.nix

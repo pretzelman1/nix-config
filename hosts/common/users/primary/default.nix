@@ -10,6 +10,7 @@
 
   userConfig = lib.custom.genUser {
     user = config.hostSpec.username;
+    userDir = "primary";
     commonConfig = {
       environment.systemPackages = with pkgs; [
         just

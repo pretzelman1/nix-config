@@ -5,13 +5,10 @@
     inherit
       (pkgs)
       # Development
-      
       tokei
       # Productivity
-      
       drawio
       # Media production
-      
       obs-studio
       ;
   };

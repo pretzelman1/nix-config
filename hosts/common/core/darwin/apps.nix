@@ -164,6 +164,8 @@ in {
       # "lens"
       "cursor"
 
+      "autodesk-fusion"
+
       "langgraph-studio"
       "chatgpt"
 

@@ -70,7 +70,7 @@ if [ "$os" == "Darwin" ]; then
 	green "====== REBUILD ======"
 	# Test if there's no darwin-rebuild, then use nixos-rebuild
 	if ! which darwin-rebuild &>/dev/null; then
-		nix run nix-darwin -- switch --show-trace --flake .#"$HOST"
+		nix run nix-darwin -- switch --show-trace --flake .#"$HOST" --impure
 	else
 		darwin-rebuild $switch_args
 	fi

@@ -34,6 +34,7 @@
   hostSpec = {
     hostName = "stark";
     hostPlatform = "x86_64-linux";
+    disableSops = true;
   };
 
   networking = {

@@ -85,6 +85,11 @@
       default = false;
       description = "Used to indicate a host that uses work resources";
     };
+    disableSops = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Used to disable sops for the host";
+    };
     # Sometimes we can't use pkgs.stdenv.isLinux due to infinite recursion
     isDarwin = lib.mkOption {
       type = lib.types.bool;

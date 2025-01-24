@@ -31,8 +31,12 @@
     ])
   ];
 
+  hostSpec = {
+    hostname = "stark";
+    hostPlatform = "x86_64-linux";
+  };
+
   networking = {
-    hostName = "stark";
     networkmanager.enable = true;
     enableIPv6 = false;
   };

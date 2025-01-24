@@ -14,6 +14,7 @@ in {
       statix
       typos
       colmena
+      nixos-generators
     ];
     name = "dots";
     shellHook = ''

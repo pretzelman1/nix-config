@@ -13,7 +13,7 @@
 }: {
   imports = lib.flatten [
     #################### Every Host Needs This ####################
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
 
     #################### Hardware Modules ####################
     # inputs.hardware.nixosModules.common-cpu-amd
@@ -21,14 +21,14 @@
     # inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Disk Layout ####################
-    inputs.disko.nixosModules.disko
-    (lib.custom.relativeToHosts "common/disks/standard-disk-config.nix")
-    {
-      _module.args = {
-        disk = "/dev/nvme0n1";
-        withSwap = false;
-      };
-    }
+    # inputs.disko.nixosModules.disko
+    # (lib.custom.relativeToHosts "common/disks/standard-disk-config.nix")
+    # {
+    #   _module.args = {
+    #     disk = "/dev/nvme0n1";
+    #     withSwap = false;
+    #   };
+    # }
 
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
@@ -36,7 +36,7 @@
       "common/core"
 
       #################### Host-specific Optional Configs ####################
-      "common/optional/nixos/services/openssh.nix" # allow remote SSH access
+      # "common/optional/nixos/services/openssh.nix" # allow remote SSH access
     ])
   ];
 
@@ -48,20 +48,6 @@
   networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
-  };
-
-  boot.loader = {
-    grub = {
-      enable = true;
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      device = "nodev"; # Install GRUB in EFI mode
-    };
-    efi = {
-      canTouchEfiVariables = false;
-      efiSysMountPoint = "/boot"; # AWS EC2 typically mounts EFI partition at /boot
-    };
-    timeout = 3;
   };
 
   boot.initrd = {

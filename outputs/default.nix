@@ -9,6 +9,7 @@
   nix-secrets,
   sops-nix,
   ghostty,
+  nixos-generators,
   ...
 } @ inputs: let
   inherit (inputs.nixpkgs) lib;
@@ -46,18 +47,120 @@
             };
           });
         };
-        modules = [
-          ../hosts/${
-            if isDarwin
-            then "darwin"
-            else "nixos"
-          }/${host}
-        ];
+        modules =
+          [
+            ../hosts/${
+              if isDarwin
+              then "darwin"
+              else "nixos"
+            }/${host}
+          ]
+          ++ lib.optionals (!isDarwin) [
+            # Add nixos-generators configuration for NixOS hosts
+            {
+              virtualisation.diskSize = 20 * 1024;
+              nix.registry.nixpkgs.flake = nixpkgs;
+              # Make sure nixos-generators is available
+              nixpkgs.overlays = [
+                (final: prev: {
+                  nixos-generators = inputs.nixos-generators.packages.${final.system}.default;
+                })
+              ];
+            }
+          ];
       };
+  };
+
+  # Generate ISO configuration for a NixOS host
+  mkIso = host: system: {
+    ${host} = nixos-generators.nixosGenerate {
+      inherit system;
+      specialArgs = {
+        inherit inputs outputs;
+        isDarwin = false;
+        lib = nixpkgs.lib.extend (self: super: {
+          custom = import ../lib {
+            inherit (nixpkgs) lib;
+            isDarwin = false;
+          };
+        });
+      };
+      modules = [
+        ../hosts/nixos/${host}
+        {
+          virtualisation.diskSize = 20 * 1024;
+          nix.registry.nixpkgs.flake = nixpkgs;
+        }
+      ];
+      format = "iso";
+    };
+  };
+
+  # Generate a format-specific configuration for a NixOS host
+  mkFormat = format: host: system: {
+    ${host} = nixos-generators.nixosGenerate {
+      inherit system format;
+      specialArgs = {
+        inherit inputs outputs;
+        isDarwin = false;
+        lib = nixpkgs.lib.extend (self: super: {
+          custom = import ../lib {
+            inherit (nixpkgs) lib;
+            isDarwin = false;
+          };
+        });
+      };
+      modules = [
+        ../hosts/nixos/${host}
+        {
+          virtualisation.diskSize = 20 * 1024;
+          nix.registry.nixpkgs.flake = nixpkgs;
+        }
+      ];
+    };
   };
 
   # Invoke mkHost for each host config that is declared for either nixos or darwin
   mkHostConfigs = hosts: isDarwin: lib.foldl (acc: set: acc // set) {} (lib.map (host: mkHost host isDarwin) hosts);
+  # Generate format-specific configs for each NixOS host
+  mkFormatConfigs = format: hosts: system: lib.foldl (acc: set: acc // set) {} (lib.map (host: mkFormat format host system) hosts);
+
+  # List of all available formats
+  formats = [
+    "amazon"
+    "azure"
+    "cloudstack"
+    "do"
+    "docker"
+    "gce"
+    "hyperv"
+    "install-iso"
+    "install-iso-hyperv"
+    "iso"
+    "kexec"
+    "kexec-bundle"
+    "kubevirt"
+    "linode"
+    "lxc"
+    "lxc-metadata"
+    "openstack"
+    "proxmox"
+    "proxmox-lxc"
+    "qcow"
+    "qcow-efi"
+    "raw"
+    "raw-efi"
+    "sd-aarch64"
+    "sd-aarch64-installer"
+    "sd-x86_64"
+    "vagrant-virtualbox"
+    "virtualbox"
+    "vm"
+    "vm-bootloader"
+    "vm-nogui"
+    "vmware"
+  ];
+
   # Return the hosts declared in the given directory
   readHosts = folder: lib.attrNames (builtins.readDir ../hosts/${folder});
 

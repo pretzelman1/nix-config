@@ -75,6 +75,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";

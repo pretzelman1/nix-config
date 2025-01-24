@@ -32,7 +32,7 @@
   ];
 
   hostSpec = {
-    hostname = "stark";
+    hostName = "stark";
     hostPlatform = "x86_64-linux";
   };
 

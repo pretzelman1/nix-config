@@ -4,6 +4,10 @@
   nix-secrets,
   ...
 }: {
+  imports = [
+    inputs.sops-nix.homeManagerModules.sops
+  ];
+
   sops = {
     defaultSopsFile = "${nix-secrets}/secrets/secrets.yaml";
     age = {

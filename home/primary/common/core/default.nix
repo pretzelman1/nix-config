@@ -13,18 +13,14 @@
     then "darwin"
     else "nixos";
 in {
-  imports =
-    lib.flatten [
-      (lib.custom.scanPaths ./.)
-      (map lib.custom.relativeToRoot [
-        "modules/common/host-spec.nix"
-        "modules/home-manager"
-      ])
-      ./${platform}
-    ]
-    ++ lib.optionals (!hostSpec.disableSops) [
-      inputs.sops-nix.homeManagerModules.sops
-    ];
+  imports = lib.flatten [
+    (lib.custom.scanPaths ./.)
+    (map lib.custom.relativeToRoot [
+      "modules/common/host-spec.nix"
+      "modules/home-manager"
+    ])
+    ./${platform}
+  ];
 
   inherit hostSpec;
 

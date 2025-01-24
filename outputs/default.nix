@@ -55,6 +55,7 @@
         ];
       };
   };
+
   # Invoke mkHost for each host config that is declared for either nixos or darwin
   mkHostConfigs = hosts: isDarwin: lib.foldl (acc: set: acc // set) {} (lib.map (host: mkHost host isDarwin) hosts);
   # Return the hosts declared in the given directory

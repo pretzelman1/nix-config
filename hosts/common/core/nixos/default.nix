@@ -11,5 +11,4 @@
   ];
 
   networking.hostName = config.hostSpec.hostName;
-
 }

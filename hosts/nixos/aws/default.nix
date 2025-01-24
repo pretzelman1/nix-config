@@ -20,6 +20,16 @@
     # inputs.hardware.nixosModules.common-gpu-amd
     # inputs.hardware.nixosModules.common-pc-ssd
 
+    #################### Disk Layout ####################
+    inputs.disko.nixosModules.disko
+    (lib.custom.relativeToHosts "common/disks/standard-disk-config.nix")
+    {
+      _module.args = {
+        disk = "/dev/nvme0n1";
+        withSwap = false;
+      };
+    }
+
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
@@ -27,12 +37,15 @@
 
       #################### Host-specific Optional Configs ####################
       "common/optional/nixos/services/openssh.nix" # allow remote SSH access
-      "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
     ])
   ];
 
+  hostSpec = {
+    hostName = "aws";
+    hostPlatform = "x86_64-linux";
+  };
+
   networking = {
-    hostName = "stark";
     networkmanager.enable = true;
     enableIPv6 = false;
   };
@@ -40,11 +53,14 @@
   boot.loader = {
     grub = {
       enable = true;
-      device = "/dev/sda";
-      useOSProber = true;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev"; # Install GRUB in EFI mode
     };
-    # systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+    efi = {
+      canTouchEfiVariables = false;
+      efiSysMountPoint = "/boot"; # AWS EC2 typically mounts EFI partition at /boot
+    };
     timeout = 3;
   };
 

@@ -43,21 +43,6 @@ let
     ""
     (homebrew_mirror_env // local_proxy_env);
 in {
-  # Install packages from nix's official package repository.
-  #
-  # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
-  # But on macOS, it's less stable than homebrew.
-  #
-  # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
-  environment.systemPackages = with pkgs; [
-    neovim
-    git
-    gnugrep # replacee macos's grep
-    gnutar # replacee macos's tar
-
-    # darwin only apps
-    utm # virtual machine
-  ];
   environment.variables =
     {
       # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
@@ -158,6 +143,7 @@ in {
       "parallels"
 
       "amazon-q"
+      "aws-vpn-client"
 
       "notion-calendar"
       "motion"

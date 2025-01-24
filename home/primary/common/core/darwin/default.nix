@@ -18,6 +18,7 @@
 
   home.packages = with pkgs; [
     pam-reattach
+    utm # virtual machine
   ];
 
   # home.activation = {

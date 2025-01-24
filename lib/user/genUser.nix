@@ -62,6 +62,7 @@
         nur-ryan4yin = inputs.nur-ryan4yin;
       };
       users.${user} = {
+        home.stateVersion = hostSpec.system.stateVersion;
         imports =
           if (!hostSpec.isMinimal)
           then [

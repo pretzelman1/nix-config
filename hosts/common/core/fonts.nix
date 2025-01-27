@@ -20,7 +20,7 @@
         if pkgs.stdenv.isDarwin
         then [
           nerd-fonts.fira-code
-          nerd-fonts.jetbrains-mono
+          nerd-fonts.jetbrains-mono # JetBrains Mono
           nerd-fonts.iosevka
         ]
         else []

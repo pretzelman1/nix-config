@@ -21,30 +21,37 @@ in {
       better-mouse-mode
       yank
       tmux-thumbs
-      tmux-fzf
-      # {
-      #   plugin = catppuccin;
-      #   extraConfig = ''
-      #     set -g @catppuccin_window_left_separator ""
-      #     set -g @catppuccin_window_right_separator " "
-      #     set -g @catppuccin_window_middle_separator " █"
-      #     set -g @catppuccin_window_number_position "right"
-      #     set -g @catppuccin_window_default_fill "number"
-      #     set -g @catppuccin_window_default_text "#W"
-      #     set -g @catppuccin_window_current_fill "number"
-      #     set -g @catppuccin_window_current_text "#W#{?window_zoomed_flag,(),}"
-      #     set -g @catppuccin_status_modules_right "directory date_time"
-      #     set -g @catppuccin_status_modules_left "session"
-      #     set -g @catppuccin_status_left_separator  " "
-      #     set -g @catppuccin_status_right_separator " "
-      #     set -g @catppuccin_status_right_separator_inverse "no"
-      #     set -g @catppuccin_status_fill "icon"
-      #     set -g @catppuccin_status_connect_separator "no"
-      #     set -g @catppuccin_directory_text "#{b:pane_current_path}"
-      #     set -g @catppuccin_meetings_text "#($HOME/.config/tmux/scripts/cal.sh)"
-      #     set -g @catppuccin_date_time_text "%H:%M"
-      #   '';
-      # }
+      {
+        plugin = tmux-fzf;
+        extraConfig = ''
+          set -g @fzf-url-fzf-options '-p 60%,30% --prompt="   " --border-label=" Open URL "'
+          set -g @fzf-url-history-limit '2000'
+        '';
+      }
+      {
+        plugin = catppuccin;
+        extraConfig = ''
+          # Configure the catppuccin plugin
+          set -g @catppuccin_flavor "mocha"
+          set -g @catppuccin_window_status_style "rounded"
+          set -g @catppuccin_status_background "#242638"
+          set -g @catppuccin_window_current_text " #{b:pane_current_path}"
+          set -g @catppuccin_window_text " #{b:pane_current_path}"
+
+          # Load catppuccin
+          set -g @plugin 'tmux-plugins/tmux-battery'
+          set -g @plugin 'xamut/tmux-weather'
+          # Make the status line pretty and add some modules
+          # set -g status-style "bg=transparent"
+          set -g status-right-length 100
+          set -g status-left-length 100
+          set -g status-left "#{E:@catppuccin_status_session}"
+          set -g status-right "#{E:@catppuccin_status_application}"
+          set -agF status-right "#{E:@catppuccin_status_weather}"
+          set -agF status-right "#{E:@catppuccin_status_battery}"
+          set-window-option -g status-position top
+        '';
+      }
       {
         plugin = resurrect;
         extraConfig = ''
@@ -60,31 +67,6 @@ in {
       }
     ];
     extraConfig = ''
-      set -g @plugin 'wfxr/tmux-fzf-url'
-      set -g @plugin 'omerxx/catppuccin-tmux' # My fork that holds the meetings script bc I'm lazy af
-      set -g @plugin 'omerxx/tmux-sessionx'
-      set -g @plugin 'omerxx/tmux-floax'
-      set -g @plugin 'tmux-plugins/tpm'
-
-      set -g @catppuccin_window_left_separator ""
-      set -g @catppuccin_window_right_separator " "
-      set -g @catppuccin_window_middle_separator " █"
-      set -g @catppuccin_window_number_position "right"
-      set -g @catppuccin_window_default_fill "number"
-      set -g @catppuccin_window_default_text "#W"
-      set -g @catppuccin_window_current_fill "number"
-      set -g @catppuccin_window_current_text "#W#{?window_zoomed_flag,(),}"
-      set -g @catppuccin_status_modules_right "directory date_time"
-      set -g @catppuccin_status_modules_left "session"
-      set -g @catppuccin_status_left_separator  " "
-      set -g @catppuccin_status_right_separator " "
-      set -g @catppuccin_status_right_separator_inverse "no"
-      set -g @catppuccin_status_fill "icon"
-      set -g @catppuccin_status_connect_separator "no"
-      set -g @catppuccin_directory_text "#{b:pane_current_path}"
-      set -g @catppuccin_meetings_text "#($HOME/.config/tmux/scripts/cal.sh)"
-      set -g @catppuccin_date_time_text "%H:%M"
-
       set -g @floax-width '80%'
       set -g @floax-height '80%'
       set -g @floax-border-color 'magenta'
@@ -92,20 +74,6 @@ in {
       set -g @floax-bind 'p'
       set -g @floax-change-path 'true'
 
-      set -g @sessionx-bind-zo-new-window 'ctrl-y'
-      set -g @sessionx-auto-accept 'off'
-      set -g @sessionx-custom-paths '/Users/omerxx/dotfiles'
-      set -g @sessionx-bind 'o'
-      set -g @sessionx-x-path '~/dotfiles'
-      set -g @sessionx-window-height '85%'
-      set -g @sessionx-window-width '75%'
-      set -g @sessionx-zoxide-mode 'on'
-      set -g @sessionx-custom-paths-subdirectories 'false'
-      set -g @sessionx-filter-current 'false'
-
-      set-window-option -g mode-keys vi
-
-      set -g prefix ^A
       set -g base-index 1              # start indexing windows at 1 instead of 0
       set -g detach-on-destroy off     # don't exit from tmux when closing a session
       set -g escape-time 0             # zero-out escape time delay
@@ -113,12 +81,6 @@ in {
       set -g renumber-windows on       # renumber all windows when any window is closed
       set -g set-clipboard on          # use system clipboard
       set -g status-position top       # macOS / darwin style
-
-      set -g pane-active-border-style 'fg=magenta,bg=default'
-      set -g pane-border-style 'fg=brightblack,bg=default'
-
-      set -g @fzf-url-fzf-options '-p 60%,30% --prompt="   " --border-label=" Open URL "'
-      set -g @fzf-url-history-limit '2000'
 
       ${builtins.readFile ./binds.conf}
 
@@ -131,8 +93,6 @@ in {
         bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
         bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
       }
-
-      run '~/.tmux/plugins/tpm/tpm'
     '';
   };
   home.shellAliases = shellAliases;

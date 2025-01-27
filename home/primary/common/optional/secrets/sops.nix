@@ -2,6 +2,7 @@
   config,
   lib,
   nix-secrets,
+  inputs,
   ...
 }: {
   imports = [

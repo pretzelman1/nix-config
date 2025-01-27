@@ -28,7 +28,5 @@
     ko # build go project to container image
 
     minikube # local kubernetes
-
-    lens # preview kubernetes resources
   ];
 }

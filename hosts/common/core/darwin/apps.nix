@@ -117,6 +117,9 @@ in {
       # "terraformer"
 
       "tomcat@8" # TODO: Delete this after java 8 is no longer needed
+
+      "kubelogin"
+      "awscli"
     ];
 
     # `brew install --cask`
@@ -131,6 +134,7 @@ in {
       "sharemouse"
       "caffeine"
       "notchnook" # Dynamic island for macos
+      "lens" # preview kubernetes resources
 
       "balenaetcher"
 

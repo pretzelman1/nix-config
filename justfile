@@ -107,8 +107,9 @@ sync-ssh HOST USER=DEFAULT_USER:
   rsync -av -L -e "ssh -l {{USER}}" ~/.ssh/id_ed25519* {{USER}}@{{HOST}}:~/.ssh/
 
 nixos-anywhere HOSTNAME IP USER="root" SSH_OPTS="": rebuild-pre
+  echo "{{IS_DARWIN}}"
   nix run github:nix-community/nixos-anywhere -- \
-    --build-on-remote \
+    {{ if IS_DARWIN == "true" { "--build-on-remote" } else { "" } }} \
     --generate-hardware-config nixos-generate-config ./hosts/nixos/{{HOSTNAME}}/hardware-configuration.nix \
     --option accept-flake-config true --debug \
     --flake .#{{HOSTNAME}} {{USER}}@{{IP}} {{SSH_OPTS}}

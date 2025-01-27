@@ -1,7 +1,6 @@
 #############################################################
 #
-#  zephy - Main Desktop
-#  NixOS running on Ryzen 5 3600X, Radeon RX 5700 XT, 64GB RAM
+#  stark - NixOS Host
 #
 ###############################################################
 {
@@ -16,9 +15,19 @@
     ./hardware-configuration.nix
 
     #################### Hardware Modules ####################
-    # inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-cpu-intel
     # inputs.hardware.nixosModules.common-gpu-amd
     # inputs.hardware.nixosModules.common-pc-ssd
+
+    #################### Disk Layout ####################
+    inputs.disko.nixosModules.disko
+    (lib.custom.relativeToHosts "common/disks/ext4-disk.nix")
+    {
+      _module.args = {
+        disk = "/dev/sda";
+        withSwap = false;
+      };
+    }
 
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
@@ -43,12 +52,11 @@
   };
 
   boot.loader = {
-    grub = {
+    systemd-boot = {
       enable = true;
-      device = "/dev/sda";
-      useOSProber = true;
+      # When using plymouth, initrd can expand by a lot each time, so limit how many we keep around
+      configurationLimit = lib.mkDefault 10;
     };
-    # systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };

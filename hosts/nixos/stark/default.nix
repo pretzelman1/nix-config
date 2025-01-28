@@ -20,6 +20,10 @@
     # inputs.hardware.nixosModules.common-gpu-amd
     # inputs.hardware.nixosModules.common-pc-ssd
 
+    #################### Disk Layout ####################
+    inputs.disko.nixosModules.disko
+    ./disk.nix
+
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################

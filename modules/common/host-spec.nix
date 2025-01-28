@@ -96,6 +96,19 @@
       default = false;
       description = "Used to indicate a host that is darwin";
     };
+    darwin = {
+      # Darwin-specific options
+      isAarch64 = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Used to indicate a host that is darwin aarch64";
+      };
+      hasPaidApps = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Used to indicate a host that has paid apps";
+      };
+    };
     system.stateVersion = lib.mkOption {
       type = lib.types.str;
       description = "The state version of the host";

@@ -123,62 +123,75 @@ in {
     ];
 
     # `brew install --cask`
-    casks = [
-      "arc"
-      "firefox@developer-edition"
-      "synology-drive"
-      "openvpn-connect"
-      "1password"
-      "orbstack"
-      "docker" # Docker Desktop needed for vscode devcontainers
-      "sharemouse"
-      "caffeine"
-      "notchnook" # Dynamic island for macos
-      "lens" # preview kubernetes resources
+    casks =
+      [
+        "arc"
+        "firefox@developer-edition"
+        "synology-drive"
+        "openvpn-connect"
+        "1password"
+        "orbstack"
+        "docker" # Docker Desktop needed for vscode devcontainers
+        "sharemouse"
+        "caffeine"
+        "notchnook" # Dynamic island for macos
+        "lens" # preview kubernetes resources
 
-      "balenaetcher"
+        "balenaetcher"
 
-      "bartender" # tool to manage the menu bar
-      "cleanshot" # screenshot tool
-      # "menubarx" # browser in the menu bar
-      "hovrly" # show different time zones in menu bar
-      "imageoptim" # strip metadata from images
+        "bartender" # tool to manage the menu bar
+        "cleanshot" # screenshot tool
+        # "menubarx" # browser in the menu bar
+        "hovrly" # show different time zones in menu bar
+        "imageoptim" # strip metadata from images
 
-      "parallels"
+        "parallels"
 
-      "amazon-q"
-      "aws-vpn-client"
+        "amazon-q"
+        "aws-vpn-client"
 
-      "notion-calendar"
-      "motion"
-      # "lens"
-      "cursor"
+        "notion-calendar"
+        "motion"
+        # "lens"
+        "cursor"
 
-      "autodesk-fusion"
+        "autodesk-fusion"
 
-      "langgraph-studio"
-      "chatgpt"
+        "langgraph-studio"
 
-      # Misc
-      # "shadowsocksx-ng" # proxy tool
-      "iina" # video player
-      # "raycast" # (HotKey: alt/option + space)search, calculate and run scripts(with many plugins)
-      "stats" # beautiful system status monitor in menu bar
-      "aerospace" # an i3-like tiling window manager for macOS
-      # "reaper"  # audio editor
-      # "sonic-pi" # music programming
-      "tencent-lemon" # macOS cleaner
-      "spotify" # music
-      # "blender@lts" # 3D creation suite
+        # Misc
+        # "shadowsocksx-ng" # proxy tool
+        "iina" # video player
+        # "raycast" # (HotKey: alt/option + space)search, calculate and run scripts(with many plugins)
+        "stats" # beautiful system status monitor in menu bar
+        "aerospace" # an i3-like tiling window manager for macOS
+        # "reaper"  # audio editor
+        # "sonic-pi" # music programming
+        "tencent-lemon" # macOS cleaner
+        "spotify" # music
+        # "blender@lts" # 3D creation suite
 
-      # Development
-      "mitmproxy" # HTTP/HTTPS traffic inspector
-      "insomnia" # REST client
-      "postman"
+        # Development
+        "mitmproxy" # HTTP/HTTPS traffic inspector
+        "insomnia" # REST client
+        "postman"
 
-      # "jdk-mission-control" # Java Mission Control
-      # "google-cloud-sdk" # Google Cloud SDK
-      "miniforge" # Miniconda's community-driven distribution
-    ];
+        # "jdk-mission-control" # Java Mission Control
+        # "google-cloud-sdk" # Google Cloud SDK
+        "miniforge" # Miniconda's community-driven distribution
+      ]
+      ++ (
+        if config.hostSpec.darwin.isAarch64
+        then [
+          "chatgpt"
+        ]
+        else []
+      )
+      ++ (
+        if config.hostSpec.darwin.hasPaidApps
+        then [
+        ]
+        else []
+      );
   };
 }

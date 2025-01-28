@@ -7,7 +7,6 @@
   ...
 }: let
   inherit (inputs) nix-homebrew;
-  isAarch64 = config.hostSpec.hostPlatform == "aarch64-darwin";
 in {
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
@@ -15,12 +14,17 @@ in {
     {
       nix-homebrew = {
         enable = true;
-        enableRosetta = isAarch64;
+        enableRosetta = config.hostSpec.darwin.isAarch64;
         user = "${config.hostSpec.username}";
         autoMigrate = true;
       };
     }
   ];
+
+  hostSpec.darwin = {
+    isAarch64 = config.hostSpec.hostPlatform == "aarch64-darwin";
+    hasPaidApps = lib.mkDefault (config.hostSpec.username == "addg");
+  };
 
   networking.computerName = config.hostSpec.hostName;
   system.defaults.smb.NetBIOSName = config.hostSpec.hostName;

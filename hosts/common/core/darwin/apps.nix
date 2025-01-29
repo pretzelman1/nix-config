@@ -75,10 +75,17 @@ in {
     # You need to install all these Apps manually first so that your apple account have records for them.
     # otherwise Apple Store will refuse to install them.
     # For details, see https://github.com/mas-cli/mas
-    masApps = {
-      # Xcode = 497799835;
-      "Yoink" = 457622435;
-    };
+    masApps =
+      {
+        # Xcode = 497799835;
+      }
+      // (
+        if config.hostSpec.darwin.hasPaidApps
+        then {
+          "Yoink" = 457622435;
+        }
+        else {}
+      );
 
     taps = [
       "homebrew/services"
@@ -117,9 +124,6 @@ in {
       # "terraformer"
 
       "tomcat@8" # TODO: Delete this after java 8 is no longer needed
-
-      "kubelogin"
-      "awscli"
     ];
 
     # `brew install --cask`

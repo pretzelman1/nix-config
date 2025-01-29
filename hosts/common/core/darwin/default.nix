@@ -22,7 +22,7 @@ in {
   ];
 
   hostSpec.darwin = {
-    isAarch64 = config.hostSpec.hostPlatform == "aarch64-darwin";
+    isAarch64 = lib.strings.hasInfix "aarch64" config.hostSpec.hostPlatform;
     hasPaidApps = lib.mkDefault (config.hostSpec.username == "addg");
   };
 

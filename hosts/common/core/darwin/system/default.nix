@@ -33,6 +33,9 @@
     # activationScripts are executed every time you boot the system or run `nixos-rebuild` / `darwin-rebuild`.
     activationScripts = {
       postUserActivation.text = ''
+        # Apply the double-click title bar behavior (fill, zoom, or minimize)
+        defaults write -g AppleActionOnDoubleClick -string "fill"
+
         # activateSettings -u will reload the settings from the database and apply them to the current session,
         # so we do not need to logout and login again to make the changes take effect.
         /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
@@ -122,7 +125,7 @@
           # Display have separate spaces
           #   true => disable this feature
           #   false => enable this feature
-          "spans-displays" = true;
+          "spans-displays" = false;
         };
         "com.apple.WindowManager" = {
           EnableStandardClickToShowDesktop = 0; # Click wallpaper to reveal desktop

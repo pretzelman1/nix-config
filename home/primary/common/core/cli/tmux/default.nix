@@ -31,25 +31,25 @@ in {
       {
         plugin = catppuccin;
         extraConfig = ''
-          # Configure the catppuccin plugin
-          set -g @catppuccin_flavor "mocha"
-          set -g @catppuccin_window_status_style "rounded"
-          set -g @catppuccin_status_background "#242638"
-          set -g @catppuccin_window_current_text " #{b:pane_current_path}"
-          set -g @catppuccin_window_text " #{b:pane_current_path}"
+          set -g @catppuccin_window_left_separator ""
+          set -g @catppuccin_window_right_separator " "
+          set -g @catppuccin_window_middle_separator " █"
+          set -g @catppuccin_window_number_position "right"
 
-          # Load catppuccin
-          set -g @plugin 'tmux-plugins/tmux-battery'
-          set -g @plugin 'xamut/tmux-weather'
-          # Make the status line pretty and add some modules
-          # set -g status-style "bg=transparent"
-          set -g status-right-length 100
-          set -g status-left-length 100
-          set -g status-left "#{E:@catppuccin_status_session}"
-          set -g status-right "#{E:@catppuccin_status_application}"
-          set -agF status-right "#{E:@catppuccin_status_weather}"
-          set -agF status-right "#{E:@catppuccin_status_battery}"
-          set-window-option -g status-position top
+          set -g @catppuccin_status_modules_right "directory user host session"
+          set -g @catppuccin_status_left_separator  " "
+          set -g @catppuccin_status_right_separator ""
+          set -g @catppuccin_status_right_separator_inverse "no"
+          set -g @catppuccin_status_fill "icon"
+          set -g @catppuccin_status_connect_separator "no"
+          set -g @catppuccin_status_modules_right "application session date_time"
+
+          # Set the window name to the current path if it is zsh, otherwise set it to the window name
+          set -g @catppuccin_window_default_fill "number"
+          set -g @catppuccin_window_default_text "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#{?window_name,#{window_name},#{b:pane_current_path}}}"
+
+          set -g @catppuccin_window_current_fill "number"
+          set -g @catppuccin_window_current_text "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#{?window_name,#{window_name},#{b:pane_current_path}}}"
         '';
       }
       {
@@ -81,6 +81,9 @@ in {
       set -g renumber-windows on       # renumber all windows when any window is closed
       set -g set-clipboard on          # use system clipboard
       set -g status-position top       # macOS / darwin style
+
+      set -g status-bg default
+      set -g status-style bg=default
 
       ${builtins.readFile ./binds.conf}
 

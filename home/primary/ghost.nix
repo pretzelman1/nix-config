@@ -11,6 +11,7 @@
     common/optional/media/spotify.nix
     common/optional/secrets/kubeconfig.nix
     common/optional/comms
+    common/optional/development
     common/optional/development/ide.nix
     common/optional/development/tilt.nix
     common/optional/development/node.nix

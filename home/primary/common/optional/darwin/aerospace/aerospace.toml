@@ -120,7 +120,6 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 alt-f = 'fullscreen'
-alt-m = 'minimize'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace 1Kitty'

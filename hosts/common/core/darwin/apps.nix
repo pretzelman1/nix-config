@@ -115,8 +115,8 @@ in {
       # "bettercap"
 
       # commands like `gsed` `gtar` are required by some tools
-      # "gnu-sed"
-      # "gnu-tar"
+      "gnu-sed"
+      "gnu-tar"
 
       # misc that nix do not have cache for.
       "git-trim"

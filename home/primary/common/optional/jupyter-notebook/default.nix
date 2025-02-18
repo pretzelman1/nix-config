@@ -24,6 +24,7 @@
         jedi
 
         plotly # This is needed for plotly to render in jupyterlab https://community.plotly.com/t/plotly-not-rendering-in-jupyterlab-just-leaving-an-empty-space/85588
+        nbformat
       ]))
   ];
 }

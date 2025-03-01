@@ -24,9 +24,9 @@
   imports = lib.custom.scanPaths ./.;
 
   # Add ability to used TouchID for sudo authentication
-  security.pam = {
-    enableSudoTouchIdAuth = true;
-    # enableSudoWatchIDAuth = true; # Doesnt work
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
   };
 
   system = {

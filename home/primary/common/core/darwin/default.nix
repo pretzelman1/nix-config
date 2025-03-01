@@ -21,13 +21,15 @@
     utm # virtual machine
   ];
 
-  # home.activation = {
-  #   aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  #     app_folder=$(echo ~/Applications);
-  #     for app in $(find "$genProfilePath/home-path/Applications" -type l); do
-  #       $DRY_RUN_CMD rm -f $app_folder/$(basename $app)
-  #       $DRY_RUN_CMD osascript -e "tell app \"Finder\"" -e "make new alias file at POSIX file \"$app_folder\" to POSIX file \"$app\"" -e "set name of result to \"$(basename $app)\"" -e "end tell"
-  #     done
-  #   '';
-  # };
+  home.activation.link-apps = lib.hm.dag.entryAfter ["linkGeneration"] ''
+    new_nix_apps="${config.home.homeDirectory}/Applications/Nix"
+    rm -rf "$new_nix_apps"
+    mkdir -p "$new_nix_apps"
+    find -H -L "$genProfilePath/home-files/Applications" -name "*.app" -type d -print | while read -r app; do
+      real_app=$(readlink -f "$app")
+      app_name=$(basename "$app")
+      target_app="$new_nix_apps/$app_name"
+      ${pkgs.mkalias}/bin/mkalias "$real_app" "$target_app"
+    done
+  '';
 }

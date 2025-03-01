@@ -2,12 +2,17 @@
   pkgs,
   nix-secrets,
   config,
+  lib,
   ...
 }: {
-  home.packages = with pkgs; [
-    awscli2
-    ssm-session-manager-plugin
-  ];
+  home.packages = with pkgs;
+    [
+      awscli2
+      ssm-session-manager-plugin
+    ]
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+      aws-vpn-client
+    ];
 
   sops.secrets.aws_credentials = {
     format = "binary";

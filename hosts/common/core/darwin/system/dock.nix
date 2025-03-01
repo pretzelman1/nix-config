@@ -19,6 +19,7 @@
       "/Applications/Arc.app"
       "${pkgs.jetbrains.idea-ultimate}/Applications/IntelliJ IDEA.app"
       "${pkgs.jetbrains.pycharm-professional}/Applications/PyCharm.app"
+      "${pkgs.jetbrains.webstorm}/Applications/WebStorm.app"
       "${pkgs.vscode}/Applications/Visual Studio Code.app"
       "${pkgs.postman}/Applications/Postman.app"
       "${pkgs.slack}/Applications/Slack.app"

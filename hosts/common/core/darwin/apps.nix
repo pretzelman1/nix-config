@@ -152,7 +152,6 @@ in {
         # "parallels" # Get version 19 from here: https://www.parallels.com/products/desktop/download/
 
         "amazon-q"
-        "aws-vpn-client"
 
         "notion-calendar"
         "motion"
@@ -177,7 +176,7 @@ in {
 
         # Development
         "mitmproxy" # HTTP/HTTPS traffic inspector
-        "insomnia" # REST client
+        # "insomnia" # REST client
         "postman"
 
         # "jdk-mission-control" # Java Mission Control

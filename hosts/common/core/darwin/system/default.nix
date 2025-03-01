@@ -41,6 +41,7 @@
         /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
 
+      # Create aliases for system applications
       applications.text = let
         env = pkgs.buildEnv {
           name = "system-applications";
@@ -49,15 +50,14 @@
         };
       in
         pkgs.lib.mkForce ''
-          # Set up applications.
-          echo "setting up /Applications..." >&2
-          rm -rf /Applications/Nix\ Apps
-          mkdir -p /Applications/Nix\ Apps
+          system_apps="/Applications/Nix Apps"
+          rm -rf "$system_apps"
+          mkdir -p "$system_apps"
+
           find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-          while read -r src; do
-            app_name=$(basename "$src")
-            echo "copying $src" >&2
-            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+          while read -r source; do
+            name=$(basename "$source")
+            ${pkgs.mkalias}/bin/mkalias "$source" "$system_apps/$name"
           done
         '';
     };

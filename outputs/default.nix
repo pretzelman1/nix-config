@@ -10,6 +10,7 @@
   sops-nix,
   ghostty,
   nixos-generators,
+  spicetify-nix,
   ...
 } @ inputs: let
   inherit (inputs.nixpkgs) lib;

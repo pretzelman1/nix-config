@@ -171,7 +171,6 @@ in {
         # "reaper"  # audio editor
         # "sonic-pi" # music programming
         "tencent-lemon" # macOS cleaner
-        "spotify" # music
         # "blender@lts" # 3D creation suite
 
         # Development

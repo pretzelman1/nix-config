@@ -91,6 +91,9 @@
         NSAutomaticSpellingCorrectionEnabled = true; # auto spelling correction
         NSNavPanelExpandedStateForSaveMode = true; # expand save panel by default
         NSNavPanelExpandedStateForSaveMode2 = true;
+
+        # Hide the menu bar
+        _HIHideMenuBar = lib.mkDefault false;
       };
 
       # customize settings that not supported by nix-darwin directly

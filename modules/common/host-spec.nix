@@ -114,4 +114,22 @@
       description = "The state version of the host";
     };
   };
+
+  config = {
+    assertions = let
+      # We import these options to HM and NixOS, so need to not fail on HM
+      isImpermanent =
+        config ? "system" && config.system ? "impermanence" && config.system.impermanence.enable;
+    in [
+      {
+        assertion =
+          !config.hostSpec.isWork || (config.hostSpec.isWork && !builtins.isNull config.hostSpec.work);
+        message = "isWork is true but no work attribute set is provided";
+      }
+      {
+        assertion = !isImpermanent || (isImpermanent && !("${config.hostSpec.persistFolder}" == ""));
+        message = "config.system.impermanence.enable is true but no persistFolder path is provided";
+      }
+    ];
+  };
 }

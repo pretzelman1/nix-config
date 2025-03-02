@@ -7,11 +7,11 @@
   ...
 }: let
   # Adds my custom packages
-  # FIXME: Add per-system packages
-  additions = final: prev: (prev.lib.packagesFromDirectoryRecursive {
-    callPackage = prev.lib.callPackageWith final;
-    directory = ../pkgs/common;
-  });
+  additions = final: prev:
+    prev.lib.packagesFromDirectoryRecursive {
+      callPackage = prev.lib.callPackageWith final;
+      directory = ../pkgs/common;
+    };
 
   linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux {};
 

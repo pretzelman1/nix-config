@@ -62,7 +62,7 @@ inner.horizontal = 5
 inner.vertical = 5
 outer.left = 5
 outer.bottom = 5
-outer.top = 5
+outer.top = 55 # 50 is the height for sketchybar
 outer.right = 5
 
 [exec]

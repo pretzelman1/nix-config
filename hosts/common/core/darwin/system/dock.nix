@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   # customize dock
   system.defaults.dock = {
     autohide = true; # automatically hide and show the dock
@@ -18,13 +22,12 @@
     persistent-apps = [
       "/Applications/Arc.app"
       "${pkgs.jetbrains.idea-ultimate}/Applications/IntelliJ IDEA.app"
-      "${pkgs.jetbrains.pycharm-professional}/Applications/PyCharm.app"
-      "${pkgs.jetbrains.webstorm}/Applications/WebStorm.app"
-      "${pkgs.vscode}/Applications/Visual Studio Code.app"
+      "/Applications/Cursor.app"
       "${pkgs.postman}/Applications/Postman.app"
       "${pkgs.slack}/Applications/Slack.app"
       "${pkgs.discord}/Applications/Discord.app"
       "${pkgs.lens}/Applications/Lens.app"
+      "/Users/${config.hostSpec.username}/Applications/Home Manager Apps/Spotify.app"
     ];
   };
 }

@@ -14,6 +14,7 @@
   ...
 }: let
   hostSpec = config.hostSpec;
+  desktops = config.desktops;
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 
   # Base user configuration common across all systems
@@ -57,7 +58,7 @@
   homeManagerUserConfig = lib.recursiveUpdate homeManagerConfig {
     home-manager = {
       extraSpecialArgs = {
-        inherit pkgs inputs hostSpec;
+        inherit pkgs inputs hostSpec desktops;
         nix-secrets = inputs.nix-secrets;
         nur-ryan4yin = inputs.nur-ryan4yin;
       };

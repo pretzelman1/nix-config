@@ -8,7 +8,6 @@
     common/optional/development/java.nix
     common/optional/darwin/aerospace
     common/optional/jupyter-notebook
-    common/optional/media/spotify.nix
     common/optional/comms
     common/optional/development/ide.nix
     common/optional/development/tilt.nix

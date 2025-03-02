@@ -17,8 +17,10 @@ in {
     (lib.custom.scanPaths ./.)
     (map lib.custom.relativeToRoot [
       "modules/common/host-spec.nix"
-      "modules/home-manager"
+      "modules/common/desktops.nix"
+      "modules/home"
     ])
+    ../desktops
     ./${platform}
   ];
 
@@ -80,7 +82,6 @@ in {
     age
     # Misc
 
-    spotify
     tldr
     cowsay
     gnupg

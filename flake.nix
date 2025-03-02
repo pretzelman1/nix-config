@@ -85,7 +85,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Theming
+    nur-ryan4yin.url = "github:ryan4yin/nur-packages";
+    nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
+
+    #################### Theming ####################
+
     stylix = {
       url = "github:danth/stylix";
     };
@@ -109,6 +113,8 @@
       flake = false;
     };
 
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     #################### Personal Repositories ####################
@@ -118,8 +124,5 @@
     nix-secrets = {
       url = "git+ssh://git@github.com/addg0/nix-secrets.git?&ref=main";
     };
-
-    nur-ryan4yin.url = "github:ryan4yin/nur-packages";
-    nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
   };
 }

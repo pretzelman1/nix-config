@@ -198,18 +198,18 @@ in {
   # ========= Packages =========
   #
   # Add custom packages to be shared or upstreamed.
-  packages = forAllSystems (
-    system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [self.overlays.default];
-      };
-    in
-      lib.packagesFromDirectoryRecursive {
-        callPackage = lib.callPackageWith pkgs;
-        directory = ../pkgs/common;
-      }
-  );
+  # packages = forAllSystems (
+  #   system: let
+  #     pkgs = import nixpkgs {
+  #       inherit system;
+  #       overlays = [self.overlays.default];
+  #     };
+  #   in
+  #     lib.packagesFromDirectoryRecursive {
+  #       callPackage = lib.callPackageWith pkgs;
+  #       directory = ../pkgs/common;
+  #     }
+  # );
 
   # # Colmena - remote deployment via SSH
   # colmena =

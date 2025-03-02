@@ -7,33 +7,42 @@ DEFAULT_USER := "addg"
 default:
   @just --list
 
-rebuild-pre: update-nix-secrets
+pre:
   git pull || true
   git add '**/*'
+
+check-pre:
+  if {{IS_DARWIN}}; then \
+    echo "$(tput setaf 3)Warning: On Darwin systems, only Darwin-specific configurations can be validated. Linux-specific packages and configurations will error out.$(tput sgr0)"; \
+  fi
+
+rebuild-pre: update-nix-secrets && pre
 
 rebuild-post:
   just check-sops
 
-check:
+check: check-pre && pre
   nix flake check --impure --keep-going
   cd nixos-installer && nix flake check --impure --keep-going
 
-check-trace:
+check-trace: check-pre && pre
   nix flake check --impure --show-trace
   cd nixos-installer && nix flake check --impure --show trace
 
 alias r := rebuild
 # Add --option eval-cache false if you end up caching a failure you can't get around
 rebuild hostname="": rebuild-pre
-  scripts/system-flake-rebuild.sh {{hostname}}
+  scripts/rebuild.sh {{hostname}}
 
 # Requires sops to be running and you must have reboot after initial rebuild
-rebuild-full: rebuild-pre && rebuild-post
-  scripts/system-flake-rebuild.sh
+rebuild-full hostname="": rebuild-pre && rebuild-post
+  scripts/rebuild.sh {{hostname}}
+  just check
 
 # Requires sops to be running and you must have reboot after initial rebuild
 rebuild-trace: rebuild-pre && rebuild-post
-  scripts/system-flake-rebuild-trace.sh
+  scripts/rebuild.sh trace
+  just check
 
 clean:
   nix-collect-garbage

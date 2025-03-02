@@ -20,31 +20,43 @@
     # inputs.hardware.nixosModules.common-gpu-amd
     # inputs.hardware.nixosModules.common-pc-ssd
 
+    #################### Disk Layout ####################
+    inputs.disko.nixosModules.disko
+    (lib.custom.relativeToHosts "common/disks/ext4-disk.nix")
+    {
+      _module.args = {
+        disk = "/dev/sda"; # Main disk device
+        withSwap = true;
+      };
+    }
+
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
       #################### Required Configs ####################
       "common/core"
-      "common/nixos/core"
 
       #################### Host-specific Optional Configs ####################
-      "common/nixos/optional/services/openssh.nix" # allow remote SSH access
-      "common/nixos/optional/nvtop.nix" # GPU monitor (not available in home-manager)
+      "common/optional/nixos/services/openssh.nix" # allow remote SSH access
+      "common/optional/nixos/nvtop.nix" # GPU monitor (not available in home-manager)
     ])
   ];
 
-  networking = {
+  hostSpec = {
     hostName = "k3s-prod-1-master-1";
+    hostPlatform = "x86_64-linux";
+  };
+
+  networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
   };
 
+  # Configure bootloader for disko-managed partitions
   boot.loader = {
     grub = {
       enable = true;
       device = "/dev/sda";
-      useOSProber = true;
     };
-    # systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };

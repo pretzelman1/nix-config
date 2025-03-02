@@ -30,7 +30,11 @@ in {
       "XDG_SESSION_TYPE,wayland"
       "GBM_BACKEND,nvidia-drm"
       # Dynamically find available DRI devices
-      "AQ_DRM_DEVICES,${builtins.concatStringsSep ":" (map (card: "/dev/dri/${card}") (builtins.attrNames (builtins.readDir /dev/dri)))}"
+      "AQ_DRM_DEVICES,${
+        if builtins.pathExists "/dev/dri"
+        then builtins.concatStringsSep ":" (map (card: "/dev/dri/${card}") (builtins.attrNames (builtins.readDir "/dev/dri")))
+        else "/dev/dri/card0"
+      }"
       "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       # fix https://github.com/hyprwm/Hyprland/issues/1520
       "WLR_NO_HARDWARE_CURSORS,1"

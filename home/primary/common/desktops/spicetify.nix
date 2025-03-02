@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   inputs,
   pkgs,
   ...
@@ -8,8 +9,8 @@
 in {
   programs.spicetify = {
     enable = true;
-    theme = spicePkgs.themes.catppuccin;
-    colorScheme = config.desktops.catppuccin.flavor;
+    theme = lib.mkDefault spicePkgs.themes.catppuccin;
+    colorScheme = lib.mkDefault config.desktops.catppuccin.flavor;
     enabledExtensions = with spicePkgs.extensions; [
       adblockify
       hidePodcasts

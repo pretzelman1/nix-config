@@ -1,7 +1,7 @@
 #############################################################
 #
-#  zephy - Main Desktop
-#  NixOS running on Ryzen 5 3600X, Radeon RX 5700 XT, 64GB RAM
+#  AWS EC2 Instance
+#  NixOS running on AWS EC2
 #
 ###############################################################
 {
@@ -13,22 +13,20 @@
 }: {
   imports = lib.flatten [
     #################### Every Host Needs This ####################
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
 
     #################### Hardware Modules ####################
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-gpu-amd
-    # inputs.hardware.nixosModules.common-pc-ssd
+    # AWS instances don't need specific hardware modules
 
     #################### Disk Layout ####################
-    # inputs.disko.nixosModules.disko
-    # (lib.custom.relativeToHosts "common/disks/standard-disk-config.nix")
-    # {
-    #   _module.args = {
-    #     disk = "/dev/nvme0n1";
-    #     withSwap = false;
-    #   };
-    # }
+    inputs.disko.nixosModules.disko
+    (lib.custom.relativeToHosts "common/disks/ext4-disk.nix")
+    {
+      _module.args = {
+        disk = "/dev/xvda"; # Standard AWS root device
+        withSwap = true;
+      };
+    }
 
     #################### Misc Inputs ####################
     (map lib.custom.relativeToHosts [
@@ -36,7 +34,7 @@
       "common/core"
 
       #################### Host-specific Optional Configs ####################
-      # "common/optional/nixos/services/openssh.nix" # allow remote SSH access
+      "common/optional/nixos/services/openssh.nix" # Required for AWS access
     ])
   ];
 
@@ -50,8 +48,18 @@
     enableIPv6 = false;
   };
 
-  boot.initrd = {
-    systemd.enable = true;
+  # Required for AWS EC2 instances
+  boot = {
+    loader.grub = {
+      enable = true;
+      # Let disko handle the device configuration
+      device = lib.mkForce "nodev";
+      efiSupport = false;
+      useOSProber = false;
+    };
+    initrd = {
+      systemd.enable = true;
+    };
   };
 
   system.stateVersion = config.hostSpec.system.stateVersion;

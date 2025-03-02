@@ -16,8 +16,8 @@
           type = "gpt";
           partitions = {
             ESP = {
-              priority = 1;
               name = "ESP";
+              priority = 1;
               start = "1M";
               end = "512M";
               type = "EF00";
@@ -29,39 +29,13 @@
               };
             };
             root = {
+              name = "root";
               size = "100%";
               content = {
-                type = "ext4";
-                extraArgs = ["-f"]; # Override existing partition
-                # Subvolumes must set a mountpoint in order to be mounted,
-                # unless their parent is mounted
-                subvolumes = {
-                  "@root" = {
-                    mountpoint = "/";
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                  };
-                  "@persist" = {
-                    mountpoint = "${config.hostSpec.persistFolder}";
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                  };
-                  "@nix" = {
-                    mountpoint = "/nix";
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                  };
-                  "@swap" = lib.mkIf withSwap {
-                    mountpoint = "/.swapvol";
-                    swap.swapfile.size = "${swapSize}G";
-                  };
-                };
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+                mountOptions = ["defaults"];
               };
             };
           };

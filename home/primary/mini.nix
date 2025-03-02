@@ -6,7 +6,6 @@
     #################### Host-specific Optional Configs ####################
     common/optional/helper-scripts
     common/optional/development/java.nix
-    common/optional/darwin/aerospace
     common/optional/jupyter-notebook
     common/optional/comms
     common/optional/development/ide.nix

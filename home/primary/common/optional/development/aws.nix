@@ -11,7 +11,7 @@
       ssm-session-manager-plugin
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-      aws-vpn-client
+      # aws-vpn-client
     ];
 
   sops.secrets.aws_credentials = {

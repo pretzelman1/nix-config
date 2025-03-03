@@ -13,7 +13,8 @@ stdenv.mkDerivation {
   pname = pname;
   version = version;
   src = fetchurl {
-    url = "https://d20adtppz83p9s.cloudfront.net/OSX/3.9.0/AWS_VPN_Client.pkg";
+    url = "https://d20adtppz83p9s.cloudfront.net/OSX/latest/AWS_VPN_Client.pkg";
+    # url = "https://d20adtppz83p9s.cloudfront.net/OSX/${version}/AWS_VPN_Client.pkg";
     # Replace the hash below with the actual hash of the package.
     hash = "sha256-8PalV5/pQxV3RS6KrAckHDbLNMKz8Cjf3Qf0HQD/gNg=";
   };

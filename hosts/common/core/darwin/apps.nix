@@ -154,6 +154,8 @@ in {
         "amazon-q"
         "aws-vpn-client"
 
+        "flux" # blue light filter
+
         "notion-calendar"
         "motion"
         # "lens"

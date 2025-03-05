@@ -83,7 +83,6 @@ in {
     # Misc
 
     tldr
-    cowsay
     gnupg
     gnumake
     ngrok
@@ -109,18 +108,6 @@ in {
     duf # Disk Usage/Free Utility - a better 'df' alternative
     du-dust # A more intuitive version of `du` in rust
     gdu # disk usage analyzer(replacement of `du`)
-
-    # nix related
-
-    nix-output-monitor # it provides the command `nom` works just like `nix with more details log output
-    hydra-check # check hydra(nix's build farm) for the build status of a package
-    nix-index # A small utility to index nix store paths
-    nix-init # generate nix derivation from url
-    nix-melt # A TUI flake.lock viewer
-    nixpkgs-fmt # formatter for nixpkgs
-    nix-tree # nix package tree viewer
-    alejandra # nix formatter
-    nixd # nix language server
 
     # productivity
 

@@ -19,4 +19,8 @@ in {
       #  bookmark
     ];
   };
+
+  home.packages = with pkgs; [
+    spicetify-cli
+  ];
 }

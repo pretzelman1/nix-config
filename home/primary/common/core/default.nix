@@ -101,7 +101,6 @@ in {
     yq-go # yaml processor https://github.com/mikefarah/yq
     just # a command runner like make, but simpler
     delta # A viewer for git and diff output
-    lazygit # Git terminal UI.
     hyperfine # command-line benchmarking tool
     gping # ping, but with a graph(TUI)
     doggo # DNS client for humans
@@ -115,10 +114,6 @@ in {
     croc # File transfer between computers securely and easily
     # ncdu is already included above
   ];
-
-  home.shellAliases = {
-    nixpkgs-fmt = "alejandra";
-  };
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

@@ -18,5 +18,6 @@
     common/optional/secrets/ssh/server.nix
     common/optional/ghostty
     common/optional/secrets/sops.nix
+    common/optional/secrets/cachix.nix
   ];
 }

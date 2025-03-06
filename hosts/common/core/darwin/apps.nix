@@ -130,6 +130,7 @@ in {
     casks =
       [
         "arc"
+        "zen-browser"
         "firefox@developer-edition"
         "synology-drive"
         "openvpn-connect"

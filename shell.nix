@@ -26,6 +26,7 @@
         home-manager
         git
         just
+        expect # For unbuffer
         age
         ssh-to-age
         sops

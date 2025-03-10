@@ -3,7 +3,7 @@
   services.udisks2.enable = true;
 
   environment.systemPackages = with pkgs; [
-    dolphin
+    kdePackages.dolphin
     kdePackages.qtwayland # Wayland support
     kdePackages.qtsvg # SVG icon support
     kdePackages.kio-fuse # Mount remote filesystems via FUSE

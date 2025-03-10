@@ -100,6 +100,7 @@ in {
     sad # CLI search and replace, just like sed, but with diff preview.
     yq-go # yaml processor https://github.com/mikefarah/yq
     just # a command runner like make, but simpler
+    expect # for unbuffer
     delta # A viewer for git and diff output
     hyperfine # command-line benchmarking tool
     gping # ping, but with a graph(TUI)

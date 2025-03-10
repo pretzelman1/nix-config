@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+
 # shellcheck disable=SC2086
 
 # Usage: $0 [-h] [-t] [-v] [host]
@@ -88,42 +88,97 @@ rebuild_darwin() {
 		log_green "Installing Xcode tools..."
 		xcode-select --install || {
 			log_red "xcode-select installation failed"
-			exit 1
+			return 1
 		}
 	fi
 
 	log_green "====== REBUILD ======"
 	if ! command_exists darwin-rebuild; then
 		log_debug "darwin-rebuild not found; using 'nix run nix-darwin'"
-		nix run nix-darwin -- switch ${switch_args} --impure
+		unbuffer nix run nix-darwin -- switch ${switch_args} --impure
+		return $?
 	else
 		log_debug "Using darwin-rebuild with arguments: ${switch_args}"
-		darwin-rebuild ${switch_args}
+		unbuffer darwin-rebuild ${switch_args}
+		return $?
 	fi
 }
 
-# OS-specific rebuild function for Linux (or non-Darwin)
+# OS-specific rebuild function for Linux (or non‑Darwin)
 rebuild_linux() {
 	log_debug "Starting Linux rebuild"
 	log_green "====== REBUILD ======"
 	if command_exists nh; then
 		log_debug "Using nh command for rebuild"
-		nh os switch . -- --impure --show-trace
+		unbuffer nh os switch . -- --impure --show-trace
+		return $?
 	else
 		log_debug "Using sudo nixos-rebuild with arguments: ${switch_args}"
-		sudo nixos-rebuild ${switch_args}
+		unbuffer sudo nixos-rebuild ${switch_args}
+		return $?
 	fi
 }
 
-# Detect the OS and call the appropriate rebuild function.
-case "$(uname -s)" in
-Darwin)
-	rebuild_darwin
-	;;
-*)
-	rebuild_linux
-	;;
-esac
+# Create a temporary file to capture output
+temp_file=$(mktemp)
+
+# Execute the rebuild command and tee its output to both stdout and the temporary file.
+if [ "$(uname -s)" == "Darwin" ]; then
+	rebuild_darwin 2>&1 | tee "$temp_file"
+	cmd_exit=${PIPESTATUS[0]}
+else
+	rebuild_linux 2>&1 | tee "$temp_file"
+	cmd_exit=${PIPESTATUS[0]}
+fi
+
+# Read the captured output for further parsing.
+rebuild_output=$(cat "$temp_file")
+rm "$temp_file"
+
+# If the rebuild command failed, extract and format the error context.
+if [ $cmd_exit -ne 0 ]; then
+	error_context=$(echo "$rebuild_output" | awk '
+    /hosts\/|home\// {
+        print "Error: " prev;
+        print "Location:";
+        orig_line = $0;
+        loc_line = $0;
+        # Remove the leading "at " from the location line
+        sub(/^[ \t]*at /, "", loc_line);
+        print loc_line;
+        for (i = 1; i <= 4; i++) {
+            if (getline line) {
+                print line;
+            }
+        }
+        if (match(orig_line, /at ([^:]+):/, arr)) {
+            file_path = arr[1];
+            # Remove the /nix/store/<hash>-source/ prefix
+            gsub(/^\/nix\/store\/[^-]+-[^\/]+\//, "", file_path);
+            print "File: " file_path;
+        }
+        exit
+    }
+    { prev = $0 }
+    ')
+
+	# Fancy formatting using figlet and lolcat if available
+	if [ -n "$error_context" ]; then
+		if command_exists figlet; then
+			figlet "ERROR DETECTED"
+		fi
+		if command_exists lolcat; then
+			echo "$error_context" | lolcat
+		else
+			echo "$error_context"
+		fi
+	else
+		log_red "Rebuild command failed with exit code $cmd_exit, but no relevant error context was detected."
+	fi
+
+	log_red "Rebuild command failed with exit code $cmd_exit."
+	exit $cmd_exit
+fi
 
 log_green "====== POST‑REBUILD ======"
 log_green "Rebuilt successfully"

@@ -40,8 +40,8 @@ rebuild-full hostname="": rebuild-pre && rebuild-post
   just check
 
 # Requires sops to be running and you must have reboot after initial rebuild
-rebuild-trace: rebuild-pre && rebuild-post
-  scripts/rebuild.sh trace
+rebuild-trace hostname="": rebuild-pre && rebuild-post
+  scripts/rebuild.sh -t {{hostname}}
   just check
 
 clean:

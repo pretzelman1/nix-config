@@ -1,103 +1,141 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # shellcheck disable=SC2086
-#
-# This script is used to rebuild the system configuration for the current host.
-#
-# SC2086 is ignored because we purposefully pass some values as a set of arguments,
-# so we want the splitting to happen
 
-function red() {
-	echo -e "\x1B[31m[!] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[31m[!] $($2) \x1B[0m"
-	fi
-}
-function green() {
-	echo -e "\x1B[32m[+] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[32m[+] $($2) \x1B[0m"
-	fi
-}
-function yellow() {
-	echo -e "\x1B[33m[*] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[33m[*] $($2) \x1B[0m"
-	fi
+# Usage: $0 [-h] [-t] [-v] [host]
+#  -h             Display this help message.
+#  -t             Enable trace mode (adds --show-trace flag).
+#  -v             Enable verbose/debug output.
+#  host           Host name; if not provided, defaults to the output of hostname.
+
+usage() {
+	echo "Usage: $0 [-h] [-t] [-v] [host]"
+	exit 1
 }
 
-switch_args="--show-trace --impure --flake "
-if [[ -n $1 && $1 == "trace" ]]; then
-	switch_args="$switch_args --show-trace "
-elif [[ -n $1 ]]; then
-	HOST=$1
-else
-	HOST=$(hostname)
+# Logging functions with timestamps
+timestamp() {
+	date '+%Y-%m-%d %H:%M:%S'
+}
+
+log_red() {
+	echo -e "\x1B[31m[$(timestamp)] [!] $1\x1B[0m"
+}
+
+log_green() {
+	echo -e "\x1B[32m[$(timestamp)] [+] $1\x1B[0m"
+}
+
+log_yellow() {
+	echo -e "\x1B[33m[$(timestamp)] [*] $1\x1B[0m"
+}
+
+log_debug() {
+	if [ "${VERBOSE}" = "true" ]; then
+		echo -e "\x1B[34m[$(timestamp)] [DEBUG] $1\x1B[0m"
+	fi
+}
+
+# Check if a command exists
+command_exists() {
+	command -v "$1" &>/dev/null
+}
+
+# Default configuration values
+TRACE="false"
+VERBOSE="false"
+
+# Parse options using getopts
+while getopts "htv" opt; do
+	case "$opt" in
+	h) usage ;;
+	t) TRACE="true" ;;
+	v) VERBOSE="true" ;;
+	*) usage ;;
+	esac
+done
+shift $((OPTIND - 1))
+
+# Set host (defaults to the output of hostname)
+HOST="${1:-$(hostname)}"
+
+# Build switch arguments for nix commands
+switch_args=""
+if [ "${TRACE}" = "true" ]; then
+	switch_args+="--show-trace "
 fi
-switch_args="$switch_args .#$HOST switch"
+switch_args+="--impure --flake .#${HOST} switch"
 
-# Create a temporary file to capture command output
-tmpfile=$(mktemp)
+# Ensure unbuffer is installed
+if ! command_exists unbuffer; then
+	log_red "unbuffer is not installed. Please install it (usually via the expect package) and try again."
+	exit 1
+fi
 
-os=$(uname -s)
-if [ "$os" == "Darwin" ]; then
-	# Darwin-specific setup
-	mkdir -p ~/.config/nix || true
-	CONF=~/.config/nix/nix.conf
-	if [ ! -f $CONF ]; then
-		# Enable nix-command and flakes to bootstrap
-		cat <<-EOF >$CONF
+# OS-specific rebuild function for Darwin
+rebuild_darwin() {
+	log_debug "Starting Darwin rebuild"
+	mkdir -p "${HOME}/.config/nix"
+	local CONF="${HOME}/.config/nix/nix.conf"
+	if [ ! -f "${CONF}" ]; then
+		cat <<-EOF >"${CONF}"
 			            experimental-features = nix-command flakes
 		EOF
 	fi
 
-	# Install Xcode tools if git is missing
-	if ! which git &>/dev/null; then
-		echo "Installing xcode tools"
-		xcode-select --install
+	# Ensure git is installed for tagging/version control
+	if ! command_exists git; then
+		log_green "Installing Xcode tools..."
+		xcode-select --install || {
+			log_red "xcode-select installation failed"
+			exit 1
+		}
 	fi
 
-	green "====== REBUILD ======"
-	if ! which darwin-rebuild &>/dev/null; then
-		unbuffer nix run nix-darwin -- switch --show-trace --flake .#"$HOST" --impure 2>&1 | tee "$tmpfile"
-		cmd_exit=${PIPESTATUS[0]}
+	log_green "====== REBUILD ======"
+	if ! command_exists darwin-rebuild; then
+		log_debug "darwin-rebuild not found; using 'nix run nix-darwin'"
+		nix run nix-darwin -- switch ${switch_args} --impure
 	else
-		unbuffer darwin-rebuild $switch_args 2>&1 | tee "$tmpfile"
-		cmd_exit=${PIPESTATUS[0]}
+		log_debug "Using darwin-rebuild with arguments: ${switch_args}"
+		darwin-rebuild ${switch_args}
+	fi
+}
+
+# OS-specific rebuild function for Linux (or non-Darwin)
+rebuild_linux() {
+	log_debug "Starting Linux rebuild"
+	log_green "====== REBUILD ======"
+	if command_exists nh; then
+		log_debug "Using nh command for rebuild"
+		nh os switch . -- --impure --show-trace
+	else
+		log_debug "Using sudo nixos-rebuild with arguments: ${switch_args}"
+		sudo nixos-rebuild ${switch_args}
+	fi
+}
+
+# Detect the OS and call the appropriate rebuild function.
+case "$(uname -s)" in
+Darwin)
+	rebuild_darwin
+	;;
+*)
+	rebuild_linux
+	;;
+esac
+
+log_green "====== POST‑REBUILD ======"
+log_green "Rebuilt successfully"
+
+# Check for pending git changes before tagging the commit as buildable.
+if git diff --exit-code >/dev/null && git diff --staged --exit-code >/dev/null; then
+	if git tag --points-at HEAD | grep -q buildable; then
+		log_yellow "Current commit is already tagged as buildable"
+	else
+		git tag buildable-"$(date +%Y%m%d%H%M%S)" -m ''
+		log_green "Tagged current commit as buildable"
 	fi
 else
-	green "====== REBUILD ======"
-	if command -v nh &>/dev/null; then
-		unbuffer nh os switch . -- --impure --show-trace 2>&1 | tee "$tmpfile"
-		cmd_exit=${PIPESTATUS[0]}
-	else
-		unbuffer sudo nixos-rebuild $switch_args 2>&1 | tee "$tmpfile"
-		cmd_exit=${PIPESTATUS[0]}
-	fi
-fi
-
-# Check the last 10 lines of the rebuild output for the word "error" (case-insensitive)
-if tail -n 10 "$tmpfile" | grep -i error >/dev/null; then
-	red "Build output contains errors in the last 10 lines"
-	rm "$tmpfile"
-	exit 1
-fi
-
-rm "$tmpfile"
-
-# Proceed with post-rebuild actions if the command succeeded.
-if [ $cmd_exit -eq 0 ]; then
-	green "====== POST-REBUILD ======"
-	green "Rebuilt successfully"
-
-	# Check if there are any pending changes that would affect the build succeeding.
-	if git diff --exit-code >/dev/null && git diff --staged --exit-code >/dev/null; then
-		if git tag --points-at HEAD | grep -q buildable; then
-			yellow "Current commit is already tagged as buildable"
-		else
-			git tag buildable-"$(date +%Y%m%d%H%M%S)" -m ''
-			green "Tagged current commit as buildable"
-		fi
-	else
-		yellow "WARN: There are pending changes that would affect the build succeeding. Commit them before tagging"
-	fi
+	log_yellow "WARN: There are pending changes that could affect the build. Commit them before tagging."
 fi

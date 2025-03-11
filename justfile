@@ -34,6 +34,8 @@ alias r := rebuild
 rebuild hostname="": rebuild-pre
   scripts/rebuild.sh {{hostname}}
 
+alias rf := rebuild-full
+
 # Requires sops to be running and you must have reboot after initial rebuild
 rebuild-full hostname="": rebuild-pre && rebuild-post
   scripts/rebuild.sh {{hostname}}

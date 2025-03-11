@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = with pkgs.stable; [
     (python312.withPackages (ps:
       with ps; [
         jupyter-core

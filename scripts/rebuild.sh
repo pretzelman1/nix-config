@@ -19,15 +19,15 @@ timestamp() {
 }
 
 log_red() {
-	echo -e "\x1B[31m[$(timestamp)] [!] $1\x1B[0m"
+	echo -e "\x1B[31m[!] $1\x1B[0m"
 }
 
 log_green() {
-	echo -e "\x1B[32m[$(timestamp)] [+] $1\x1B[0m"
+	echo -e "\x1B[32m[+] $1\x1B[0m"
 }
 
 log_yellow() {
-	echo -e "\x1B[33m[$(timestamp)] [*] $1\x1B[0m"
+	echo -e "\x1B[33m[*] $1\x1B[0m"
 }
 
 log_debug() {

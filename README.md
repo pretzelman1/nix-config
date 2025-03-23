@@ -3,30 +3,23 @@
     <img width="100" src="docs/nixos-unstable.png" /><br />
     Add's Nix-Config
   </h1>
-</div>
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <strong>Where am I?</strong><br><br>
-        <em>You're in a rabbit hole.</em><br><br>
-        <strong>How did I get here?</strong><br><br>
-        <em>The door opened; you got in.</em>
-      </td>
-    </tr>
-  </table>
+  <h3><em>Where am I?</em></h3>
+  <h4>You're in a rabbit hole.</h4>
+
+  <h3><em>How did I get here?</em></h3>
+  <h4>The door opened; you got in.</h4>
 </div>
 
 ---
 
 ## 🚀 Highlights
 
+- **Multi-Platform** support for both NixOS and Darwin (macOS)
 - **Flake-based** multi-host, multi-user NixOS and Home-Manager configuration
 - **Modular & Composable** configs for both system and user layers
 - **Secrets Management** via `sops-nix` and a private `nix-secrets` repo
 - **Remote Bootstrapping** and ISO generation with `nixos-anywhere`
-- **YubiKey Support** for login, sudo, SSH, git commit signing, and LUKS2 decryption
 - **Automation Recipes** to streamline setup and rebuilds
 
 ---
@@ -49,6 +42,7 @@ This is my personal NixOS configuration that I use to manage my systems. It's no
 ```sh
 .
 ├── flake.nix          # Just holds the inputs
+├── assets             # Currently just desktop wallpapers
 ├── outputs/           # Flake outputs and system configurations
 │   ├── default.nix    # Main flake outputs, system configs, and overlays
 │   └── devshell.nix   # Development environment and tools
@@ -107,8 +101,8 @@ Completed features are noted in their respective stages.
 
 ## 🙏 Acknowledgements
 
-- [Ryan Yin](https://github.com/ryan4yin/nix-config) — Clear, well-documented structure and ideas.
-- [EmergentMind](https://github.com/EmergentMind) — Original inspiration and project foundation.
+- [Ryan Yin](https://github.com/ryan4yin/nix-config) — Flake structure and Darwin integration patterns
+- [EmergentMind](https://github.com/EmergentMind) — Initial project architecture and modular design
 
 ---
 

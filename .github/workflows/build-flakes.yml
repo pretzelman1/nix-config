@@ -18,15 +18,12 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      # Configure Git to use HTTPS with GitHub token for private repositories
-      # This is secure because:
-      # - GITHUB_TOKEN is temporary and only valid for this workflow run
-      # - Token has limited scope (read-only by default)
-      # - HTTPS ensures encrypted communication
-      # - Configuration is only applied to GitHub URLs
-      - name: Configure Git for private repositories
+      - name: Setup SSH for private repositories
         run: |
-          git config --global url."https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/addg0/".insteadOf "git@github.com:addg0/"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Build flake
         run: |

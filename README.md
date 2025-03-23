@@ -41,23 +41,41 @@ This is my personal NixOS configuration that I use to manage my systems. It's no
 
 ```sh
 .
-├── flake.nix          # Just holds the inputs
-├── assets             # Currently just desktop wallpapers
+├── flake.nix          # Flake inputs and configuration
 ├── outputs/           # Flake outputs and system configurations
-│   ├── default.nix    # Main flake outputs, system configs, and overlays
-│   └── devshell.nix   # Development environment and tools
-├── hosts/             # Per-host NixOS configurations
-│   ├── common/        # Shared configs (core, disks, optional, users)
-│   └── <hostname>/    # Individual host configurations
-├── home/<user>/       # Per-user home-manager configurations
-│   └── common/        # Core and optional modules
-├── modules/           # Custom reusable Nix or HM modules
-├── lib/               # Path utilities and shared helpers
-├── nixos-installer/   # Minimal install flake for ISO/bootstrap
-├── overlays/          # Package overrides
+├── hosts/
+│   ├── common/        # Shared configurations
+│   │   ├── core/      # Essential system configs
+│   │   │   ├── darwin/    # macOS-specific core
+│   │   │   └── nixos/     # NixOS-specific core
+│   │   ├── desktops/  # Desktop environment configs
+│   │   ├── disks/     # Disk configuration templates
+│   │   ├── optional/  # Optional system modules
+│   │   └── users/     # User configurations
+│   ├── darwin/        # macOS-specific host configs
+│   └── nixos/         # NixOS-specific host configs
+├── home/              # Home-manager configurations
+│   └── primary/       # Primary user config
+│       ├── common/    # Shared home configs
+│       │   ├── core/  # Essential home setup
+│       │   ├── darwin/    # macOS-specific core
+│       │   └── nixos/     # NixOS-specific core
+│       ├── optional/  # Optional home modules
+│       └── desktops/  # Desktop customization
+├── modules/           # Custom modules
+│   ├── common/        # Shared modules
+│   ├── darwin/        # macOS-specific modules
+│   ├── home/          # Home-manager modules
+│   └── nixos/         # NixOS-specific modules
+├── lib/               # Helper functions and utilities
 ├── pkgs/              # Custom packages
-├── scripts/           # Automation helpers (remote install, etc.)
-└── vars/              # Centralized shared variables
+│   ├── common/        # Cross-platform packages
+│   ├── darwin/        # macOS-specific packages
+│   └── nixos/         # NixOS-specific packages
+├── scripts/           # Automation and helper scripts
+├── templates/         # Project templates
+├── assets/            # Static assets (wallpapers, etc.)
+└── docs/              # Documentation and guides
 ```
 
 ---

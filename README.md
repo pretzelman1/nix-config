@@ -1,6 +1,6 @@
 <div align="center">
   <h1>
-    <img width="100" src="docs/nixos-unstable.png" /><br />
+    <img width=600" src="docs/nixos.svg" /><br />
     Add's Nix-Config
   </h1>
 

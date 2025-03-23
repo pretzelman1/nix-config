@@ -16,7 +16,10 @@ jobs:
         uses: cachix/install-nix-action@v30
 
       - name: Install SOPS
-        run: nix-env -iA nixpkgs.sops
+        run: |
+          nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+          nix-channel --update
+          nix-env -iA nixos.sops
 
       - name: Setup Age Key
         run: |

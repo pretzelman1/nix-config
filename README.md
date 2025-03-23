@@ -82,6 +82,25 @@ This is my personal NixOS configuration that I use to manage my systems. It's no
 
 ---
 
+## 🔄 GitHub Workflows
+
+The following GitHub Actions workflows are configured:
+
+| Workflow | Status | Description |
+|----------|---------|-------------|
+| `build-flakes.yml` | [![Build Flakes](https://github.com/addg0/nix-config/actions/workflows/build-flakes.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/build-flakes.yml) | Builds and checks Nix flakes on push/PR |
+| `cache-nix-store.yml` | [![Cache Nix Store](https://github.com/addg0/nix-config/actions/workflows/cache-nix-store.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/cache-nix-store.yml) | Caches Nix store to speed up builds |
+| `deploy.yml` | [![Deploy](https://github.com/addg0/nix-config/actions/workflows/deploy.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/deploy.yml) | Handles system deployment |
+| `lint-nix.yml` | [![Lint Nix](https://github.com/addg0/nix-config/actions/workflows/lint-nix.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/lint-nix.yml) | Lints Nix code for style and correctness |
+| `update-flakes.yml` | [![Update Flakes](https://github.com/addg0/nix-config/actions/workflows/update-flakes.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/update-flakes.yml) | Updates flake inputs |
+| `update-nixpkgs.yml` | [![Update Nixpkgs](https://github.com/addg0/nix-config/actions/workflows/update-nixpkgs.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/update-nixpkgs.yml) | Updates nixpkgs to latest stable |
+| `upgrade-flakes.yml` | [![Upgrade Flakes](https://github.com/addg0/nix-config/actions/workflows/upgrade-flakes.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/upgrade-flakes.yml) | Upgrades flake dependencies |
+| `verify-sops.yml` | [![Verify SOPS](https://github.com/addg0/nix-config/actions/workflows/verify-sops.yml/badge.svg)](https://github.com/addg0/nix-config/actions/workflows/verify-sops.yml) | Verifies SOPS encryption |
+
+Each badge shows the current status of the workflow and links to its details. Green indicates passing, red indicates failing.
+
+---
+
 ## 🔐 Secrets Management
 
 Secrets are pulled from a private flake input (`nix-secrets`) and decrypted using [sops-nix](https://github.com/Mic92/sops-nix). For more, read the [Secrets Management Guide](https://unmovedcentre.com/posts/secrets-management/).

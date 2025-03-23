@@ -35,6 +35,8 @@
 
 This is my personal NixOS configuration that I use to manage my systems. It's not designed to be a drop-in solution - you'll need to understand the code to adapt it for your needs. The configuration assumes you're comfortable with Nix expressions, flakes, and system administration.
 
+> Looking for a well-documented configuration? Check out [EmergentMind's Nix config](https://github.com/EmergentMind/nix-config/tree/dev).
+
 ---
 
 ## 🗺️ Project Structure
@@ -77,15 +79,6 @@ This is my personal NixOS configuration that I use to manage my systems. It's no
 ├── assets/            # Static assets (wallpapers, etc.)
 └── docs/              # Documentation and guides
 ```
-
----
-
-## 🧪 Setup & Installation
-
-See:
-- [Install Notes](docs/installnotes.md)
-- [Adding a New Host](docs/addnewhost.md)
-- [Troubleshooting](docs/TROUBLESHOOTING.md)
 
 ---
 

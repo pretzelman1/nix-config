@@ -6,16 +6,16 @@
 </div>
 
 <div align="center">
-  <blockquote>
-    <p><strong>Where am I?</strong></p>
-    <blockquote>
-      <p>You're in a rabbit hole.</p>
-    </blockquote>
-    <p><strong>How did I get here?</strong></p>
-    <blockquote>
-      <p>The door opened; you got in.</p>
-    </blockquote>
-  </blockquote>
+  <table>
+    <tr>
+      <td align="center">
+        <strong>Where am I?</strong><br><br>
+        <em>You're in a rabbit hole.</em><br><br>
+        <strong>How did I get here?</strong><br><br>
+        <em>The door opened; you got in.</em>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ---

@@ -15,7 +15,6 @@ in {
     lfs.enable = true;
     userName = handle;
     userEmail = publicGitEmail;
-    aliases = {};
 
     includes = [
       {

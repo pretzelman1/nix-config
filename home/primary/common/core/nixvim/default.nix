@@ -181,5 +181,6 @@
   home.shellAliases = {
     vim = "nvim";
     v = "nvim";
+    vi = "nvim";
   };
 }

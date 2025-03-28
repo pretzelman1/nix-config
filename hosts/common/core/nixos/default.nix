@@ -7,7 +7,7 @@
 }: {
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
-    # ../../users/root
+    ../../users/root
   ];
 
   networking.hostName = config.hostSpec.hostName;

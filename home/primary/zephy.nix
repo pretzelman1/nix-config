@@ -20,7 +20,7 @@
     common/optional/browsers
     common/optional/ghostty
     common/optional/1password.nix
-    common/optional/remote-desktop/rustdesk.nix
+    # common/optional/remote-desktop/rustdesk.nix
   ];
 
   home = {

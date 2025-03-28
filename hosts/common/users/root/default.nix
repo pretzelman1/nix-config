@@ -6,6 +6,7 @@
   lib,
   ...
 }: let
+  hostSpec = config.hostSpec;
 in {
   # root's ssh key are mainly used for remote deployment, borg, and some other specific ops
   users.users.root = {

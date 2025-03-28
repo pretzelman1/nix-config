@@ -13,9 +13,14 @@
   } @ inputs: let
     inherit (self) outputs;
 
-    minimalSpecialArgs = {
+    minimalSpecialArgs = isDarwin: {
       inherit inputs outputs;
-      lib = nixpkgs.lib.extend (self: super: {custom = import ../lib {inherit (nixpkgs) lib;};});
+      lib = nixpkgs.lib.extend (self: super: {
+        custom = import ../lib {
+          inherit (nixpkgs) lib;
+          inherit isDarwin;
+        };
+      });
     };
 
     # This mkHost is way better: https://github.com/linyinfeng/dotfiles/blob/8785bdb188504cfda3daae9c3f70a6935e35c4df/flake/hosts.nix#L358

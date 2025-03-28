@@ -1,5 +1,6 @@
 {
   config,
+  hostSpec,
   lib,
   ...
 }: let
@@ -36,8 +37,8 @@
     lib.lists.map (host: {
       "${host}" = lib.hm.dag.entryAfter ["ssh-hosts"] {
         host = host;
-        hostname = "${host}.${config.hostSpec.domain}";
-        port = 22;
+        hostname = "${host}.${hostSpec.domain}";
+        port = hostSpec.networking.ports.tcp.ssh;
       };
     })
     vanillaHosts
@@ -55,7 +56,7 @@ in {
     extraConfig = ''
       AddKeysToAgent yes
       IdentityFile ${config.home.homeDirectory}/.ssh/id_ed25519
-      ${config.hostSpec.networking.ssh.extraConfig}
+      ${hostSpec.networking.ssh.extraConfig}
     '';
 
     matchBlocks =

@@ -1047,11 +1047,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1741230582,
-        "narHash": "sha256-jxX/HmDZR6P/gsBn484ZL3MaXcuMxD4jHnZcu434w0A=",
+        "lastModified": 1743190855,
+        "narHash": "sha256-4NRDDkY/CQay3G9jhAhuox9pNU/mA7eVmDWpTIxI8u4=",
         "ref": "main",
-        "rev": "d43a9d672eaadb916be4b134387050c4c3cfa546",
-        "revCount": 35,
+        "rev": "644aab57d9fd73af6fa95086027e7572f57bb396",
+        "revCount": 36,
         "type": "git",
         "url": "ssh://git@github.com/addg0/nix-secrets.git"
       },

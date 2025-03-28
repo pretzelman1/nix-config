@@ -16,7 +16,6 @@ in {
   imports = lib.flatten [
     inputs.home-manager.${platformModules}.home-manager
     inputs.sops-nix.${platformModules}.sops
-    inputs.spicetify-nix.${platformModules}.spicetify
 
     (lib.custom.scanPaths ./.)
     (map lib.custom.relativeToRoot [

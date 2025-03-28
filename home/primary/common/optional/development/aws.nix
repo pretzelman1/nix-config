@@ -11,10 +11,17 @@
     saml2aws
   ];
 
-  sops.secrets.aws_credentials = {
-    format = "binary";
-    sopsFile = "${nix-secrets}/secrets/shipperhq/aws-credentials.enc";
-    path = "${config.home.homeDirectory}/.aws/credentials";
+  sops.secrets = {
+    aws_credentials = {
+      format = "binary";
+      sopsFile = "${nix-secrets}/secrets/shipperhq/aws-credentials.enc";
+      path = "${config.home.homeDirectory}/.aws/credentials";
+    };
+    aws_config = {
+      format = "binary";
+      sopsFile = "${nix-secrets}/secrets/shipperhq/aws-config.enc";
+      path = "${config.home.homeDirectory}/.aws/config";
+    };
   };
 
   home.sessionVariables = {

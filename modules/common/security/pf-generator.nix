@@ -1,34 +1,32 @@
 {
   cfg,
   lib,
+  ...
 }: let
   toPfPorts = ports:
     if ports == []
     then ""
-    else "{ " + lib.concatStringsSep ", " ports + " }";
+    else "{ " + lib.concatStringsSep ", " (map toString ports) + " }";
 
   tcpIn = toPfPorts cfg.allowedInboundTCPPorts;
   udpIn = toPfPorts cfg.allowedInboundUDPPorts;
-  tcpOut = toPfPorts cfg.allowedOutboundTCPPorts;
-  udpOut = toPfPorts cfg.allowedOutboundUDPPorts;
 
   icmp =
     if cfg.allowICMP
     then "pass inet proto icmp all"
     else "";
-
-  fromIPFilter = ip:
-    if ip == "any"
-    then "any"
-    else ip;
-
-  allowFrom =
-    if cfg.allowFromIPs != []
-    then lib.concatMapStringsSep "\n" (ip: "pass in from ${fromIPFilter ip} to any") cfg.allowFromIPs
-    else "";
 in ''
+  # Default macOS PF anchors
+  scrub-anchor "com.apple/*"
+  nat-anchor "com.apple/*"
+  rdr-anchor "com.apple/*"
+  dummynet-anchor "com.apple/*"
+  anchor "com.apple/*"
+  load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+
   set skip on lo0
 
+  # Default block rules
   ${
     if cfg.blockAllInbound
     then "block in all"
@@ -40,7 +38,14 @@ in ''
     else ""
   }
 
-  # Stateful rules
+  # Allow all outbound if not blocked
+  ${
+    if !cfg.blockAllOutbound
+    then "pass out all keep state"
+    else ""
+  }
+
+  # Allow specific inbound ports
   ${
     if tcpIn != ""
     then "pass in proto tcp to port ${tcpIn} keep state"
@@ -51,17 +56,6 @@ in ''
     then "pass in proto udp to port ${udpIn} keep state"
     else ""
   }
-  ${
-    if tcpOut != ""
-    then "pass out proto tcp to port ${tcpOut} keep state"
-    else ""
-  }
-  ${
-    if udpOut != ""
-    then "pass out proto udp to port ${udpOut} keep state"
-    else ""
-  }
 
   ${icmp}
-  ${allowFrom}
 ''

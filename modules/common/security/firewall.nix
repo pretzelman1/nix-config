@@ -15,6 +15,12 @@ in {
       description = "Enable the cross-platform firewall.";
     };
 
+    interfaces = mkOption {
+      type = types.listOf types.str;
+      default = ["en0" "en1"]; # Default to common macOS interfaces
+      description = "List of network interfaces to apply firewall rules to.";
+    };
+
     allowedInboundTCPPorts = mkOption {
       type = types.listOf types.port;
       default = [];
@@ -68,12 +74,6 @@ in {
       default = false;
       description = "Block all outbound traffic by default.";
     };
-
-    interfaces = mkOption {
-      type = types.listOf types.str;
-      default = [];
-      description = "Restrict firewall rules to specific interfaces.";
-    };
   };
 
   config = mkIf cfg.enable (
@@ -82,9 +82,38 @@ in {
         (lib.mkIf isDarwin {
           environment.etc."pf.conf".text = pfConf;
 
+          # Create a launchd service to manage pf
+          launchd.daemons.pf = {
+            serviceConfig = {
+              Label = "com.nix.pf";
+              ProgramArguments = ["/sbin/pfctl" "-f" "/etc/pf.conf" "-e"];
+              RunAtLoad = true;
+              KeepAlive = true; # Restart if it fails
+              ThrottleInterval = 30; # Wait 30 seconds between restarts
+              StandardErrorPath = "/var/log/pf.log";
+              StandardOutPath = "/var/log/pf.log";
+              ProcessType = "Interactive"; # Ensure it runs with proper permissions
+            };
+          };
+
+          # Activation script to load and verify configuration
           system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
-            echo "→ Enabling pfctl with /etc/pf.conf"
-            /sbin/pfctl -f /etc/pf.conf -e || true
+            echo "→ Configuring macOS firewall..."
+
+            # Disable pf first to ensure clean state
+            /sbin/pfctl -d 2>/dev/null || true
+
+            # Load and enable the new rules
+            if /sbin/pfctl -f /etc/pf.conf -e; then
+              echo "✓ Firewall rules loaded successfully"
+              echo "Current rules:"
+              /sbin/pfctl -s rules
+            else
+              echo "⚠ Failed to load firewall rules"
+              echo "Current status:"
+              /sbin/pfctl -s info
+              exit 1
+            fi
           '';
         })
       ]

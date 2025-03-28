@@ -200,4 +200,14 @@ in {
         else []
       );
   };
+
+  security.firewall = {
+    # ShareMouse
+    allowedInboundUDPPorts = [
+      1046
+    ];
+    allowedInboundTCPPorts = [
+      6555
+    ];
+  };
 }

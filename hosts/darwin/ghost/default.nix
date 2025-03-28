@@ -9,7 +9,6 @@
   lib,
   config,
   pkgs,
-  isDarwin,
   ...
 }: {
   imports = lib.flatten [
@@ -26,8 +25,14 @@
 
   hostSpec = {
     hostName = "ghost";
-    isDarwin = true;
     hostPlatform = "aarch64-darwin";
+  };
+
+  security.firewall = {
+    enable = true;
+    allowedInboundTCPPorts = [
+      22
+    ];
   };
 
   desktops = {

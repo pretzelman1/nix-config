@@ -34,6 +34,7 @@ in {
   hostSpec = {
     username = lib.mkDefault "addg";
     handle = lib.mkDefault "addg";
+    inherit isDarwin;
 
     system.stateVersion = lib.mkDefault "24.11";
 

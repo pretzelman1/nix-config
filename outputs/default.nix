@@ -17,6 +17,14 @@
   inherit (self) outputs;
 
   config = lib.config;
+  # Extend the nixpkgs lib with custom lib
+  extendLibWithCustom = isDarwin:
+    nixpkgs.lib.extend (self: super: {
+      custom = import ../lib {
+        inherit (nixpkgs) lib;
+        inherit isDarwin;
+      };
+    });
 
   #
   # ========= Host Config Functions =========
@@ -41,12 +49,7 @@
           # ========== Extend lib with lib.custom ==========
           # NOTE: This approach allows lib.custom to propagate into hm
           # see: https://github.com/nix-community/home-manager/pull/3454
-          lib = nixpkgs.lib.extend (self: super: {
-            custom = import ../lib {
-              inherit (nixpkgs) lib;
-              inherit isDarwin;
-            };
-          });
+          lib = extendLibWithCustom isDarwin;
         };
         modules =
           [
@@ -79,12 +82,7 @@
       specialArgs = {
         inherit inputs outputs;
         isDarwin = false;
-        lib = nixpkgs.lib.extend (self: super: {
-          custom = import ../lib {
-            inherit (nixpkgs) lib;
-            isDarwin = false;
-          };
-        });
+        lib = extendLibWithCustom false;
       };
       modules = [
         ../hosts/nixos/${host}
@@ -104,12 +102,7 @@
       specialArgs = {
         inherit inputs outputs;
         isDarwin = false;
-        lib = nixpkgs.lib.extend (self: super: {
-          custom = import ../lib {
-            inherit (nixpkgs) lib;
-            isDarwin = false;
-          };
-        });
+        lib = extendLibWithCustom false;
       };
       modules = [
         ../hosts/nixos/${host}
@@ -192,7 +185,9 @@ in {
   # ========= Overlays =========
   #
   # Custom modifications/overrides to upstream packages.
-  overlays = import ../overlays {inherit inputs ghostty;};
+  overlays = import ../overlays {
+    inherit inputs ghostty;
+  };
 
   #
   # ========= Packages =========

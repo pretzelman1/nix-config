@@ -77,17 +77,18 @@ in {
   };
 
   config = mkIf cfg.enable (
-    mkMerge [
-      (mkIf isDarwin {
-        environment.etc."pf.conf".text = pfConf;
+    mkMerge (
+      [
+        (lib.mkIf isDarwin {
+          environment.etc."pf.conf".text = pfConf;
 
-        system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
-          echo "→ Enabling pfctl with /etc/pf.conf"
-          /sbin/pfctl -f /etc/pf.conf -e || true
-        '';
-      })
-
-      (mkIf (!isDarwin) {
+          system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
+            echo "→ Enabling pfctl with /etc/pf.conf"
+            /sbin/pfctl -f /etc/pf.conf -e || true
+          '';
+        })
+      ]
+      ++ lib.optional (!isDarwin) {
         networking.firewall = {
           enable = true;
           allowPing = cfg.allowICMP;
@@ -99,7 +100,7 @@ in {
             ++ map (ip: "iptables -A OUTPUT -d ${ip} -j DROP") cfg.denyOutboundIPs
           );
         };
-      })
-    ]
+      }
+    )
   );
 }

@@ -41,7 +41,7 @@ in {
 
     allowICMP = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Allow ICMP (e.g., ping).";
     };
 

@@ -1,6 +1,8 @@
 {
   lib,
   pkgs,
+  inputs,
+  system,
   ...
 }: {
   imports = lib.custom.scanPaths ./.;

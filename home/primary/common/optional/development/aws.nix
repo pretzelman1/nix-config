@@ -5,14 +5,11 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs;
-    [
-      awscli2
-      ssm-session-manager-plugin
-    ]
-    ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-      # aws-vpn-client
-    ];
+  home.packages = with pkgs; [
+    awscli2
+    ssm-session-manager-plugin
+    saml2aws
+  ];
 
   sops.secrets.aws_credentials = {
     format = "binary";

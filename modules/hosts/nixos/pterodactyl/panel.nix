@@ -146,7 +146,7 @@ in {
       enableACME = cfg.ssl;
       forceSSL = cfg.ssl;
       locations."/" = {
-        index = "index.php"; # ✅ ← move here
+        index = "index.php";
         tryFiles = "$uri $uri/ /index.php?$query_string";
       };
       locations."~ \\.php$" = {

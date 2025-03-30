@@ -9,7 +9,7 @@
     awscli2
     ssm-session-manager-plugin
     saml2aws
-    playwright
+    playwright-driver
   ];
 
   sops.secrets = {

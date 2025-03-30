@@ -78,45 +78,39 @@ in {
 
   config = mkIf cfg.enable (
     mkMerge (
-      [
-        (lib.mkIf isDarwin {
-          environment.etc."pf.conf".text = pfConf;
+      lib.optional isDarwin {
+        environment.etc."pf.conf".text = pfConf;
 
-          # Create a launchd service to manage pf
-          launchd.daemons.pf = {
-            serviceConfig = {
-              Label = "com.nix.pf";
-              ProgramArguments = ["/sbin/pfctl" "-f" "/etc/pf.conf" "-e"];
-              RunAtLoad = true;
-              KeepAlive = true; # Restart if it fails
-              ThrottleInterval = 30; # Wait 30 seconds between restarts
-              StandardErrorPath = "/var/log/pf.log";
-              StandardOutPath = "/var/log/pf.log";
-              ProcessType = "Interactive"; # Ensure it runs with proper permissions
-            };
+        launchd.daemons.pf = {
+          serviceConfig = {
+            Label = "com.nix.pf";
+            ProgramArguments = ["/sbin/pfctl" "-f" "/etc/pf.conf" "-e"];
+            RunAtLoad = true;
+            KeepAlive = true;
+            ThrottleInterval = 30;
+            StandardErrorPath = "/var/log/pf.log";
+            StandardOutPath = "/var/log/pf.log";
+            ProcessType = "Interactive";
           };
+        };
 
-          # Activation script to load and verify configuration
-          system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
-            echo "→ Configuring macOS firewall..."
+        system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
+          echo "→ Configuring macOS firewall..."
 
-            # Disable pf first to ensure clean state
-            /sbin/pfctl -d 2>/dev/null || true
+          /sbin/pfctl -d 2>/dev/null || true
 
-            # Load and enable the new rules
-            if /sbin/pfctl -f /etc/pf.conf -e; then
-              echo "✓ Firewall rules loaded successfully"
-              echo "Current rules:"
-              /sbin/pfctl -s rules
-            else
-              echo "⚠ Failed to load firewall rules"
-              echo "Current status:"
-              /sbin/pfctl -s info
-              exit 1
-            fi
-          '';
-        })
-      ]
+          if /sbin/pfctl -f /etc/pf.conf -e; then
+            echo "✓ Firewall rules loaded successfully"
+            echo "Current rules:"
+            /sbin/pfctl -s rules
+          else
+            echo "⚠ Failed to load firewall rules"
+            echo "Current status:"
+            /sbin/pfctl -s info
+            exit 1
+          fi
+        '';
+      }
       ++ lib.optional (!isDarwin) {
         networking.firewall = {
           enable = true;

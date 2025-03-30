@@ -7,10 +7,7 @@
   cfg = config.services.pterodactyl.wings;
   yamlType = (pkgs.formats.yaml {}).type;
 
-  configFile = pkgs.writeTextFile {
-    name = "wings.yaml";
-    text = builtins.toJSON cfg.settings;
-  };
+  configFile = (pkgs.formats.yaml {}).generate "wings.yaml" cfg.settings;
 in {
   options = {
     services.pterodactyl.wings = {
@@ -141,6 +138,10 @@ in {
       allowedTCPPorts = [cfg.settings.api.port cfg.settings.system.sftp.bind_port] ++ cfg.allocatedTCPPorts;
       allowedUDPPorts = cfg.allocatedUDPPorts;
     };
+    systemd.tmpfiles.rules = [
+      "d ${cfg.settings.system.root_directory} 0750 ${cfg.user} ${cfg.group} -"
+      "d /var/log/pterodactyl 0750 ${cfg.user} ${cfg.group} -"
+    ];
     systemd.services = {
       "wings" = {
         after = ["network.target"];

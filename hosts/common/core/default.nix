@@ -20,7 +20,7 @@ in {
     (lib.custom.scanPaths ./.)
     (map lib.custom.relativeToRoot [
       "modules/common"
-      "modules/${platform}"
+      "modules/hosts/${platform}"
     ])
     ./${platform}
     ../desktops

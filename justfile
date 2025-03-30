@@ -58,6 +58,13 @@ debug hostname="$(hostname)":
     nix repl .#nixosConfigurations.{{hostname}}.system; \
   fi
 
+eval attr="" hostname="$(hostname)"  :
+  if {{IS_DARWIN}}; then \
+    nix eval .#darwinConfigurations.{{hostname}}.{{attr}} --json | jq; \
+  else \
+    nix eval .#nixosConfigurations.{{hostname}}.{{attr}} --json | jq; \
+  fi
+
 alias u := update
 
 update *ARGS:

@@ -8,7 +8,6 @@
   nix-homebrew,
   nix-secrets,
   sops-nix,
-  ghostty,
   nixos-generators,
   spicetify-nix,
   ...
@@ -186,7 +185,7 @@ in {
   #
   # Custom modifications/overrides to upstream packages.
   overlays = import ../overlays {
-    inherit inputs ghostty;
+    inherit inputs;
   };
 
   #

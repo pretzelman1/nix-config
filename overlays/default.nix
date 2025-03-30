@@ -1,11 +1,7 @@
 #
 # This file defines overlays/custom modifications to upstream packages
 #
-{
-  inputs,
-  ghostty,
-  ...
-}: let
+{inputs, ...}: let
   # Adds my custom packages
   additions = final: prev:
     prev.lib.packagesFromDirectoryRecursive {
@@ -15,9 +11,6 @@
 
   linuxModifications = final: prev:
     prev.lib.mkIf final.stdenv.isLinux {
-      pterodactyl-wings = prev.nur.repos.xddxdd.pterodactyl-wings.overrideAttrs (old: {
-        doCheck = false; # Disable tests to avoid reflect panic
-      });
     };
 
   modifications = final: prev: {
@@ -30,7 +23,8 @@
     #        (prev.lib.cmakeBool "USE_WAYLAND_CLIPBOARD" true)
     #      ];
     #    };
-    ghostty = ghostty.packages.${prev.system}.default;
+
+    ghostty = inputs.ghostty.packages.${prev.system}.default;
   };
 
   stable-packages = final: _prev: {
@@ -51,11 +45,27 @@
     };
   };
 
-  nur = final: _prev: {
-    nur = import inputs.nur {
+  nur = final: _prev: let
+    importedNur = import inputs.nur {
       pkgs = final;
       nurpkgs = final;
     };
+  in {
+    nur =
+      importedNur
+      // {
+        repos =
+          importedNur.repos
+          // {
+            xddxdd =
+              importedNur.repos.xddxdd
+              // {
+                pterodactyl-wings = importedNur.repos.xddxdd.pterodactyl-wings.overrideAttrs (old: {
+                  doCheck = false;
+                });
+              };
+          };
+      };
   };
 in {
   default = final: prev:

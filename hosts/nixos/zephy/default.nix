@@ -43,6 +43,7 @@
       "common/optional/nixos/gaming.nix" # steam, gamescope, gamemode, and related hardware
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/services/vscode-server.nix"
+      "common/optional/nixos/services/home-assistant.nix"
 
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 

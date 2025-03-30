@@ -44,7 +44,8 @@
       "common/optional/nixos/hyprland.nix" # window manager
       "common/optional/nixos/services/vscode-server.nix"
       "common/optional/nixos/services/home-assistant.nix"
-
+      "common/optional/nixos/virtualisation/docker.nix" # docker
+      "common/optional/nixos/pterodactyl" # pterodactyl
       # "common/optional/nixos/plymouth.nix" # fancy boot screen
 
       #################### Desktop ####################

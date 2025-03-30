@@ -13,7 +13,12 @@
       directory = ../pkgs/common;
     };
 
-  linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux {};
+  linuxModifications = final: prev:
+    prev.lib.mkIf final.stdenv.isLinux {
+      pterodactyl-wings = prev.nur.repos.xddxdd.pterodactyl-wings.overrideAttrs (old: {
+        doCheck = false; # Disable tests to avoid reflect panic
+      });
+    };
 
   modifications = final: prev: {
     # example = prev.example.overrideAttrs (oldAttrs: let ... in {
@@ -45,11 +50,19 @@
       #     ];
     };
   };
+
+  nur = final: _prev: {
+    nur = import inputs.nur {
+      pkgs = final;
+      nurpkgs = final;
+    };
+  };
 in {
   default = final: prev:
     (additions final prev)
     // (modifications final prev)
     // (linuxModifications final prev)
     // (stable-packages final prev)
-    // (unstable-packages final prev);
+    // (unstable-packages final prev)
+    // (nur final prev);
 }

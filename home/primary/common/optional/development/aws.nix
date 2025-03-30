@@ -9,6 +9,7 @@
     awscli2
     ssm-session-manager-plugin
     saml2aws
+    playwright
   ];
 
   sops.secrets = {
@@ -26,5 +27,6 @@
 
   home.sessionVariables = {
     AWS_PAGER = "bat --paging=always --language=json";
+    PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
   };
 }

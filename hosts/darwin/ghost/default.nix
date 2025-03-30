@@ -18,6 +18,7 @@
 
       #################### Host-specific Optional Configs ####################
       "common/optional/darwin/ghostty"
+      "common/optional/darwin/vban-walkie.nix"
 
       #################### Desktop ####################
     ])

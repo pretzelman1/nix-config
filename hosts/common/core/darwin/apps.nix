@@ -82,7 +82,7 @@ in {
       // (
         if config.hostSpec.darwin.hasPaidApps
         then {
-          "Yoink" = 457622435;
+          # "Yoink" = 457622435;
         }
         else {}
       );

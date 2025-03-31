@@ -7,7 +7,7 @@
   imports = lib.flatten [
     (lib.custom.scanPaths ./.)
     (map lib.custom.relativeToRoot [
-      "modules/darwin/desktops.nix"
+      "modules/common/darwin/desktops.nix"
     ])
   ];
 

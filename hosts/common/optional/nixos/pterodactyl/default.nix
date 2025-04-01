@@ -13,6 +13,10 @@
         ssl.enabled = false;
         port = 8983;
       };
+      uuid = "e33f6160-0a3f-4f1c-9537-63253c8e14ed";
+      system = {
+        data = "/var/lib/pterodactyl/volumes";
+      };
       remote = "http://${config.services.pterodactyl.panel.domain}";
     };
   };
@@ -34,6 +38,10 @@
     };
   };
 
+  networking.hosts = {
+    "127.0.0.1" = ["panel.local"];
+  };
+
   sops.secrets = {
     pterodactylAdminPassword = {
       sopsFile = "${nix-secrets}/secrets/pterodactyl.yaml";
@@ -52,5 +60,5 @@
     };
   };
 
-  security.firewall.allowedInboundTCPPorts = [80 443];
+  security.firewall.allowedInboundTCPPorts = [80 443 8983 25565];
 }

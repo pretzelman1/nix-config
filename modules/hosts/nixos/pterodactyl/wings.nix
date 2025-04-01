@@ -156,6 +156,7 @@ in {
         after = ["network.target"];
         requires = ["docker.service"];
         wantedBy = ["multi-user.target"];
+        partOf = ["docker.service"];
         startLimitBurst = 30;
         startLimitIntervalSec = 180;
         preStart = ''
@@ -165,12 +166,9 @@ in {
           echo "[wings-preStart] TOKEN_ID: $TOKEN_ID" >&2
           echo "[wings-preStart] TOKEN: [REDACTED]" >&2
 
-          echo "[wings-preStart] Merging config files with yq-go..." >&2
-          ${pkgs.yq-go}/bin/yq ea '. as $item ireduce ({}; . * $item )' \
-            ${configFile} ${lib.optionalString (cfg.extraConfigFile != null) cfg.extraConfigFile} \
-            > /tmp/wings-merged.yaml
+          echo "[wings-preStart] Preparing configuration file..." >&2
+          cp ${configFile} /tmp/wings-merged.yaml
 
-          echo "[wings-preStart] Injecting token values..." >&2
           ${pkgs.yq-go}/bin/yq \
             '.token_id = strenv(TOKEN_ID) | .token = strenv(TOKEN)' \
             /tmp/wings-merged.yaml > ${cfg.settings.system.root_directory}/wings.yaml
@@ -179,11 +177,11 @@ in {
         '';
 
         serviceConfig = {
-          User = cfg.user;
+          User = "root";
           Group = cfg.group;
           LimitNOFILE = 4096;
           PIDFile = "/run/wings/daemon.pid";
-          ExecStart = "${cfg.package}/bin/wings --config \"${cfg.settings.system.root_directory}/wings.yaml\"";
+          ExecStart = "${cfg.package}/bin/wings --debug --config \"${cfg.settings.system.root_directory}/wings.yaml\"";
           Restart = "on-failure";
           RestartSec = "5s";
         };

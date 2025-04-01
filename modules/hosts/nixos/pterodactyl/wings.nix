@@ -43,6 +43,15 @@ in {
         type = lib.types.nullOr lib.types.path;
       };
 
+      token_id_path = lib.mkOption {
+        type = lib.types.path;
+        description = "Path to SOPS-managed token ID file";
+      };
+      token_path = lib.mkOption {
+        type = lib.types.path;
+        description = "Path to SOPS-managed token file";
+      };
+
       settings = lib.mkOption {
         default = {};
         type = lib.types.nullOr (lib.types.submodule {
@@ -130,7 +139,7 @@ in {
     virtualisation.docker.enable = true;
     users.groups."${cfg.group}".name = cfg.group;
     users.users.pterodactyl = {
-      isNormalUser = true;
+      isSystemUser = true;
       group = cfg.group;
       extraGroups = ["docker"];
     };
@@ -149,14 +158,26 @@ in {
         wantedBy = ["multi-user.target"];
         startLimitBurst = 30;
         startLimitIntervalSec = 180;
-        preStart = lib.mkMerge [
-          (lib.mkIf (cfg.extraConfigFile != null) ''
-            ${pkgs.yq-go}/bin/yq ea '. as $item ireduce ({}; . * $item )' "${configFile}" "${cfg.extraConfigFile}" > "${cfg.settings.system.root_directory}/wings.yaml"
-          '')
-          (lib.mkIf (cfg.extraConfigFile == null) ''
-            cp -L "${configFile}" "${cfg.settings.system.root_directory}/wings.yaml"
-          '')
-        ];
+        preStart = ''
+          echo "[wings-preStart] Reading token files..." >&2
+          export TOKEN_ID=$(cat ${cfg.token_id_path})
+          export TOKEN=$(cat ${cfg.token_path})
+          echo "[wings-preStart] TOKEN_ID: $TOKEN_ID" >&2
+          echo "[wings-preStart] TOKEN: [REDACTED]" >&2
+
+          echo "[wings-preStart] Merging config files with yq-go..." >&2
+          ${pkgs.yq-go}/bin/yq ea '. as $item ireduce ({}; . * $item )' \
+            ${configFile} ${lib.optionalString (cfg.extraConfigFile != null) cfg.extraConfigFile} \
+            > /tmp/wings-merged.yaml
+
+          echo "[wings-preStart] Injecting token values..." >&2
+          ${pkgs.yq-go}/bin/yq \
+            '.token_id = strenv(TOKEN_ID) | .token = strenv(TOKEN)' \
+            /tmp/wings-merged.yaml > ${cfg.settings.system.root_directory}/wings.yaml
+
+          echo "[wings-preStart] Config written to ${cfg.settings.system.root_directory}/wings.yaml" >&2
+        '';
+
         serviceConfig = {
           User = cfg.user;
           Group = cfg.group;

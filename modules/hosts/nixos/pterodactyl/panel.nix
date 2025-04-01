@@ -34,6 +34,41 @@
   group = cfg.group;
   dataDir = cfg.dataDir;
   nginxUser = config.services.nginx.user;
+  userCreationScript = pkgs.writeShellScript "pterodactyl-user-setup" ''
+    set -e
+    cd ${cfg.dataDir}
+    echo "[+] Creating Pterodactyl users..."
+
+    ${lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (name: userCfg: ''
+        echo "[+] Creating ${userCfg.username}..."
+
+        PASSWORD=$(cat ${userCfg.passwordFile} | tr -d '\r\n')
+
+        env PASSWORD="$PASSWORD" ${pkgs.su}/bin/su --preserve-environment -s ${pkgs.bash}/bin/bash - ${cfg.user} -c '
+          set +o history
+          cd ${cfg.dataDir}
+          echo "[DEBUG] Password inside su: [$PASSWORD]"
+          ${php}/bin/php artisan p:user:make \
+            --email="${userCfg.email}" \
+            --username="${userCfg.username}" \
+            --name-first="${userCfg.firstName}" \
+            --name-last="${userCfg.lastName}" \
+            --password="$PASSWORD" \
+            --admin=${
+          if userCfg.isAdmin
+          then "1"
+          else "0"
+        } \
+            --no-interaction
+        ' || echo "[!] Skipping — user '${userCfg.username}' may already exist."
+
+        unset PASSWORD
+      '')
+      cfg.users
+    )}
+  '';
+
   panelSetupScript = pkgs.writeShellScript "pterodactyl-panel-setup" ''
     set -e
     cd ${dataDir}
@@ -51,7 +86,7 @@
       ${pkgs.sd}/bin/sd '^DB_HOST=.*' 'DB_HOST=${cfg.database.host}' .env
       ${pkgs.sd}/bin/sd '^DB_DATABASE=.*' 'DB_DATABASE=${cfg.database.name}' .env
       ${pkgs.sd}/bin/sd '^DB_USERNAME=.*' 'DB_USERNAME=${cfg.database.user}' .env
-      ${pkgs.sd}/bin/sd '^DB_PASSWORD=.*' 'DB_PASSWORD=${cfg.database.password}' .env
+      ${pkgs.sd}/bin/sd '^DB_PASSWORD=.*' 'DB_PASSWORD=' .env
 
       ${composer}/bin/composer install --no-dev --optimize-autoloader
       ${php}/bin/php artisan key:generate --force
@@ -104,20 +139,50 @@ in {
         type = lib.types.str;
         default = "pterodactyl";
       };
-      password = lib.mkOption {
-        type = lib.types.str;
-        description = "DB password";
-      };
       host = lib.mkOption {
         type = lib.types.str;
         default = "localhost";
       };
     };
+
+    users = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          email = lib.mkOption {
+            type = lib.types.str;
+            description = "Email address for this user.";
+          };
+          username = lib.mkOption {
+            type = lib.types.str;
+            description = "Username for this user.";
+          };
+          firstName = lib.mkOption {
+            type = lib.types.str;
+            description = "First name of the user.";
+          };
+          lastName = lib.mkOption {
+            type = lib.types.str;
+            description = "Last name of the user.";
+          };
+          passwordFile = lib.mkOption {
+            type = lib.types.path;
+            description = "Path to file containing this user's password.";
+          };
+          isAdmin = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "Whether this user should be an admin.";
+          };
+        };
+      });
+      default = {};
+      description = "Map of panel users to create.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     users.users.${user} = {
-      isNormalUser = true;
+      isSystemUser = true;
       group = group;
     };
 
@@ -130,7 +195,7 @@ in {
       ensureDatabases = ["panel"];
       ensureUsers = [
         {
-          name = "pterodactyl";
+          name = user;
           ensurePermissions = {
             "panel.*" = "ALL PRIVILEGES";
           };
@@ -189,7 +254,7 @@ in {
       script = ''
         set -e
         ${pkgs.mariadb}/bin/mysql <<EOF
-        CREATE USER IF NOT EXISTS '${cfg.database.user}'@'${cfg.database.host}' IDENTIFIED BY '${cfg.database.password}';
+        CREATE USER IF NOT EXISTS '${cfg.database.user}'@'${cfg.database.host}' IDENTIFIED VIA unix_socket;
         GRANT ALL PRIVILEGES ON ${cfg.database.name}.* TO '${cfg.database.user}'@'${cfg.database.host}';
         FLUSH PRIVILEGES;
         EOF
@@ -206,6 +271,18 @@ in {
         Group = group;
         WorkingDirectory = dataDir;
         ExecStart = "${panelSetupScript}";
+      };
+    };
+
+    systemd.services.pterodactyl-panel-user-setup = {
+      description = "Create Pterodactyl Admin Users";
+      wantedBy = ["multi-user.target"];
+      after = ["pterodactyl-panel-setup.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+        WorkingDirectory = cfg.dataDir;
+        ExecStart = "${userCreationScript}";
       };
     };
   };

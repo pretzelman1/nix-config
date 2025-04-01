@@ -43,6 +43,7 @@
             inputs
             outputs
             isDarwin
+            nix-secrets
             ;
 
           # ========== Extend lib with lib.custom ==========

@@ -6,7 +6,7 @@
   lib,
   ...
 }: let
-  sopsHashedPasswordFile = lib.optionalString (!config.hostSpec.isMinimal) config.sops.secrets."passwords/${config.hostSpec.username}".path;
+  sopsHashedPasswordFile = lib.optionalString (!config.hostSpec.isMinimal) config.sops.secrets."password".path;
 
   userConfig = lib.custom.genUser {
     user = config.hostSpec.username;
@@ -20,7 +20,7 @@
     };
     linuxConfig = {
       users.users.${config.hostSpec.username} = {
-        password = "nixos";
+        hashedPasswordFile = sopsHashedPasswordFile;
       };
     };
     pubKeys = lib.lists.forEach (lib.filesystem.listFilesRecursive ./keys) (key: builtins.readFile key);

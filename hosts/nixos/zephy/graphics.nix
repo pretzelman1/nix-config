@@ -34,7 +34,9 @@
     modesetting.enable = true;
   };
 
-  # hardware.opengl.enable = true;
+  hardware.opengl = {
+    enable = true;
+  };
 
   hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics = {

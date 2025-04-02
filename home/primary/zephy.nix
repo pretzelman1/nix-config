@@ -19,9 +19,9 @@
     common/optional/comms
     common/optional/browsers
     common/optional/ghostty
-    common/optional/1password.nix
+    common/optional/nixos/1password.nix
     common/optional/development/aws.nix
-    common/optional/gpg-agent.nix
+    common/optional/nixos/gpg-agent.nix
     # common/optional/remote-desktop/rustdesk.nix
   ];
 

@@ -15,34 +15,16 @@ in {
       description = "Enable the cross-platform firewall.";
     };
 
-    interfaces = mkOption {
-      type = types.listOf types.str;
-      default = ["en0" "en1"]; # Default to common macOS interfaces
-      description = "List of network interfaces to apply firewall rules to.";
-    };
-
-    allowedInboundTCPPorts = mkOption {
+    allowedTCPPorts = mkOption {
       type = types.listOf types.port;
       default = [];
-      description = "Allowed inbound TCP ports.";
+      description = "Allowed TCP ports.";
     };
 
-    allowedInboundUDPPorts = mkOption {
+    allowedUDPPorts = mkOption {
       type = types.listOf types.port;
       default = [];
-      description = "Allowed inbound UDP ports.";
-    };
-
-    allowedOutboundTCPPorts = mkOption {
-      type = types.listOf types.port;
-      default = [];
-      description = "Allowed outbound TCP ports.";
-    };
-
-    allowedOutboundUDPPorts = mkOption {
-      type = types.listOf types.port;
-      default = [];
-      description = "Allowed outbound UDP ports.";
+      description = "Allowed UDP ports.";
     };
 
     allowICMP = mkOption {
@@ -61,18 +43,6 @@ in {
       type = types.listOf types.str;
       default = [];
       description = "List of IPs to block for outbound connections.";
-    };
-
-    blockAllInbound = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Block all inbound traffic by default.";
-    };
-
-    blockAllOutbound = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Block all outbound traffic by default.";
     };
   };
 
@@ -115,12 +85,10 @@ in {
         networking.firewall = {
           enable = true;
           allowPing = cfg.allowICMP;
-          allowedTCPPorts = cfg.allowedInboundTCPPorts ++ cfg.allowedOutboundTCPPorts;
-          allowedUDPPorts = cfg.allowedInboundUDPPorts ++ cfg.allowedOutboundUDPPorts;
+          allowedTCPPorts = cfg.allowedTCPPorts;
+          allowedUDPPorts = cfg.allowedUDPPorts;
           extraCommands = lib.concatStringsSep "\n" (
-            lib.optional cfg.blockAllInbound "iptables -P INPUT DROP"
-            ++ lib.optional cfg.blockAllOutbound "iptables -P OUTPUT DROP"
-            ++ map (ip: "iptables -A OUTPUT -d ${ip} -j DROP") cfg.denyOutboundIPs
+            map (ip: "iptables -A OUTPUT -d ${ip} -j DROP") cfg.denyOutboundIPs
           );
         };
       }

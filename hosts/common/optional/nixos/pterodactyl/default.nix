@@ -60,5 +60,5 @@
     };
   };
 
-  security.firewall.allowedInboundTCPPorts = [80 443 8983 25565];
+  security.firewall.allowedTCPPorts = [80 443 8983 25565];
 }

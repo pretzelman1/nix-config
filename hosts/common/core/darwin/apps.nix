@@ -203,10 +203,10 @@ in {
 
   security.firewall = {
     # ShareMouse
-    allowedInboundUDPPorts = [
+    allowedUDPPorts = [
       1046
     ];
-    allowedInboundTCPPorts = [
+    allowedTCPPorts = [
       6555
     ];
   };

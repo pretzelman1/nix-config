@@ -14,5 +14,5 @@
     };
   };
 
-  security.firewall.allowedInboundTCPPorts = [8123];
+  security.firewall.allowedTCPPorts = [8123];
 }

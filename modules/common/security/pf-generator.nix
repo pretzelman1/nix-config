@@ -8,8 +8,21 @@
     then ""
     else "{ " + lib.concatStringsSep ", " (map toString ports) + " }";
 
-  tcpIn = toPfPorts cfg.allowedInboundTCPPorts;
-  udpIn = toPfPorts cfg.allowedInboundUDPPorts;
+  tcpPorts = toPfPorts cfg.allowedTCPPorts;
+  udpPorts = toPfPorts cfg.allowedUDPPorts;
+
+  portRules = ''
+    ${
+      if tcpPorts != ""
+      then "pass in proto tcp to port ${tcpPorts} keep state"
+      else ""
+    }
+    ${
+      if udpPorts != ""
+      then "pass in proto udp to port ${udpPorts} keep state"
+      else ""
+    }
+  '';
 
   icmp =
     if cfg.allowICMP
@@ -24,38 +37,18 @@ in ''
   anchor "com.apple/*"
   load anchor "com.apple" from "/etc/pf.anchors/com.apple"
 
+  # Skip loopback interface
   set skip on lo0
 
-  # Default block rules
-  ${
-    if cfg.blockAllInbound
-    then "block in all"
-    else ""
-  }
-  ${
-    if cfg.blockAllOutbound
-    then "block out all"
-    else ""
-  }
+  # Block all incoming traffic by default
+  block in all
 
-  # Allow all outbound if not blocked
-  ${
-    if !cfg.blockAllOutbound
-    then "pass out all keep state"
-    else ""
-  }
+  # Allow all outbound traffic
+  pass out all keep state
 
-  # Allow specific inbound ports
-  ${
-    if tcpIn != ""
-    then "pass in proto tcp to port ${tcpIn} keep state"
-    else ""
-  }
-  ${
-    if udpIn != ""
-    then "pass in proto udp to port ${udpIn} keep state"
-    else ""
-  }
+  # Allow specific ports
+  ${portRules}
 
+  # Allow ICMP if configured
   ${icmp}
 ''

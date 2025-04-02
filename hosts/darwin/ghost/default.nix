@@ -31,8 +31,9 @@
 
   security.firewall = {
     enable = true;
-    allowedInboundTCPPorts = [
+    allowedTCPPorts = [
       22
+      3000
     ];
   };
 

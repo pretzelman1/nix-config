@@ -22,6 +22,7 @@
     common/optional/nixos/1password.nix
     common/optional/development/aws.nix
     common/optional/nixos/gpg-agent.nix
+    common/optional/media/spicetify.nix
     # common/optional/remote-desktop/rustdesk.nix
   ];
 

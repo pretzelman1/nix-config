@@ -19,6 +19,12 @@
     "nvidia-drm.fbdev=1"
   ];
 
+  boot.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+
+  boot.extraModprobeConfig = ''
+    options nvidia_drm modeset=1
+  '';
+
   hardware.nvidia = {
     open = false;
     prime = {
@@ -27,15 +33,11 @@
         enableOffloadCmd = true; # Lets you use `nvidia-offload %command%` in steam
       };
 
-      amdgpuBusId = "PCI:6:0:0"; # Correct the format to include the full structure
+      intelBusId = "PCI:6:0:0"; # Correct the format to include the full structure
       nvidiaBusId = "PCI:1:0:0";
     };
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     modesetting.enable = true;
-  };
-
-  hardware.opengl = {
-    enable = true;
   };
 
   hardware.nvidia-container-toolkit.enable = true;

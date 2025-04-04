@@ -32,8 +32,12 @@ in {
         "QT_QPA_PLATFORM,wayland"
         "SDL_VIDEODRIVER,wayland"
         "GDK_BACKEND,wayland"
+        "OGL_DEDICATED_HW_STATE_PER_CONTEXT,ENABLE_ROBUST"
       ];
 
+      cursor = {
+        no_hardware_cursors = true;
+      };
       #
       # ========== Monitor ==========
       #

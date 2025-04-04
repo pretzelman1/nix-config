@@ -7,7 +7,10 @@
   cfg = config.services.pterodactyl.wings;
   yamlType = (pkgs.formats.yaml {}).type;
 
-  configFile = (pkgs.formats.yaml {}).generate "wings.yaml" cfg.settings;
+  generatedConfigFile =
+    if cfg.settings != null
+    then (pkgs.formats.yaml {}).generate "wings.yaml" cfg.settings
+    else throw "services.pterodactyl.wings.settings must not be null";
 in {
   options = {
     services.pterodactyl.wings = {
@@ -37,21 +40,10 @@ in {
         default = [];
         type = lib.types.listOf lib.types.port;
       };
-
       extraConfigFile = lib.mkOption {
         default = null;
         type = lib.types.nullOr lib.types.path;
       };
-
-      token_id_path = lib.mkOption {
-        type = lib.types.path;
-        description = "Path to SOPS-managed token ID file";
-      };
-      token_path = lib.mkOption {
-        type = lib.types.path;
-        description = "Path to SOPS-managed token file";
-      };
-
       settings = lib.mkOption {
         default = {};
         type = lib.types.nullOr (lib.types.submodule {
@@ -148,9 +140,10 @@ in {
       allowedUDPPorts = cfg.allocatedUDPPorts;
     };
     systemd.tmpfiles.rules = [
-      "d ${cfg.settings.system.root_directory} 0750 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.settings.system.root_directory} 0770 ${cfg.user} ${cfg.group} -"
       "d /var/log/pterodactyl 0750 ${cfg.user} ${cfg.group} -"
     ];
+
     systemd.services = {
       "wings" = {
         after = ["network.target"];
@@ -159,29 +152,24 @@ in {
         partOf = ["docker.service"];
         startLimitBurst = 30;
         startLimitIntervalSec = 180;
-        preStart = ''
-          echo "[wings-preStart] Reading token files..." >&2
-          export TOKEN_ID=$(cat ${cfg.token_id_path})
-          export TOKEN=$(cat ${cfg.token_path})
-          echo "[wings-preStart] TOKEN_ID: $TOKEN_ID" >&2
-          echo "[wings-preStart] TOKEN: [REDACTED]" >&2
-
-          echo "[wings-preStart] Preparing configuration file..." >&2
-          cp ${configFile} /tmp/wings-merged.yaml
-
-          ${pkgs.yq-go}/bin/yq \
-            '.token_id = strenv(TOKEN_ID) | .token = strenv(TOKEN)' \
-            /tmp/wings-merged.yaml > ${cfg.settings.system.root_directory}/wings.yaml
-
-          echo "[wings-preStart] Config written to ${cfg.settings.system.root_directory}/wings.yaml" >&2
-        '';
-
+        preStart = lib.mkMerge [
+          (lib.mkIf (cfg.extraConfigFile != null) ''
+            if [ ! -f "${cfg.settings.system.root_directory}/wings.yaml" ]; then
+              ${pkgs.yq-go}/bin/yq ea '. as $item ireduce ({}; . * $item )' "${generatedConfigFile}" "${cfg.extraConfigFile}" > "${cfg.settings.system.root_directory}/wings.yaml"
+            fi
+          '')
+          (lib.mkIf (cfg.extraConfigFile == null) ''
+            if [ ! -f "${cfg.settings.system.root_directory}/wings.yaml" ]; then
+              cp -L "${generatedConfigFile}" "${cfg.settings.system.root_directory}/wings.yaml"
+            fi
+          '')
+        ];
         serviceConfig = {
           User = "root";
           Group = cfg.group;
           LimitNOFILE = 4096;
           PIDFile = "/run/wings/daemon.pid";
-          ExecStart = "${cfg.package}/bin/wings --debug --config \"${cfg.settings.system.root_directory}/wings.yaml\"";
+          ExecStart = "${cfg.package}/bin/wings --config \"${cfg.settings.system.root_directory}/wings.yaml\"";
           Restart = "on-failure";
           RestartSec = "5s";
         };

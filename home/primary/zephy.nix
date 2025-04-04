@@ -56,10 +56,10 @@
   monitors = [
     {
       name = "desc:AU Optronics 0x8E9D";
-      use_nwg = true;
+      # use_nwg = true;
       width = 2560;
       height = 1600;
-      resolution = "preferred";
+      resolution = "2560x1600@165.04";
       refreshRate = 165;
       x = 555;
       y = 0;

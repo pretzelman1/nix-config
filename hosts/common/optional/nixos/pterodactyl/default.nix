@@ -6,16 +6,10 @@
 }: {
   services.pterodactyl.wings = {
     enable = true;
-    token_id_path = config.sops.secrets.pterodactylTokenId.path;
-    token_path = config.sops.secrets.pterodactylToken.path;
     settings = {
       api = {
         ssl.enabled = false;
         port = 8983;
-      };
-      uuid = "e33f6160-0a3f-4f1c-9537-63253c8e14ed";
-      system = {
-        data = "/var/lib/pterodactyl/volumes";
       };
       remote = "http://${config.services.pterodactyl.panel.domain}";
     };
@@ -35,6 +29,16 @@
         passwordFile = config.sops.secrets.pterodactylAdminPassword.path;
         isAdmin = true;
       };
+      jude = {
+        inherit (nix-secrets.pterodactyl.users.jude) email username firstName lastName;
+        passwordFile = config.sops.secrets.judePassword.path;
+      };
+    };
+    locations = {
+      uk = {
+        short = "uk";
+        long = "United Kingdom";
+      };
     };
   };
 
@@ -44,21 +48,16 @@
 
   sops.secrets = {
     pterodactylAdminPassword = {
-      sopsFile = "${nix-secrets}/secrets/pterodactyl.yaml";
+      sopsFile = "${nix-secrets}/secrets/pterodactyl/secrets.yaml";
       mode = "0400";
       owner = "root";
     };
-    pterodactylTokenId = {
-      sopsFile = "${nix-secrets}/secrets/pterodactyl.yaml";
+    judePassword = {
+      sopsFile = "${nix-secrets}/secrets/pterodactyl/users.yaml";
       mode = "0400";
-      owner = config.services.pterodactyl.wings.user;
-    };
-    pterodactylToken = {
-      sopsFile = "${nix-secrets}/secrets/pterodactyl.yaml";
-      mode = "0400";
-      owner = config.services.pterodactyl.wings.user;
+      owner = "root";
     };
   };
 
-  security.firewall.allowedInboundTCPPorts = [80 443 8983 2022 25565 25566];
+  security.firewall.allowedTCPPorts = [80 443 8983 2022 25565 25566];
 }

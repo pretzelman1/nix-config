@@ -20,7 +20,6 @@ in {
       "modules/common/desktops.nix"
       "modules/home"
     ])
-    ../desktops
     ./${platform}
   ];
 

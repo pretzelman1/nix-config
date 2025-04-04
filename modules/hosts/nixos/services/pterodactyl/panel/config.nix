@@ -36,6 +36,8 @@
 
   userCreationScript = import ./user-setup.nix {inherit lib pkgs php cfg;};
   panelSetupScript = import ./panel-setup.nix {inherit pkgs php composer cfg;};
+  locationSetupScript = import ./location-setup.nix {inherit pkgs lib cfg;};
+  nodeSetupScript = import ./node-setup.nix {inherit pkgs lib cfg;};
 in
   lib.mkIf cfg.enable {
     users.users.${cfg.user} = {
@@ -141,4 +143,30 @@ in
         ExecStart = userCreationScript;
       };
     };
+
+    systemd.services.pterodactyl-panel-location-setup = {
+      description = "Setup Pterodactyl Locations";
+      wantedBy = ["multi-user.target"];
+      after = ["pterodactyl-panel-setup.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        User = cfg.user;
+        Group = cfg.group;
+        WorkingDirectory = cfg.dataDir;
+        ExecStart = locationSetupScript;
+      };
+    };
+
+    # systemd.services.pterodactyl-panel-node-setup = {
+    #   description = "Setup Pterodactyl Nodes and Allocations";
+    #   wantedBy = ["multi-user.target"];
+    #   after = ["pterodactyl-panel-location-setup.service"];
+    #   serviceConfig = {
+    #     Type = "oneshot";
+    #     User = cfg.user;
+    #     Group = cfg.group;
+    #     WorkingDirectory = cfg.dataDir;
+    #     ExecStart = nodeSetupScript;
+    #   };
+    # };
   }

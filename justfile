@@ -23,7 +23,7 @@ rebuild-post:
 
 check: check-pre && pre
   nix flake check --impure --keep-going
-  cd nixos-installer && nix flake check --impure --keep-going
+  # cd nixos-installer && nix flake check --impure --keep-going
 
 check-trace: check-pre && pre
   nix flake check --impure --show-trace

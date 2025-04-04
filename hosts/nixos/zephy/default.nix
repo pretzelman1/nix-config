@@ -20,14 +20,16 @@
     ./graphics.nix
 
     #################### Disk Layout ####################
-    # inputs.disko.nixosModules.disko
-    # (lib.custom.relativeToHosts "common/nixos/disks/standard-disk-config.nix")
-    # {
-    #   _module.args = {
-    #     disk = "/dev/nvme0n1";
-    #     withSwap = false;
-    #   };
-    # }
+    inputs.disko.nixosModules.disko
+    (lib.custom.relativeToHosts "common/disks/dual-boot-disk.nix")
+    {
+      _module.args = {
+        disk = "/dev/nvme0n1";
+        windowsSize = "500G"; # Adjust size as needed for your Windows partition
+        withSwap = false;
+        mountWindows = true; # Set to true if you want Windows partition mounted
+      };
+    }
 
     #################### Misc Inputs ####################
     inputs.stylix.nixosModules.stylix

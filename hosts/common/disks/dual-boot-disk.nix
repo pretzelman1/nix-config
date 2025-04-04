@@ -1,53 +1,29 @@
 # Disk configuration for dual-booting NixOS and Windows
+# This configuration preserves existing Windows partitions
 {
   lib,
   disk ? "/dev/vda",
-  windowsSize ? "100G", # Size for Windows partition
   withSwap ? false,
   swapSize,
   config,
-  mountWindows ? false, # New parameter with default value
   ...
 }: {
   disko.devices = {
     disk = {
       disk0 = {
         type = "disk";
+        # Use disk ID instead of device name for stability
         device = disk;
         content = {
           type = "gpt";
           partitions = {
-            ESP = {
-              priority = 1;
-              name = "ESP";
-              start = "1M";
-              end = "512M";
-              type = "EF00";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = ["defaults"];
-              };
-            };
-            # Windows partition (NTFS)
-            windows = {
-              name = "windows";
-              priority = 2;
-              size = windowsSize;
-              type = "0700"; # Microsoft basic data partition type
-              content = {
-                type = "filesystem";
-                format = "ntfs";
-                # Not mounted by default in NixOS
-                mountpoint = lib.mkIf mountWindows "/mnt/windows";
-                mountOptions = ["defaults" "noatime"];
-              };
-            };
             # NixOS partition (BTRFS)
+            # Start after Windows partitions (typically Windows uses ~500GB)
             nixos = {
               name = "nixos";
-              priority = 3;
+              # This is the key - start after Windows partitions
+              # Adjust this value based on your Windows partition size
+              start = "500G";
               size = "100%";
               content = {
                 type = "btrfs";

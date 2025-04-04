@@ -23,7 +23,6 @@ in {
       "modules/hosts/${platform}"
     ])
     ./${platform}
-    ../desktops
     ../users/primary
   ];
 

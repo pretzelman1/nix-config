@@ -24,10 +24,9 @@
     (lib.custom.relativeToHosts "common/disks/dual-boot-disk.nix")
     {
       _module.args = {
-        disk = "/dev/nvme0n1";
-        windowsSize = "500G"; # Adjust size as needed for your Windows partition
+        # Use the full model name disk ID
+        disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVL22T0HBLB-00B00_S677NF0RC06854";
         withSwap = false;
-        mountWindows = true; # Set to true if you want Windows partition mounted
       };
     }
 
@@ -65,9 +64,15 @@
   };
 
   boot.loader = {
-    systemd-boot.enable = true;
+    # systemd-boot.enable = true;  # Comment out or remove this line
     efi.canTouchEfiVariables = true;
     timeout = 3;
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      useOSProber = true; # This will detect Windows
+    };
   };
 
   security.firewall.enable = true;
@@ -159,4 +164,10 @@
   #  wayland.windowManager.hyprland.settings.general."col.active_border" = lib.mkForce "rgb(${config.stylix.base16Scheme.base0E});
 
   system.stateVersion = config.hostSpec.system.stateVersion;
+
+  # Add this to your system packages
+  environment.systemPackages = with pkgs; [
+    os-prober
+    # other packages...
+  ];
 }

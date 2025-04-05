@@ -169,6 +169,8 @@
 
   system.stateVersion = config.hostSpec.system.stateVersion;
 
+  services.automatic-timezoned.enable = true;
+
   # Add this to your system packages
   environment.systemPackages = with pkgs; [
     os-prober

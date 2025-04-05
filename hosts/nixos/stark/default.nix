@@ -46,6 +46,8 @@
     enableIPv6 = false;
   };
 
+  time.timeZone = "America/Chicago";
+
   boot.loader = {
     grub = {
       enable = true;

@@ -24,6 +24,8 @@
     ])
   ];
 
+  time.timeZone = "America/Chicago";
+
   hostSpec = {
     hostName = "ghost";
     hostPlatform = "aarch64-darwin";

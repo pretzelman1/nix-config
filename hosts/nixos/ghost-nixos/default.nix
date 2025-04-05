@@ -73,6 +73,8 @@
     systemd.enable = true;
   };
 
+  time.timeZone = "America/Chicago";
+
   hostSpec = {
     hostName = "ghost-nixos";
     hostPlatform = "x86_64-linux";

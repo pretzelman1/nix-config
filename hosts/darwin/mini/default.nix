@@ -24,6 +24,8 @@
     ])
   ];
 
+  time.timeZone = "America/Chicago";
+
   hostSpec = {
     username = lib.mkForce "shqadmin";
     handle = lib.mkForce "shqadmin";

@@ -51,6 +51,8 @@
     enableIPv6 = false;
   };
 
+  time.timeZone = "America/Chicago";
+
   # Configure bootloader for disko-managed partitions
   boot.loader = {
     grub = {

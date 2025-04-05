@@ -48,6 +48,8 @@
     enableIPv6 = false;
   };
 
+  time.timeZone = "America/Chicago";
+
   # Required for AWS EC2 instances
   boot = {
     loader.grub = {

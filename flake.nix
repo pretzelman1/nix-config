@@ -125,8 +125,6 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
-    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
-
     #################### Personal Repositories ####################
 
     # Private secrets repo.  See ./docs/secretsmgmt.md

@@ -33,13 +33,13 @@ in {
       # These age keys are are unique for the user on each host and are generated on their own (i.e. they are not derived
       # from an ssh key).
 
-      "keys/age" = {
-        owner = config.users.users.${config.hostSpec.username}.name;
-        inherit (config.users.users.${config.hostSpec.username}) group;
-        sopsFile = "${sopsFolder}/users/${config.hostSpec.username}.yaml";
-        # We need to ensure the entire directory structure is that of the user...
-        path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
-      };
+      # "keys/age" = {
+      #   owner = config.users.users.${config.hostSpec.username}.name;
+      #   inherit (config.users.users.${config.hostSpec.username}) group;
+      #   sopsFile = "${sopsFolder}/users/${config.hostSpec.username}.yaml";
+      #   # We need to ensure the entire directory structure is that of the user...
+      #   path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
+      # };
       # extract password/username to /run/secrets-for-users/ so it can be used to create the user
       "password" = {
         sopsFile = "${sopsFolder}/users/${config.hostSpec.username}.yaml";

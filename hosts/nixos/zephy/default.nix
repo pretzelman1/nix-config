@@ -69,6 +69,16 @@
     timeout = 3;
   };
 
+    services.dbus.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;  # for Wayland compositors like Hyprland
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+    ];
+  };
+
   security.firewall.enable = true;
 
   # services.xserver.enable = true;

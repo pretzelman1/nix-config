@@ -33,7 +33,7 @@
         enableOffloadCmd = true; # Lets you use `nvidia-offload %command%` in steam
       };
 
-      intelBusId = "PCI:6:0:0"; # Correct the format to include the full structure
+      amdgpuBusId = "PCI:6:0:0"; # Correct the format to include the full structure
       nvidiaBusId = "PCI:1:0:0";
     };
     powerManagement.enable = false;

@@ -67,6 +67,19 @@ in {
         system.activationScripts.pfctlFirewall = lib.stringAfter ["etc"] ''
           echo "→ Configuring macOS firewall..."
 
+          # Handle backup and restoration of original pf.conf
+          if [ -f /etc/pf.conf.before-nix-darwin ]; then
+            if [ "${toString cfg.enable}" = "false" ]; then
+              echo "Restoring original pf.conf..."
+              cp /etc/pf.conf.before-nix-darwin /etc/pf.conf
+              rm /etc/pf.conf.before-nix-darwin
+              /sbin/pfctl -f /etc/pf.conf -e || true
+            fi
+          elif [ -f /etc/pf.conf ]; then
+            echo "Backing up original pf.conf..."
+            cp /etc/pf.conf /etc/pf.conf.before-nix-darwin
+          fi
+
           /sbin/pfctl -d 2>/dev/null || true
 
           if /sbin/pfctl -f /etc/pf.conf -e; then

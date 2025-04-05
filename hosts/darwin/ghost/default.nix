@@ -30,10 +30,9 @@
   };
 
   security.firewall = {
-    enable = true;
+    enable = false;
     allowedTCPPorts = [
       22
-      3000
     ];
   };
 

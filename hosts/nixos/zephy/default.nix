@@ -20,15 +20,15 @@
     ./graphics.nix
 
     #################### Disk Layout ####################
-    inputs.disko.nixosModules.disko
-    (lib.custom.relativeToHosts "common/disks/dual-boot-disk.nix")
-    {
-      _module.args = {
-        # Use the full model name disk ID
-        disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVL22T0HBLB-00B00_S677NF0RC06854";
-        withSwap = false;
-      };
-    }
+    # inputs.disko.nixosModules.disko
+    # (lib.custom.relativeToHosts "common/disks/dual-boot-disk.nix")
+    # {
+    #   _module.args = {
+    #     # Use the full model name disk ID
+    #     disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVL22T0HBLB-00B00_S677NF0RC06854";
+    #     withSwap = false;
+    #   };
+    # }
 
     #################### Misc Inputs ####################
     inputs.stylix.nixosModules.stylix
@@ -64,15 +64,9 @@
   };
 
   boot.loader = {
-    # systemd-boot.enable = true;  # Comment out or remove this line
+    systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     timeout = 3;
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true; # This will detect Windows
-    };
   };
 
   security.firewall.enable = true;

@@ -23,6 +23,7 @@
     common/optional/development/aws.nix
     common/optional/nixos/gpg-agent.nix
     common/optional/media/spicetify.nix
+    common/optional/screenshot/flameshot.nix
     # common/optional/remote-desktop/rustdesk.nix
   ];
 

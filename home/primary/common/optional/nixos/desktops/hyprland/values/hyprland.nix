@@ -72,7 +72,7 @@ in {
       };
     };
     plugins = [
-      pkgs.stable.hyprlandPlugins.hy3
+      pkgs.hyprlandPlugins.hy3
     ];
     extraConfig = ''
       ${builtins.readFile ../conf/hyprland.conf}

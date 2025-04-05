@@ -36,6 +36,7 @@ in {
       "keys/age" = {
         owner = config.users.users.${config.hostSpec.username}.name;
         inherit (config.users.users.${config.hostSpec.username}) group;
+        sopsFile = "${sopsFolder}/users/${config.hostSpec.username}.yaml";
         # We need to ensure the entire directory structure is that of the user...
         path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
       };

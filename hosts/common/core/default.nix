@@ -30,8 +30,8 @@ in {
   # ========== Core Host Specifications ==========
   #
   hostSpec = {
-    username = lib.mkDefault "addg";
-    handle = lib.mkDefault "addg";
+    username = lib.mkDefault "jude";
+    handle = lib.mkDefault "jude";
     inherit isDarwin;
 
     system.stateVersion = lib.mkDefault "24.11";

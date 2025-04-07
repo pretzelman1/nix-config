@@ -8,19 +8,12 @@
     common/core # required
 
     #################### Host-specific Optional Configs ####################
-    common/optional/helper-scripts
-    common/optional/jupyter-notebook
     common/optional/nixos/desktops/hyprland # default is hyprland
-    common/optional/development/ide.nix
-    common/optional/secrets/sops.nix
-    common/optional/secrets/kubeconfig.nix
     common/optional/gaming/minecraft.nix
     common/optional/gaming/steam.nix
     common/optional/comms
     common/optional/browsers
     common/optional/ghostty
-    common/optional/nixos/1password.nix
-    common/optional/development/aws.nix
     common/optional/nixos/gpg-agent.nix
     common/optional/media/spicetify.nix
     common/optional/screenshot/flameshot.nix

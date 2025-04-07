@@ -69,7 +69,7 @@
     timeout = 3;
   };
 
-    services.dbus.enable = true;
+  services.dbus.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -92,6 +92,7 @@
   hostSpec = {
     hostName = "zephy";
     hostPlatform = "x86_64-linux";
+    disableSops = true;
   };
 
   #   # Enable CUPS to print documents.

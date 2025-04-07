@@ -90,7 +90,7 @@
   };
 
   hostSpec = {
-    hostName = "zephy";
+    hostName = "btek-pollo";
     hostPlatform = "x86_64-linux";
     disableSops = true;
   };
